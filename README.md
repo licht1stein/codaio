@@ -26,7 +26,7 @@ print(doc)
 
 #### Using raw API
 
-You can issue [raw API requests](https://coda.io/developers/apis/v1beta1#tag/Docs) directly using Document methods `get` and `post`:
+You can issue [raw API requests](https://coda.io/developers/apis/v1beta1#tag/Docs) directly using Document methods `get` and `post`. You can skip entire url up to `/docs/{docId}`, this is handled by the wrapper. So for request to `/docs/{docId}/tables` just use endpoint value of `/tables`:
 
 ```python
 from codaio import Document
