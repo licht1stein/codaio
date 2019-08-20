@@ -7,21 +7,10 @@ from typing import Dict
 import attr
 import requests
 from dateutil.parser import parse
+from codaio import err
 
 CODA_API_ENDPOINT = env.get("CODA_API_ENDPOINT", "https://coda.io/apis/v1beta1")
 CODA_API_KEY = env.get("CODA_API_KEY")
-
-
-class CodaError(Exception):
-    pass
-
-
-class NoApiKey(CodaError):
-    pass
-
-
-class DocumentNotFound(CodaError):
-    pass
 
 
 @attr.s
@@ -35,19 +24,22 @@ class Document:
     browser_link: str = attr.ib(init=False)
     href: str = attr.ib(init=False, repr=False)
     api_key: str = attr.ib(repr=False)
-    headers: Dict = {"Authorization": f"Bearer {CODA_API_KEY}"}
+
+    @property
+    def headers(self) -> Dict:
+        return {"Authorization": f"Bearer {CODA_API_KEY}"}
 
     @classmethod
     def from_environment(cls, doc_id: str):
         if not CODA_API_KEY:
-            raise NoApiKey(f"No CODA_API_KEY in environment variables")
+            raise err.NoApiKey(f"No CODA_API_KEY in environment variables")
         return cls(id=doc_id, api_key=CODA_API_KEY)
 
     def __attrs_post_init__(self):
         self.href = CODA_API_ENDPOINT + f"/docs/{self.id}"
         data = self.get("/")
         if not data:
-            raise DocumentNotFound(f"No document with id {self.id}")
+            raise err.DocumentNotFound(f"No document with id {self.id}")
         self.name = data["name"]
         self.owner = data["owner"]
         self.created_at = parse(data["createdAt"])
