@@ -38,7 +38,10 @@ doc = Document.from_environment('YOUR_DOC_ID')
 
 doc.tables() # list all tables
 doc.get_table_rows(table_id_or_name='YOUR_TABLE')  # get ALL table rows
-doc.get_table_rows(table_id_or_name='YOUR_TABLE', query={'query'})
+doc.get_table_rows(table_id_or_name='YOUR_TABLE', limit=5, offset=0)  # get first 5 rows from API
+doc.get_table_rows(table_id_or_name='YOUR_TABLE', filt=dict(column_id='COLUMN_ID', value='FILTER_VALUE')) # fitler by column value using column_id
+doc.get_table_rows(table_id_or_name='YOUR_TABLE', filt=dict(column_name='COLUMN_NAME', value='FILTER_VALUE')) # fitler by column value using column name
+
 ```
 
 #### Using raw API
