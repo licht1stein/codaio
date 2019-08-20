@@ -14,6 +14,9 @@ attrs = "^19.1"
 python-dateutil = "^2.8"
 
 [tool.poetry.dev-dependencies]
+pytest = "^5.1"
+coverage = "^4.5"
+pytest-cov = "^2.7"
 
 [build-system]
 requires = ["poetry>=0.12"]
