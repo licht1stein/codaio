@@ -1,10 +1,13 @@
+from __future__ import annotations
+
+from functools import lru_cache
 from os import environ as env
 
 import datetime as dt
-from typing import Dict
-
+from typing import Dict, Any, List, Union
 
 import attr
+import inflection
 import requests
 from dateutil.parser import parse
 from codaio import err
@@ -13,17 +16,39 @@ CODA_API_ENDPOINT = env.get("CODA_API_ENDPOINT", "https://coda.io/apis/v1beta1")
 CODA_API_KEY = env.get("CODA_API_KEY")
 
 
-@attr.s
+@attr.s(hash=True)
+class CodaObject:
+    id: str = attr.ib(repr=False)
+    type: str = attr.ib(repr=False)
+    href: str = attr.ib(repr=False)
+
+    document: Document = attr.ib(repr=False)
+
+    @classmethod
+    def from_json(cls, js: Dict, *, document: Document):
+        js = {inflection.underscore(k): v for k, v in js.items()}
+        return cls(**js, document=document)
+
+
+@attr.s(hash=True)
 class Document:
-    id: str = attr.ib()
+    id: str = attr.ib(repr=False)
+    type: str = attr.ib(init=False, repr=False)
+    href: str = attr.ib(init=False, repr=False)
     name: str = attr.ib(init=False)
     owner: str = attr.ib(init=False)
     created_at: dt.datetime = attr.ib(init=False, repr=False)
     updated_at: dt.datetime = attr.ib(init=False, repr=False)
-    type: str = attr.ib(init=False, repr=False)
     browser_link: str = attr.ib(init=False)
-    href: str = attr.ib(init=False, repr=False)
     api_key: str = attr.ib(repr=False)
+
+    @classmethod
+    def from_json(cls, js: Dict, *, document: Document):
+        raise NotImplementedError
+
+    @property
+    def document(self):
+        return self
 
     @property
     def headers(self) -> Dict:
@@ -46,6 +71,17 @@ class Document:
         self.updated_at = parse(data["updatedAt"])
         self.type = data["type"]
         self.browser_link = data["browserLink"]
+
+    @property
+    def sections(self) -> List[Section]:
+        return [
+            Section.from_json(i, parent=self, document=self)
+            for i in self.get_sections()["items"]
+        ]
+
+    @property
+    def tables(self) -> List[Table]:
+        return [Table.from_json(i, document=self) for i in self.get_tables()["items"]]
 
     def get(self, endpoint: str, data: Dict = None, limit=None, offset=None) -> Dict:
         if not data:
@@ -71,14 +107,15 @@ class Document:
     def post(self, endpoint: str, data: Dict):
         return requests.post(self.href + endpoint, data, headers=self.headers).json()
 
-    def sections(self):
-        return self.get("/sections")
+    def get_sections(self):
+        r = self.get("/sections")
+        return r
 
     def get_section(self, section_id_or_name: str):
         endpoint = f"/sections/{section_id_or_name}"
         return self.get(endpoint)
 
-    def tables(self):
+    def get_tables(self):
         return self.get("/tables")
 
     def get_table(self, table_id_or_name: str):
@@ -128,3 +165,102 @@ class Document:
 
     def get_table_columns(self, table_id_or_name: str):
         return self.get(f"/tables/{table_id_or_name}/columns")
+
+
+@attr.s(auto_attribs=True, hash=True)
+class Folder(CodaObject):
+    pass
+
+
+@attr.s(auto_attribs=True, hash=True)
+class Section(CodaObject):
+    name: str
+    browser_link: str = attr.ib(repr=False)
+    document: Document = attr.ib(repr=False)
+
+
+@attr.s(auto_attribs=True, hash=True)
+class Table(CodaObject):
+    name: str
+    document: Document = attr.ib(repr=False)
+    display_column: Dict = attr.ib(default=None, repr=False)
+    browser_link: str = attr.ib(default=None, repr=False)
+
+    def get_all_rows(self):
+        return self.document.get_table_rows(self.id)
+
+    def get_columns(self):
+        return self.document.get_table_columns(self.id)
+
+    @property
+    @lru_cache(maxsize=1)
+    def columns(self) -> List[Column]:
+        return [
+            Column.from_json(i, document=self.document)
+            for i in self.get_columns()["items"]
+        ]
+
+    @property
+    def rows(self) -> List[Row]:
+        return [
+            Row.from_json({"table": self, **i}, document=self.document)
+            for i in self.get_all_rows()["items"]
+        ]
+
+    @lru_cache(maxsize=128)
+    def find_column_by_id(self, column_id) -> Union[Column, None]:
+        try:
+            return next(filter(lambda x: x.id == column_id, self.columns))
+        except StopIteration:
+            return None
+
+
+@attr.s(auto_attribs=True, hash=True)
+class Column(CodaObject):
+    name: str
+    display: bool = attr.ib(default=None, repr=False)
+    calculated: bool = attr.ib(default=False)
+
+
+@attr.s(auto_attribs=True, hash=True)
+class Row(CodaObject):
+    name: str
+    browser_link: str = attr.ib(repr=False)
+    created_at: dt.datetime = attr.ib(convert=lambda x: parse(x), repr=False)
+    index: int
+    updated_at: dt.datetime = attr.ib(convert=lambda x: parse(x), repr=False)
+    values: Dict = attr.ib(repr=False)
+    table: Table = attr.ib(repr=False)
+
+    @property
+    def columns(self):
+        return self.table.columns
+
+    @property
+    def column_values(self) -> List[ColumnValue]:
+        return [
+            ColumnValue(column=self.table.find_column_by_id(k), value=v, row=self)
+            for k, v in self.values.items()
+        ]
+
+
+@attr.s(auto_attribs=True, hash=True, repr=False)
+class ColumnValue:
+    column: Column
+    value: Any
+    row: Row = attr.ib(repr=False)
+
+    @property
+    def name(self):
+        return self.column.name
+
+    @property
+    def table(self):
+        return self.row.table
+
+    @property
+    def document(self):
+        return self.table.document
+
+    def __repr__(self):
+        return f"ColumnValue(column={self.column.name}, value={self.value})"
