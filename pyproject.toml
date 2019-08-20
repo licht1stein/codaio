@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "Python wrapper for Coda.io API"
 authors = ["MB <mb@blaster.ai>"]
 license = "MIT"
+readme='README.md'
+homepage='https://github.com/Blasterai/codaio'
 
 [tool.poetry.dependencies]
 python = "^3.7"
