@@ -47,9 +47,26 @@ class Document:
         self.type = data["type"]
         self.browser_link = data["browserLink"]
 
-    def get(self, endpoint: str, data: Dict = None):
+    def get(self, endpoint: str, data: Dict = None, limit=None, offset=None):
+        if not data:
+            data = {}
+        if limit:
+            data["limit"] = limit
+        if offset:
+            data["pageToken"] = offset
         r = requests.get(self.href + endpoint, params=data, headers=self.headers)
-        return r.json()
+        if not r.json().get("items"):
+            return r.json()
+        res = r.json()
+        if limit:
+            return res
+        while r.json().get("nextPageLink"):
+            next_page = r.json()["nextPageLink"]
+            r = requests.get(next_page, params=data, headers=self.headers)
+            res["items"].extend(r.json()["items"])
+            res.pop("nextPageLink")
+            res.pop("nextPageToken")
+        return res
 
     def post(self, endpoint: str, data: Dict):
         return requests.post(self.href + endpoint, data, headers=self.headers).json()

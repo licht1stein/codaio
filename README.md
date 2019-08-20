@@ -41,5 +41,7 @@ doc = Document.from_environment('YOUR_DOC_ID')
 tables = doc.get(endpoint='/tables')
 ```
 
+You can also use `offset` and `limit` to get a portion of results. If limit is not set, all the data will be automatically fetched. Pagination is handled for you by the wrapper.
+
 ### Contributing
 All contributions, issues and PRs very welcome!
