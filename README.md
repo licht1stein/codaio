@@ -1,4 +1,4 @@
-## Python wrapper for Coda.io API
+## Python wrapper for [Coda.io](https://coda.io) API
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -24,3 +24,14 @@ print(doc)
 >>> Document(id='YOUR_DOC_ID', name='Document Name', owner='owner@example.com', browser_link='https://coda.io/d/URL')
 ```
 
+#### Using raw API
+
+You can issue [raw API requests](https://coda.io/developers/apis/v1beta1#tag/Docs) directly using Document methods `get` and `post`:
+
+```python
+from codaio import Document
+
+doc = Document.from_environment('YOUR_DOC_ID')
+
+tables = doc.get(endpoint='/tables')
+```
