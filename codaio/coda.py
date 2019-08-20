@@ -42,14 +42,6 @@ class Document:
     browser_link: str = attr.ib(init=False)
     api_key: str = attr.ib(repr=False)
 
-    @classmethod
-    def from_json(cls, js: Dict, *, document: Document):
-        raise NotImplementedError
-
-    @property
-    def document(self):
-        return self
-
     @property
     def headers(self) -> Dict:
         return {"Authorization": f"Bearer {CODA_API_KEY}"}
@@ -75,8 +67,7 @@ class Document:
     @property
     def sections(self) -> List[Section]:
         return [
-            Section.from_json(i, parent=self, document=self)
-            for i in self.get_sections()["items"]
+            Section.from_json(i, document=self) for i in self.get_sections()["items"]
         ]
 
     @property
