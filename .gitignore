@@ -1,0 +1,4 @@
+.idea/
+*.xml
+*.bat
+__pycache__/
