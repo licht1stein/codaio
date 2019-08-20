@@ -8,3 +8,7 @@ class NoApiKey(CodaError):
 
 class DocumentNotFound(CodaError):
     pass
+
+
+class InvalidFilter(CodaError):
+    pass

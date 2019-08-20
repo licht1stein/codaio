@@ -47,7 +47,7 @@ class Document:
         self.type = data["type"]
         self.browser_link = data["browserLink"]
 
-    def get(self, endpoint: str, data: Dict = None, limit=None, offset=None):
+    def get(self, endpoint: str, data: Dict = None, limit=None, offset=None) -> Dict:
         if not data:
             data = {}
         if limit:
@@ -85,15 +85,46 @@ class Document:
         return self.get(f"/tables/{table_id_or_name}")
 
     def get_table_rows(
-        self, table_id_or_name: str, query: Dict = None, use_names: bool = False
-    ):
-        if not query:
-            query = {}
+        self,
+        table_id_or_name: str,
+        filt: Dict = None,
+        limit: int = None,
+        offset: int = None,
+        use_names: bool = False,
+    ) -> Dict:
+        """
+        Get table rows.
+
+        :param table_id_or_name: name or id of Coda table
+        :param filt: a filter dictionary if you want to filter by column value. Accepts either dict(column_name='foo', value='bar') or dict(column_id='COLUMN_ID', value='bar')
+        :param limit: int for limiting number of rows to return
+        :param offset: int for offsetting the first row
+        :param use_names: boolean for returning column names instead of ids
+        :return:
+        """
+        data = {}
+        if filt:
+            data.update(self._parse_filter(filt))
+        if use_names:
+            data.update({"useNames": use_names})
         r = self.get(
-            f"/tables/{table_id_or_name}/rows",
-            data=query.update({"use_names": use_names}),
+            f"/tables/{table_id_or_name}/rows", data=data, limit=limit, offset=offset
         )
         return r
+
+    @staticmethod
+    def _parse_filter(filt: Dict) -> Dict:
+        if (
+            all(("column_id" not in filt, "column_name" not in filt))
+            or "value" not in filt
+        ):
+            raise err.InvalidFilter(
+                'Filter must be a dict of either {"column_id": "YOUR_COLUMN_ID", "value": "FILTER_VALUE"} or {"column_name": "YOUR_COLUMN_NAME", "value": "FILTER_VALUE"}'
+            )
+        if "column_id" in filt:
+            return {"query": f'{filt["column_id"]}:"{filt["value"]}"'}
+        else:
+            return {"query": f'"{filt["column_name"]}":"{filt["value"]}"'}
 
     def get_table_columns(self, table_id_or_name: str):
         return self.get(f"/tables/{table_id_or_name}/columns")
