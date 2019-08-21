@@ -27,45 +27,33 @@ from codaio import Document
 doc = Document('YOUR_DOC_ID', 'YOUR_API_KEY')
 
 # From environment
-doc = Document.from_environment('YOUR_DOC_ID')
+>>> doc = Document.from_environment('YOUR_DOC_ID')
+>>> print(doc)
+Document(id='YOUR_DOC_ID', name='Document Name', owner='owner@example.com', browser_link='https://coda.io/d/URL')
 
-print(doc)
->>> Document(id='YOUR_DOC_ID', name='Document Name', owner='owner@example.com', browser_link='https://coda.io/d/URL')
-```
+>>> doc.tables()
+[Table(name='Table1'), Table(name='table2')]
 
-#### Methods
+>>> doc.find_table('Table1')
+Table(name='Table1')
 
-```python
-from codaio import Document
+>>> table.columns
+[Column(name='First Column', calculated=False)]
 
-doc = Document.from_environment('YOUR_DOC_ID')
-
-doc.tables()
->>> [Table(name='Table1'), Table(name='table2')]
-
-table = doc.find_table('Table1')
-print(table)
-# >>> Table(name='Table1')
-
-print(table.columns)
-# >>> [Column(name='First Column', calculated=False)]
-
-print(table.rows)
-# >>> [Row(name='Some row', index=1)
-
+>>> table.rows)
+[Row(name='Some row', index=1)
 
 # Find row by column name and value:
-row = table.find_row_by_column_name_and_value('COLUMN_NAME', 'VALUE')
+>> table.find_row_by_column_name_and_value('COLUMN_NAME', 'VALUE')
+Row(name='Some row', index=1)
 
 # Find row by column id and value
-row = table.find_row_by_column_id_and_value('COLUMN_ID', 'VALUE')
-
-print(row)
-# >>> Row(name='Some row', index=1)
+>>> table.find_row_by_column_id_and_value('COLUMN_ID', 'VALUE')
+Row(name='Some row', index=1)
 
 # To get cell value for a column use getitem:
-print(row['Column 1'])
-# >>> Row(column=Column 1, row=Some row, value=Some Value)
+>>> row['Column 1']
+Cell(column=Column 1, row=Some row, value=Some Value)
 ```
 
 #### Using raw API
