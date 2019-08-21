@@ -41,7 +41,7 @@ Table(name='Table1')
 [Column(name='First Column', calculated=False)]
 
 >>> table.rows
-[Row(name='Some row', index=1)
+[Row(name='Some row', index=1)]
 
 # Find row by column name and value:
 >> table.find_row_by_column_name_and_value('COLUMN_NAME', 'VALUE')
