@@ -1,8 +1,10 @@
 ## Python wrapper for [Coda.io](https://coda.io) API
 
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/codaio)
+[![CodaAPI](https://img.shields.io/badge/Coda_API_version-0.1.1--beta1-orange)](https://coda.io/developers/apis/v1beta1)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPI](https://img.shields.io/pypi/v/codaio)](https://pypi.org/project/codaio/)
+
 
 ### Installation
 ```shell script
