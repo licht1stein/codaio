@@ -44,7 +44,7 @@ class Document:
 
     @property
     def headers(self) -> Dict:
-        return {"Authorization": f"Bearer {CODA_API_KEY}"}
+        return {"Authorization": f"Bearer {self.api_key}"}
 
     @classmethod
     def from_environment(cls, doc_id: str):
@@ -228,18 +228,18 @@ class Row(CodaObject):
         return self.table.columns
 
     @property
-    def column_values(self) -> List[ColumnValue]:
+    def cells(self) -> List[Cell]:
         return [
-            ColumnValue(column=self.table.find_column_by_id(k), value=v, row=self)
+            Cell(column=self.table.find_column_by_id(k), value=v, row=self)
             for k, v in self.values.items()
         ]
 
 
 @attr.s(auto_attribs=True, hash=True, repr=False)
-class ColumnValue:
+class Cell:
     column: Column
+    row: Row
     value: Any
-    row: Row = attr.ib(repr=False)
 
     @property
     def name(self):
@@ -254,4 +254,6 @@ class ColumnValue:
         return self.table.document
 
     def __repr__(self):
-        return f"ColumnValue(column={self.column.name}, value={self.value})"
+        return (
+            f"Cell(column={self.column.name}, row={self.row.name}, value={self.value})"
+        )
