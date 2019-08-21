@@ -4,7 +4,7 @@ from functools import lru_cache
 from os import environ as env
 
 import datetime as dt
-from typing import Dict, Any, List, Union
+from typing import Dict, Any, List, Union, Optional, Tuple
 
 import attr
 import inflection
@@ -67,12 +67,20 @@ class Document:
     @property
     def sections(self) -> List[Section]:
         return [
-            Section.from_json(i, document=self) for i in self.get_sections()["items"]
+            Section.from_json(i, document=self)
+            for i in self.get_sections_raw()["items"]
         ]
 
     @property
     def tables(self) -> List[Table]:
-        return [Table.from_json(i, document=self) for i in self.get_tables()["items"]]
+        return [
+            Table.from_json(i, document=self) for i in self.get_tables_raw()["items"]
+        ]
+
+    def find_table(self, table_name_or_id: str) -> Optional[Table]:
+        table_data = self.get_table_raw(table_name_or_id)
+        if table_data:
+            return Table.from_json(table_data, document=self)
 
     def get(self, endpoint: str, data: Dict = None, limit=None, offset=None) -> Dict:
         if not data:
@@ -89,7 +97,7 @@ class Document:
             return res
         while r.json().get("nextPageLink"):
             next_page = r.json()["nextPageLink"]
-            r = requests.get(next_page, params=data, headers=self.headers)
+            r = requests.get(next_page, headers=self.headers)
             res["items"].extend(r.json()["items"])
             res.pop("nextPageLink")
             res.pop("nextPageToken")
@@ -98,7 +106,7 @@ class Document:
     def post(self, endpoint: str, data: Dict):
         return requests.post(self.href + endpoint, data, headers=self.headers).json()
 
-    def get_sections(self):
+    def get_sections_raw(self):
         r = self.get("/sections")
         return r
 
@@ -106,13 +114,13 @@ class Document:
         endpoint = f"/sections/{section_id_or_name}"
         return self.get(endpoint)
 
-    def get_tables(self):
+    def get_tables_raw(self):
         return self.get("/tables")
 
-    def get_table(self, table_id_or_name: str):
+    def get_table_raw(self, table_id_or_name: str):
         return self.get(f"/tables/{table_id_or_name}")
 
-    def get_table_rows(
+    def get_table_rows_raw(
         self,
         table_id_or_name: str,
         filt: Dict = None,
@@ -154,7 +162,7 @@ class Document:
         else:
             return {"query": f'"{filt["column_name"]}":"{filt["value"]}"'}
 
-    def get_table_columns(self, table_id_or_name: str):
+    def get_table_columns_raw(self, table_id_or_name: str):
         return self.get(f"/tables/{table_id_or_name}/columns")
 
 
@@ -176,39 +184,73 @@ class Table(CodaObject):
     document: Document = attr.ib(repr=False)
     display_column: Dict = attr.ib(default=None, repr=False)
     browser_link: str = attr.ib(default=None, repr=False)
+    row_count: int = attr.ib(default=None, repr=False)
+    sorts: List = attr.ib(default=[], repr=False)
+    layout: str = attr.ib(repr=False, default=None)
+    created_at: dt.datetime = attr.ib(
+        repr=False, convert=lambda x: parse(x), default=None
+    )
+    updated_at: dt.datetime = attr.ib(
+        repr=False, convert=lambda x: parse(x), default=None
+    )
+    columns: List[Column] = attr.ib(init=False, repr=False)
 
-    def get_all_rows(self):
-        return self.document.get_table_rows(self.id)
+    def __attrs_post_init__(self):
+        self.columns = self._make_columns()
 
-    def get_columns(self):
-        return self.document.get_table_columns(self.id)
+    def _get_all_rows(self):
+        return self.document.get_table_rows_raw(self.id)
 
-    @property
-    @lru_cache(maxsize=1)
-    def columns(self) -> List[Column]:
+    def _get_columns(self):
+        return self.document.get_table_columns_raw(self.id)
+
+    def _make_columns(self) -> List[Column]:
         return [
-            Column.from_json(i, document=self.document)
-            for i in self.get_columns()["items"]
+            Column.from_json({**i, "table": self}, document=self.document)
+            for i in self._get_columns()["items"]
         ]
 
     @property
     def rows(self) -> List[Row]:
         return [
             Row.from_json({"table": self, **i}, document=self.document)
-            for i in self.get_all_rows()["items"]
+            for i in self._get_all_rows()["items"]
         ]
 
-    @lru_cache(maxsize=128)
+    # @lru_cache(maxsize=128)
     def find_column_by_id(self, column_id) -> Union[Column, None]:
         try:
             return next(filter(lambda x: x.id == column_id, self.columns))
         except StopIteration:
             return None
 
+    def find_row_by_column_name_and_value(self, column, value) -> List[Row]:
+        r = self.document.get_table_rows_raw(
+            self.id, filt={"column_name": column, "value": value}
+        )
+        if not r.get("items"):
+            return []
+        return [
+            Row.from_json({**i, "table": self}, document=self.document)
+            for i in r["items"]
+        ]
+
+    def find_row_by_column_id_and_value(self, column_id, value) -> List[Row]:
+        r = self.document.get_table_rows_raw(
+            self.id, filt={"column_id": column_id, "value": value}
+        )
+        if not r.get("items"):
+            return []
+        return [
+            Row.from_json({**i, "table": self}, document=self.document)
+            for i in r["items"]
+        ]
+
 
 @attr.s(auto_attribs=True, hash=True)
 class Column(CodaObject):
     name: str
+    table: Table = attr.ib(repr=False)
     display: bool = attr.ib(default=None, repr=False)
     calculated: bool = attr.ib(default=False)
 
@@ -220,7 +262,9 @@ class Row(CodaObject):
     created_at: dt.datetime = attr.ib(convert=lambda x: parse(x), repr=False)
     index: int
     updated_at: dt.datetime = attr.ib(convert=lambda x: parse(x), repr=False)
-    values: Dict = attr.ib(repr=False)
+    values: Tuple[Tuple] = attr.ib(
+        convert=lambda x: tuple([(k, v) for k, v in x.items()]), repr=False
+    )
     table: Table = attr.ib(repr=False)
 
     @property
@@ -230,9 +274,15 @@ class Row(CodaObject):
     @property
     def cells(self) -> List[Cell]:
         return [
-            Cell(column=self.table.find_column_by_id(k), value=v, row=self)
-            for k, v in self.values.items()
+            Cell(column=self.table.find_column_by_id(i[0]), value=i[1], row=self)
+            for i in self.values
         ]
+
+    def __getitem__(self, item) -> Cell:
+        try:
+            return next(filter(lambda x: x.column.name == item, self.cells))
+        except StopIteration:
+            raise KeyError(f"No column named {item}")
 
 
 @attr.s(auto_attribs=True, hash=True, repr=False)
