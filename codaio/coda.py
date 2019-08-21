@@ -188,10 +188,10 @@ class Table(CodaObject):
     sorts: List = attr.ib(default=[], repr=False)
     layout: str = attr.ib(repr=False, default=None)
     created_at: dt.datetime = attr.ib(
-        repr=False, convert=lambda x: parse(x), default=None
+        repr=False, convert=lambda x: parse(x) if x else None, default=None
     )
     updated_at: dt.datetime = attr.ib(
-        repr=False, convert=lambda x: parse(x), default=None
+        repr=False, convert=lambda x: parse(x) if x else None, default=None
     )
     columns: List[Column] = attr.ib(init=False, repr=False)
 
@@ -261,7 +261,9 @@ class Row(CodaObject):
     browser_link: str = attr.ib(repr=False)
     created_at: dt.datetime = attr.ib(convert=lambda x: parse(x), repr=False)
     index: int
-    updated_at: dt.datetime = attr.ib(convert=lambda x: parse(x), repr=False)
+    updated_at: dt.datetime = attr.ib(
+        convert=lambda x: parse(x) if x else None, repr=False
+    )
     values: Tuple[Tuple] = attr.ib(
         convert=lambda x: tuple([(k, v) for k, v in x.items()]), repr=False
     )

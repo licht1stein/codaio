@@ -38,12 +38,32 @@ from codaio import Document
 
 doc = Document.from_environment('YOUR_DOC_ID')
 
-doc.tables() # list all tables
-doc.get_table_rows_raw(table_id_or_name='YOUR_TABLE')  # get ALL table rows
-doc.get_table_rows_raw(table_id_or_name='YOUR_TABLE', limit=5, offset=0)  # get first 5 rows from API
-doc.get_table_rows_raw(table_id_or_name='YOUR_TABLE', filt=dict(column_id='COLUMN_ID', value='FILTER_VALUE')) # fitler by column value using column_id
-doc.get_table_rows(table_id_or_name='YOUR_TABLE', filt=dict(column_name='COLUMN_NAME', value='FILTER_VALUE')) # fitler by column value using column name
+doc.tables()
+>>> [Table(name='Table1'), Table(name='table2')]
 
+table = doc.find_table('Table1')
+print(table)
+# >>> Table(name='Table1')
+
+print(table.columns)
+# >>> [Column(name='First Column', calculated=False)]
+
+print(table.rows)
+# >>> [Row(name='Some row', index=1)
+
+
+# Find row by column name and value:
+row = table.find_row_by_column_name_and_value('COLUMN_NAME', 'VALUE')
+
+# Find row by column id and value
+row = table.find_row_by_column_id_and_value('COLUMN_ID', 'VALUE')
+
+print(row)
+# >>> Row(name='Some row', index=1)
+
+# To get cell value for a column use getitem:
+print(row['Column 1'])
+# >>> Row(column=Column 1, row=Some row, value=Some Value)
 ```
 
 #### Using raw API
