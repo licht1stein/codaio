@@ -40,7 +40,7 @@ Table(name='Table1')
 >>> table.columns
 [Column(name='First Column', calculated=False)]
 
->>> table.rows)
+>>> table.rows
 [Row(name='Some row', index=1)
 
 # Find row by column name and value:
