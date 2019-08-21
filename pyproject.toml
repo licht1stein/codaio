@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "codaio"
-version = "0.2.0"
+version = "0.2.1"
 description = "Python wrapper for Coda.io API"
 authors = ["MB <mb@blaster.ai>"]
 license = "MIT"
