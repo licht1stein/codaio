@@ -99,8 +99,9 @@ class Document:
             next_page = r.json()["nextPageLink"]
             r = requests.get(next_page, headers=self.headers)
             res["items"].extend(r.json()["items"])
-            res.pop("nextPageLink")
-            res.pop("nextPageToken")
+            if res.get("nextPageLink"):
+                res.pop("nextPageLink")
+                res.pop("nextPageToken")
         return res
 
     def post(self, endpoint: str, data: Dict):
