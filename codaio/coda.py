@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from functools import lru_cache
 from os import environ as env
 
@@ -10,6 +11,8 @@ import attr
 import inflection
 import requests
 from dateutil.parser import parse
+from requests import Response
+
 from codaio import err
 
 CODA_API_ENDPOINT = env.get("CODA_API_ENDPOINT", "https://coda.io/apis/v1beta1")
@@ -104,8 +107,12 @@ class Document:
                 res.pop("nextPageToken")
         return res
 
-    def post(self, endpoint: str, data: Dict):
-        return requests.post(self.href + endpoint, data, headers=self.headers).json()
+    def post(self, endpoint: str, data: Dict) -> Response:
+        return requests.post(
+            self.href + endpoint,
+            json=data,
+            headers={**self.headers, "Content-Type": "application/json"},
+        )
 
     def get_sections_raw(self):
         r = self.get("/sections")
