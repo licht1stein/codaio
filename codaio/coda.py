@@ -339,7 +339,15 @@ class Coda:
             f"/docs/{doc_id}/tables/{table_id_or_name}/columns/{column_id_or_name}"
         )
 
-    def list_rows(self, doc_id: str, table_id_or_name: str):
+    def list_rows(
+        self,
+        doc_id: str,
+        table_id_or_name: str,
+        query: str = None,
+        use_column_names: bool = False,
+        limit: int = 100,
+        offset: int = 0,
+    ):
         """
         Returns a list of rows in a table.
 
@@ -349,9 +357,29 @@ class Coda:
 
         :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users. If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
+        :param query: Query used to filter returned rows, specified as `<column_id_or_name>:<value>`. If you'd like to use a column name
+            instead of an ID, you must quote it (e.g., `"My Column":123`). Also note that `value` is a JSON value; if you'd like to use a string,
+            you must surround it in quotes (e.g., `"groceries"`).
+
+        :param use_column_names: Use column names instead of column IDs in the returned output. This is generally discouraged as it is fragile.
+            If columns are renamed, code using original names may throw errors.
+
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
+
         :return:
         """
-        return self.get(f"/docs/{doc_id}/tables/{table_id_or_name}/rows")
+        data = {"useColumnNames": use_column_names}
+        if query:
+            data["query"] = query
+
+        return self.get(
+            f"/docs/{doc_id}/tables/{table_id_or_name}/rows",
+            data=data,
+            limit=limit,
+            offset=offset,
+        )
 
     def upsert_row(self, doc_id: str, table_id_or_name: str, data: Dict):
         """
@@ -555,10 +583,18 @@ class Document:
 
     @classmethod
     def from_environment(cls, doc_id: str):
+        """
+        Initializes a Document instance using API key stored in environment variables under `CODA_API_KEY`
+
+        :param doc_id: ID of the doc. Example: "AbCDeFGH"
+
+        :return:
+        """
         return cls(id=doc_id, coda=Coda.from_environment())
 
     def __attrs_post_init__(self):
-        data = self.get("/")
+        self.href = f"/docs/{self.id}"
+        data = self.coda.get(self.href + "/")
         if not data:
             raise err.DocumentNotFound(f"No document with id {self.id}")
         self.name = data["name"]
@@ -570,70 +606,41 @@ class Document:
 
     @property
     def sections(self) -> List[Section]:
+        """
+        Returns a list of Section objects for each section in the document.
+
+        :return:
+        """
         return [
             Section.from_json(i, document=self)
-            for i in self.get_sections_raw()["items"]
+            for i in self.coda.list_sections(self.id)["items"]
         ]
 
     @property
-    def tables(self) -> List[Table]:
-        return [
-            Table.from_json(i, document=self) for i in self.get_tables_raw()["items"]
-        ]
-
-    def find_table(self, table_name_or_id: str) -> Optional[Table]:
-        table_data = self.get_table_raw(table_name_or_id)
-        if table_data:
-            return Table.from_json(table_data, document=self)
-
-    def delete_row(self, table_id_or_name: str, row_id: str) -> Response:
-        return self.delete(f"/tables/{table_id_or_name}/rows/{row_id}")
-
-    def upsert_row(self, table_id_or_name, cells: List[Dict]):
-        js = {"rows": [{"cells": cells}]}
-        return self.post(f"/tables/{table_id_or_name}/rows", js)
-
-    def get_sections_raw(self):
-        r = self.get("/sections")
-        return r
-
-    def get_section(self, section_id_or_name: str):
-        endpoint = f"/sections/{section_id_or_name}"
-        return self.get(endpoint)
-
-    def get_tables_raw(self):
-        return self.get("/tables")
-
-    def get_table_raw(self, table_id_or_name: str):
-        return self.get(f"/tables/{table_id_or_name}")
-
-    def get_table_rows_raw(
-        self,
-        table_id_or_name: str,
-        filt: Dict = None,
-        limit: int = None,
-        offset: int = None,
-        use_names: bool = False,
-    ) -> Dict:
+    def all_tables(self) -> List[Table]:
         """
-        Get table rows.
+        Returns a list of `Table` objects for each table in the document.
 
-        :param table_id_or_name: name or id of Coda table
-        :param filt: a filter dictionary if you want to filter by column value. Accepts either dict(column_name='foo', value='bar') or dict(column_id='COLUMN_ID', value='bar')
-        :param limit: int for limiting number of rows to return
-        :param offset: int for offsetting the first row
-        :param use_names: boolean for returning column names instead of ids
         :return:
         """
-        data = {}
-        if filt:
-            data.update(self._parse_filter(filt))
-        if use_names:
-            data.update({"useNames": use_names})
-        r = self.get(
-            f"/tables/{table_id_or_name}/rows", data=data, limit=limit, offset=offset
-        )
-        return r
+
+        return [
+            Table.from_json(i, document=self)
+            for i in self.coda.list_tables(self.id)["items"]
+        ]
+
+    def get_table(self, table_name_or_id: str) -> Optional[Table]:
+        """
+        Gets a Table object from table name or ID.
+
+        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
+
+        :return:
+        """
+        table_data = self.coda.get_table(self.id, table_name_or_id)
+        if table_data:
+            return Table.from_json(table_data, document=self)
 
     @staticmethod
     def _parse_filter(filt: Dict) -> Dict:
@@ -648,9 +655,6 @@ class Document:
             return {"query": f'{filt["column_id"]}:"{filt["value"]}"'}
         else:
             return {"query": f'"{filt["column_name"]}":"{filt["value"]}"'}
-
-    def get_table_columns_raw(self, table_id_or_name: str):
-        return self.get(f"/tables/{table_id_or_name}/columns")
 
 
 @attr.s(auto_attribs=True, hash=True)
@@ -686,10 +690,10 @@ class Table(CodaObject):
         self.columns = self._make_columns()
 
     def _get_all_rows(self):
-        return self.document.get_table_rows_raw(self.id)
+        return self.document.coda.list_rows(self.document.id, self.id)
 
     def _get_columns(self):
-        return self.document.get_table_columns_raw(self.id)
+        return self.document.coda.list_columns(self.document.id, self.id)
 
     def _make_columns(self) -> List[Column]:
         return [
@@ -711,9 +715,11 @@ class Table(CodaObject):
         except StopIteration:
             return None
 
-    def find_row_by_column_name_and_value(self, column, value) -> List[Row]:
-        r = self.document.get_table_rows_raw(
-            self.id, filt={"column_name": column, "value": value}
+    def find_row_by_column_name_and_value(
+        self, column_name: str, value: Any
+    ) -> List[Row]:
+        r = self.document.coda.list_rows(
+            self.document.id, self.id, query=f'"{column_name}":{json.dumps(value)}'
         )
         if not r.get("items"):
             return []
@@ -723,8 +729,8 @@ class Table(CodaObject):
         ]
 
     def find_row_by_column_id_and_value(self, column_id, value) -> List[Row]:
-        r = self.document.get_table_rows_raw(
-            self.id, filt={"column_id": column_id, "value": value}
+        r = self.document.coda.list_rows(
+            self.document.id, self.id, query=f"{column_id}:{json.dumps(value)}"
         )
         if not r.get("items"):
             return []

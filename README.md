@@ -32,10 +32,10 @@ doc = Document('YOUR_DOC_ID', 'YOUR_API_KEY')
 >>> print(doc)
 Document(id='YOUR_DOC_ID', name='Document Name', owner='owner@example.com', browser_link='https://coda.io/d/URL')
 
->>> doc.tables()
+>>> doc.all_tables()
 [Table(name='Table1'), Table(name='table2')]
 
->>> doc.find_table('Table1')
+>>> doc.get_table('Table1')
 Table(name='Table1')
 
 >>> table.columns
