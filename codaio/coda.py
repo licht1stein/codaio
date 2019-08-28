@@ -114,6 +114,15 @@ class Document:
             headers={**self.headers, "Content-Type": "application/json"},
         )
 
+    def put(self, endpoint: str, data: Dict) -> Response:
+        return requests.put(self.href + endpoint, json=data, headers=self.headers)
+
+    def delete(self, endpoint: str) -> Response:
+        return requests.delete(self.href + endpoint, headers=self.headers)
+
+    def delete_row(self, table_id_or_name: str, row_id: str) -> Response:
+        return self.delete(f"/tables/{table_id_or_name}/rows/{row_id}")
+
     def upsert_row(self, table_id_or_name, cells: List[Dict]):
         js = {"rows": [{"cells": cells}]}
         return self.post(f"/tables/{table_id_or_name}/rows", js)
@@ -265,6 +274,9 @@ class Table(CodaObject):
         cells_js = [{"column": cell.column.id, "value": cell.value} for cell in cells]
         return self._upsert_row(cells_js)
 
+    def delete_row(self, row: Row):
+        return self.document.delete_row(self.id, row.id)
+
 
 @attr.s(auto_attribs=True, hash=True)
 class Column(CodaObject):
@@ -286,6 +298,7 @@ class Row(CodaObject):
         convert=lambda x: tuple([(k, v) for k, v in x.items()]), repr=False
     )
     table: Table = attr.ib(repr=False)
+    browser_link: str = attr.ib(default=None, repr=False)
 
     @property
     def columns(self):
@@ -297,6 +310,9 @@ class Row(CodaObject):
             Cell(column=self.table.find_column_by_id(i[0]), value=i[1], row=self)
             for i in self.values
         ]
+
+    def delete(self):
+        return self.table.delete_row(self)
 
     def __getitem__(self, item) -> Cell:
         try:
