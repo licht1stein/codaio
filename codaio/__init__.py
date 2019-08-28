@@ -1,1 +1,1 @@
-from .coda import Document, Table, Row, Column, Cell
+from .coda import Coda, Document, Table, Row, Column, Cell

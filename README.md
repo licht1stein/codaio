@@ -23,6 +23,7 @@ You can initialize a document by providing API_KEY and document_id directly, or 
 ```python
 from codaio import Document
 
+
 # Directly
 doc = Document('YOUR_DOC_ID', 'YOUR_API_KEY')
 
@@ -58,7 +59,17 @@ Cell(column=Column 1, row=Some row, value=Some Value)
 
 #### Using raw API
 
-You can issue [raw API requests](https://coda.io/developers/apis/v1beta1#tag/Docs) directly using Document methods `get` and `post`. You can skip entire url up to `/docs/{docId}`, this is handled by the wrapper. So for request to `https://coda.io/apis/v1beta1/docs/{docId}/tables` just use endpoint value of `/tables`:
+`codaio` implements all methods of raw api in a convenient python manner. So API's `listDocs` becomes in `codaio` `Coda.list_docs()`. Get requests return a dictionary. Put, delete and post return a requests Response object.
+
+```python
+# Using raw API
+
+from codaio import Coda
+
+coda = Coda('YOUR_API_KEY')
+coda.list_docs()
+```
+
 
 ```python
 from codaio import Document
