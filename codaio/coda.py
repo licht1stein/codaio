@@ -114,6 +114,10 @@ class Document:
             headers={**self.headers, "Content-Type": "application/json"},
         )
 
+    def upsert_row(self, table_id_or_name, cells: List[Dict]):
+        js = {"rows": [{"cells": cells}]}
+        return self.post(f"/tables/{table_id_or_name}/rows", js)
+
     def get_sections_raw(self):
         r = self.get("/sections")
         return r
@@ -254,6 +258,13 @@ class Table(CodaObject):
             for i in r["items"]
         ]
 
+    def _upsert_row(self, cells: List[Dict]) -> Response:
+        return self.document.upsert_row(self.id, cells)
+
+    def upsert_row(self, cells: List[Cell]):
+        cells_js = [{"column": cell.column.id, "value": cell.value} for cell in cells]
+        return self._upsert_row(cells_js)
+
 
 @attr.s(auto_attribs=True, hash=True)
 class Column(CodaObject):
@@ -266,7 +277,6 @@ class Column(CodaObject):
 @attr.s(auto_attribs=True, hash=True)
 class Row(CodaObject):
     name: str
-    browser_link: str = attr.ib(repr=False)
     created_at: dt.datetime = attr.ib(convert=lambda x: parse(x), repr=False)
     index: int
     updated_at: dt.datetime = attr.ib(
@@ -298,8 +308,8 @@ class Row(CodaObject):
 @attr.s(auto_attribs=True, hash=True, repr=False)
 class Cell:
     column: Column
-    row: Row
     value: Any
+    row: Row = attr.ib(default=None)
 
     @property
     def name(self):
