@@ -18,6 +18,10 @@ from codaio import err
 
 @attr.s(hash=True)
 class Coda:
+    """
+    Raw API client. It is used in `codaio` objects like Document to access the raw API endpoints. Can also be used by itself to access Raw API.
+    """
+
     api_key: str = attr.ib(repr=False)
     authorization: Dict = attr.ib(init=False, repr=False)
     href: str = attr.ib(
