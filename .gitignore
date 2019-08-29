@@ -3,3 +3,4 @@
 *.bat
 __pycache__/
 dist/
+codaio.egg-info/
