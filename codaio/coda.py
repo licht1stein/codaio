@@ -732,7 +732,7 @@ class Table(CodaObject):
     updated_at: dt.datetime = attr.ib(
         repr=False, convert=lambda x: parse(x) if x else None, default=None
     )
-    columns_storage: List[Column] = attr.ib(init=False, repr=False)
+    columns_storage: List[Column] = attr.ib(default=[], repr=False)
 
     def columns(self, offset: int = None, limit: int = None) -> List[Column]:
         """

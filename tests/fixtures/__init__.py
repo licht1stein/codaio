@@ -1,1 +1,1 @@
-from .coda import coda, doc_id
+from .coda import coda, doc_id, test_doc
