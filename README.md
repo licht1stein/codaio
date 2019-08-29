@@ -25,8 +25,8 @@ from codaio import Coda
 
 coda = Coda('YOUR_API_KEY')
 
-coda.list_docs()
-coda.create_doc('My document')
+>>> coda.create_doc('My document')
+{'id': 'NEW_DOC_ID', 'type': 'doc', 'href': 'https://coda.io/apis/v1beta1/docs/LINK', 'browserLink': 'https://coda.io/d/LINK', 'name': 'My Document', 'owner': 'your@email', 'createdAt': '2019-08-29T11:36:45.120Z', 'updatedAt': '2019-08-29T11:36:45.272Z'}
 ```
 For full API reference for Coda class see [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Coda)
 
