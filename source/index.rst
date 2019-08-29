@@ -7,6 +7,8 @@
 ==================================
 Python wrapper for `coda.io <https://coda.io/developers/apis/v1beta1>`_ API
 
+Project home: https://github.com/blasterai/codaio
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
