@@ -63,6 +63,10 @@ class Coda:
         if offset:
             data["pageToken"] = offset
         r = requests.get(self.href + endpoint, params=data, headers=self.authorization)
+        if r.status_code > 299:
+            raise err.CodaError(
+                f'Status code: {r.status_code}. Message: {r.json()["message"]}'
+            )
         if not r.json().get("items"):
             return r.json()
         res = r.json()
