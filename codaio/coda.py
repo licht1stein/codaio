@@ -1,16 +1,14 @@
 from __future__ import annotations
 
-import json
-from functools import lru_cache
-from envparse import env
-
 import datetime as dt
+import json
 from typing import Dict, Any, List, Union, Optional, Tuple
 
 import attr
 import inflection
 import requests
 from dateutil.parser import parse
+from envparse import env
 from requests import Response
 
 from codaio import err
@@ -122,8 +120,8 @@ class Coda:
         is_owner: bool = False,
         query: str = None,
         source_doc_id: str = None,
-        limit: int = 100,
-        offset: int = 0,
+        limit: int = None,
+        offset: int = None,
     ):
         """
         Returns a list of Coda docs accessible by the user. These are returned in the same order as on the docs page: reverse
@@ -198,7 +196,7 @@ class Coda:
         """
         return self.delete("/docs/" + doc_id)
 
-    def list_sections(self, doc_id: str):
+    def list_sections(self, doc_id: str, offset: int = None, limit: int = None):
         """
         Returns a list of sections in a Coda doc.
 
@@ -206,9 +204,13 @@ class Coda:
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
+
         :return:
         """
-        return self.get(f"/docs/{doc_id}/sections")
+        return self.get(f"/docs/{doc_id}/sections", offset=offset, limit=limit)
 
     def get_section(self, doc_id: str, section_id_or_name: str):
         """
@@ -225,7 +227,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/sections/{section_id_or_name}")
 
-    def list_folders(self, doc_id: str):
+    def list_folders(self, doc_id: str, offset: int = None, limit: int = None):
         """
         Returns a list of folders in a Coda doc.
 
@@ -233,9 +235,13 @@ class Coda:
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
+
         :return:
         """
-        return self.get(f"/docs/{doc_id}/folders")
+        return self.get(f"/docs/{doc_id}/folders", offset=offset, limit=limit)
 
     def get_folder(self, doc_id: str, folder_id_or_name: str):
         """
@@ -252,7 +258,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/folders/{folder_id_or_name}")
 
-    def list_tables(self, doc_id: str):
+    def list_tables(self, doc_id: str, offset: int = None, limit: int = None):
         """
         Returns a list of tables in a Coda doc.
 
@@ -260,9 +266,13 @@ class Coda:
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
+
         :return:
         """
-        return self.get(f"/docs/{doc_id}/tables")
+        return self.get(f"/docs/{doc_id}/tables", offset=offset, limit=limit)
 
     def get_table(self, doc_id: str, table_id_or_name: str):
         """
@@ -279,7 +289,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/tables/{table_id_or_name}")
 
-    def list_views(self, doc_id: str):
+    def list_views(self, doc_id: str, offset: int = None, limit: int = None):
         """
         Returns a list of views in a Coda doc.
 
@@ -287,9 +297,13 @@ class Coda:
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
+
         :return:
         """
-        return self.get(f"/docs/{doc_id}/views")
+        return self.get(f"/docs/{doc_id}/views", offset=offset, limit=limit)
 
     def get_view(self, doc_id: str, view_id_or_name: str):
         """
@@ -306,7 +320,9 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/views/{view_id_or_name}")
 
-    def list_columns(self, doc_id: str, table_id_or_name: str):
+    def list_columns(
+        self, doc_id: str, table_id_or_name: str, offset: int = None, limit: int = None
+    ):
         """
         Returns a list of columns in a table.
 
@@ -315,9 +331,17 @@ class Coda:
         :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
+
         :return:
         """
-        return self.get(f"/docs/{doc_id}/tables/{table_id_or_name}/columns")
+        return self.get(
+            f"/docs/{doc_id}/tables/{table_id_or_name}/columns",
+            offset=offset,
+            limit=limit,
+        )
 
     def get_column(self, doc_id: str, table_id_or_name: str, column_id_or_name: str):
         """
@@ -345,8 +369,8 @@ class Coda:
         table_id_or_name: str,
         query: str = None,
         use_column_names: bool = False,
-        limit: int = 100,
-        offset: int = 0,
+        limit: int = None,
+        offset: int = None,
     ):
         """
         Returns a list of rows in a table.
@@ -470,7 +494,7 @@ class Coda:
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows/{row_id_or_name}"
         )
 
-    def list_formulas(self, doc_id: str):
+    def list_formulas(self, doc_id: str, offset: int = None, limit: int = None):
         """
         Returns a list of named formulas in a Coda doc.
 
@@ -478,9 +502,12 @@ class Coda:
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
         :return:
         """
-        return self.get(f"/docs/{doc_id}/formulas")
+        return self.get(f"/docs/{doc_id}/formulas", offset=offset, limit=limit)
 
     def get_formula(self, doc_id: str, formula_id_or_name: str):
         """
@@ -497,7 +524,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/formulas/{formula_id_or_name}")
 
-    def list_controls(self, doc_id: str):
+    def list_controls(self, doc_id: str, offset: int = None, limit: int = None):
         """
         Controls provide a user-friendly way to input a value that can affect other parts of the doc. This API lets you list controls
         and get their current values.
@@ -506,9 +533,13 @@ class Coda:
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
+
         :return:
         """
-        return self.get(f"/docs/{doc_id}/controls")
+        return self.get(f"/docs/{doc_id}/controls", offset=offset, limit=limit)
 
     def get_control(self, doc_id: str, control_id_or_name: str):
         """
@@ -689,9 +720,6 @@ class Table(CodaObject):
     def __attrs_post_init__(self):
         self.columns = self._make_columns()
 
-    def _get_all_rows(self):
-        return self.document.coda.list_rows(self.document.id, self.id)
-
     def _get_columns(self):
         return self.document.coda.list_columns(self.document.id, self.id)
 
@@ -701,11 +729,12 @@ class Table(CodaObject):
             for i in self._get_columns()["items"]
         ]
 
-    @property
-    def rows(self) -> List[Row]:
+    def rows(self, offset: int = None, limit: int = None) -> List[Row]:
         return [
             Row.from_json({"table": self, **i}, document=self.document)
-            for i in self._get_all_rows()["items"]
+            for i in self.document.coda.list_rows(
+                self.document.id, self.id, offset=offset, limit=limit
+            )["items"]
         ]
 
     # @lru_cache(maxsize=128)
