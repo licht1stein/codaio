@@ -635,32 +635,40 @@ class Document:
         self.type = data["type"]
         self.browser_link = data["browserLink"]
 
-    @property
-    def sections(self) -> List[Section]:
+    def list_sections(self, offset: int = None, limit: int = None) -> List[Section]:
         """
-        Returns a list of Section objects for each section in the document.
+        Returns a list of `Section` objects for each section in the document.
+
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
 
         :return:
         """
         return [
             Section.from_json(i, document=self)
-            for i in self.coda.list_sections(self.id)["items"]
+            for i in self.coda.list_sections(self.id, offset=offset, limit=limit)[
+                "items"
+            ]
         ]
 
-    @property
-    def all_tables(self) -> List[Table]:
+    def list_tables(self, offset: int = None, limit: int = None) -> List[Table]:
         """
         Returns a list of `Table` objects for each table in the document.
+
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
 
         :return:
         """
 
         return [
             Table.from_json(i, document=self)
-            for i in self.coda.list_tables(self.id)["items"]
+            for i in self.coda.list_tables(self.id, offset=offset, limit=limit)["items"]
         ]
 
-    def get_table(self, table_name_or_id: str) -> Optional[Table]:
+    def get_table(self, table_id_or_name: str) -> Table:
         """
         Gets a Table object from table name or ID.
 
@@ -669,9 +677,10 @@ class Document:
 
         :return:
         """
-        table_data = self.coda.get_table(self.id, table_name_or_id)
+        table_data = self.coda.get_table(self.id, table_id_or_name)
         if table_data:
             return Table.from_json(table_data, document=self)
+        raise err.TableNotFound(f"{table_id_or_name}")
 
 
 @attr.s(auto_attribs=True, hash=True)
@@ -701,19 +710,17 @@ class Table(CodaObject):
     updated_at: dt.datetime = attr.ib(
         repr=False, convert=lambda x: parse(x) if x else None, default=None
     )
-    columns: List[Column] = attr.ib(init=False, repr=False)
+    columns_storage: List[Column] = attr.ib(init=False, repr=False)
 
-    def __attrs_post_init__(self):
-        self.columns = self._make_columns()
-
-    def _get_columns(self):
-        return self.document.coda.list_columns(self.document.id, self.id)
-
-    def _make_columns(self) -> List[Column]:
-        return [
-            Column.from_json({**i, "table": self}, document=self.document)
-            for i in self._get_columns()["items"]
-        ]
+    def columns(self, offset: int = None, limit: int = None) -> List[Column]:
+        if not self.columns_storage:
+            self.columns_storage = [
+                Column.from_json({**i, "table": self}, document=self.document)
+                for i in self.document.coda.list_columns(
+                    self.document.id, self.id, offset=offset, limit=limit
+                )["items"]
+            ]
+        return self.columns_storage
 
     def rows(self, offset: int = None, limit: int = None) -> List[Row]:
         return [
@@ -723,10 +730,9 @@ class Table(CodaObject):
             )["items"]
         ]
 
-    # @lru_cache(maxsize=128)
     def find_column_by_id(self, column_id) -> Union[Column, None]:
         try:
-            return next(filter(lambda x: x.id == column_id, self.columns))
+            return next(filter(lambda x: x.id == column_id, self.columns()))
         except StopIteration:
             return None
 
@@ -754,15 +760,24 @@ class Table(CodaObject):
             for i in r["items"]
         ]
 
-    def _upsert_row(self, cells: List[Dict]) -> Response:
-        return self.document.upsert_row(self.id, cells)
-
     def upsert_row(self, cells: List[Cell]):
-        cells_js = [{"column": cell.column.id, "value": cell.value} for cell in cells]
-        return self._upsert_row(cells_js)
+        data = {
+            "rows": [
+                {
+                    "cells": [
+                        {"column": cell.column.id, "value": cell.value}
+                        for cell in cells
+                    ]
+                }
+            ]
+        }
+        return self.document.coda.upsert_row(self.document.id, self.id, data)
+
+    def delete_row_by_id(self, row_id: str):
+        return self.document.coda.delete_row(self.document.id, self.id, row_id)
 
     def delete_row(self, row: Row):
-        return self.document.delete_row(self.id, row.id)
+        return self.delete_row_by_id(row.id)
 
 
 @attr.s(auto_attribs=True, hash=True)
@@ -787,11 +802,9 @@ class Row(CodaObject):
     table: Table = attr.ib(repr=False)
     browser_link: str = attr.ib(default=None, repr=False)
 
-    @property
     def columns(self):
         return self.table.columns
 
-    @property
     def cells(self) -> List[Cell]:
         return [
             Cell(column=self.table.find_column_by_id(i[0]), value=i[1], row=self)
@@ -803,7 +816,7 @@ class Row(CodaObject):
 
     def __getitem__(self, item) -> Cell:
         try:
-            return next(filter(lambda x: x.column.name == item, self.cells))
+            return next(filter(lambda x: x.column.name == item, self.cells()))
         except StopIteration:
             raise KeyError(f"No column named {item}")
 

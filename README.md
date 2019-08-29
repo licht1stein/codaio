@@ -426,7 +426,7 @@ an arbitrary one will be selected.
 
 ###### delete_row
 ```python
-Coda.delete_row(self, doc_id, table_id_or_name: 'str', row_id_or_name: 'str')
+Coda.delete_row_by_id(self, doc_id, table_id_or_name: 'str', row_id_or_name: 'str')
 ```
 
 Deletes the specified row from the table. This endpoint will always return a 202, so long as the row exists and is accessible

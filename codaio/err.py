@@ -12,3 +12,7 @@ class DocumentNotFound(CodaError):
 
 class InvalidFilter(CodaError):
     pass
+
+
+class TableNotFound(CodaError):
+    pass
