@@ -767,6 +767,15 @@ class Table(CodaObject):
     def find_row_by_column_name_and_value(
         self, column_name: str, value: Any
     ) -> List[Row]:
+        """
+        Finds rows by a value in column specified by name (discouraged).
+
+        :param column_name:  Name of the column.
+
+        :param value: Search value.
+
+        :return:
+        """
         r = self.document.coda.list_rows(
             self.document.id, self.id, query=f'"{column_name}":{json.dumps(value)}'
         )
@@ -778,6 +787,13 @@ class Table(CodaObject):
         ]
 
     def find_row_by_column_id_and_value(self, column_id, value) -> List[Row]:
+        """
+        Fins rows by a value in column specified by id.
+
+        :param column_id: ID of the column.
+        :param value: Search value.
+        :return:
+        """
         r = self.document.coda.list_rows(
             self.document.id, self.id, query=f"{column_id}:{json.dumps(value)}"
         )
@@ -789,6 +805,12 @@ class Table(CodaObject):
         ]
 
     def upsert_row(self, cells: List[Cell]):
+        """
+        Upserts a row using `Cell` objects in list.
+
+        :param cells: list of `Cell` objects.
+        :return:
+        """
         data = {
             "rows": [
                 {
@@ -802,9 +824,22 @@ class Table(CodaObject):
         return self.document.coda.upsert_row(self.document.id, self.id, data)
 
     def delete_row_by_id(self, row_id: str):
+        """
+        Deletes row by id.
+
+        :param row_id: ID of the row to delete.
+        :return:
+        """
         return self.document.coda.delete_row(self.document.id, self.id, row_id)
 
     def delete_row(self, row: Row):
+        """
+        Delete row.
+
+        :param row: a `Row` object to delete.
+        :return:
+        """
+
         return self.delete_row_by_id(row.id)
 
 
