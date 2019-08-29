@@ -10,7 +10,22 @@ Welcome to codaio's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule:: codaio.coda
+.. autoclass:: codaio.Coda
+   :members:
+
+.. autoclass:: codaio.Document
+   :members:
+
+.. autoclass:: codaio.Table
+   :members:
+
+.. autoclass:: codaio.Column
+   :members:
+
+.. autoclass:: codaio.Row
+   :members:
+
+.. autoclass:: codaio.Cell
    :members:
 
 

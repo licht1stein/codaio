@@ -1,46 +1,147 @@
 
+
 <!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>codaio documentation</title>
+  
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta charset="utf-8" />
-    <title>codaio documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
    
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
-  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
           
 
-          <div class="body" role="main">
+          
+            <a href="index.html#document-index" class="icon icon-home"> codaio
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html#document-index">codaio</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html#document-index">Docs</a> &raquo;</li>
+        
+      <li>codaio  documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="welcome-to-codaio-s-documentation">
 <h1>Welcome to codaio’s documentation!<a class="headerlink" href="#welcome-to-codaio-s-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<span class="target" id="module-codaio.coda"></span><dl class="class">
-<dt id="codaio.coda.Coda">
-<em class="property">class </em><code class="sig-prename descclassname">codaio.coda.</code><code class="sig-name descname">Coda</code><span class="sig-paren">(</span><em class="sig-param">api_key: str</em>, <em class="sig-param">href: str = 'https://coda.io/apis/v1beta1'</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="codaio.Coda">
+<em class="property">class </em><code class="sig-prename descclassname">codaio.</code><code class="sig-name descname">Coda</code><span class="sig-paren">(</span><em class="sig-param">api_key: str</em>, <em class="sig-param">href: str = 'https://coda.io/apis/v1beta1'</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raw API client. It is used in <cite>codaio</cite> objects like Document to access the raw API endpoints. Can also be used by itself to access Raw API.</p>
 <dl class="method">
-<dt id="codaio.coda.Coda.account">
-<code class="sig-name descname">account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.account" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.account">
+<code class="sig-name descname">account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.account" title="Permalink to this definition">¶</a></dt>
 <dd><p>At this time, the API exposes some limited information about your account. However, /whoami is a good endpoint to hit to verify
 that you’re hitting the API correctly and that your token is working as expected.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#tag/Account">https://coda.io/developers/apis/v1beta1#tag/Account</a></p>
@@ -52,8 +153,8 @@ that you’re hitting the API correctly and that your token is working as expect
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.create_doc">
-<code class="sig-name descname">create_doc</code><span class="sig-paren">(</span><em class="sig-param">title: str</em>, <em class="sig-param">source_doc: Optional[str] = None</em>, <em class="sig-param">tz: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.coda.Coda.create_doc" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.create_doc">
+<code class="sig-name descname">create_doc</code><span class="sig-paren">(</span><em class="sig-param">title: str</em>, <em class="sig-param">source_doc: Optional[str] = None</em>, <em class="sig-param">tz: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.Coda.create_doc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new Coda doc, optionally copying an existing doc.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/createDoc">https://coda.io/developers/apis/v1beta1#operation/createDoc</a></p>
 <dl class="field-list simple">
@@ -71,8 +172,8 @@ that you’re hitting the API correctly and that your token is working as expect
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.delete">
-<code class="sig-name descname">delete</code><span class="sig-paren">(</span><em class="sig-param">endpoint: str</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.coda.Coda.delete" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.delete">
+<code class="sig-name descname">delete</code><span class="sig-paren">(</span><em class="sig-param">endpoint: str</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.Coda.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a DELETE request to the API endpoint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -85,8 +186,8 @@ that you’re hitting the API correctly and that your token is working as expect
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.delete_doc">
-<code class="sig-name descname">delete_doc</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.coda.Coda.delete_doc" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.delete_doc">
+<code class="sig-name descname">delete_doc</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.Coda.delete_doc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes a doc.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/deleteDoc">https://coda.io/developers/apis/v1beta1#operation/deleteDoc</a></p>
 <dl class="field-list simple">
@@ -100,8 +201,8 @@ that you’re hitting the API correctly and that your token is working as expect
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.delete_row">
-<code class="sig-name descname">delete_row</code><span class="sig-paren">(</span><em class="sig-param">doc_id</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">row_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.delete_row" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.delete_row">
+<code class="sig-name descname">delete_row</code><span class="sig-paren">(</span><em class="sig-param">doc_id</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">row_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.delete_row" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes the specified row from the table. This endpoint will always return a 202, so long as the row exists and is accessible
 (and the update is structurally valid). Row deletions are generally processed within several seconds.
 When deleting using a name as opposed to an ID, an arbitrary row will be removed.</p>
@@ -126,8 +227,8 @@ an arbitrary one will be selected.
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.from_environment">
-<em class="property">classmethod </em><code class="sig-name descname">from_environment</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; codaio.coda.Coda<a class="headerlink" href="#codaio.coda.Coda.from_environment" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.from_environment">
+<em class="property">classmethod </em><code class="sig-name descname">from_environment</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; codaio.coda.Coda<a class="headerlink" href="#codaio.Coda.from_environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes a Coda instance using API key store in environment variables under <cite>CODA_API_KEY</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -137,8 +238,8 @@ an arbitrary one will be selected.
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get">
-<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">endpoint: str</em>, <em class="sig-param">data: Optional[Dict] = None</em>, <em class="sig-param">limit=None</em>, <em class="sig-param">offset=None</em><span class="sig-paren">)</span> &#x2192; Dict<a class="headerlink" href="#codaio.coda.Coda.get" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">endpoint: str</em>, <em class="sig-param">data: Optional[Dict] = None</em>, <em class="sig-param">limit=None</em>, <em class="sig-param">offset=None</em><span class="sig-paren">)</span> &#x2192; Dict<a class="headerlink" href="#codaio.Coda.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a GET request to API endpoint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -156,8 +257,8 @@ an arbitrary one will be selected.
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get_column">
-<code class="sig-name descname">get_column</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">column_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.get_column" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get_column">
+<code class="sig-name descname">get_column</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">column_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.get_column" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns details about a column in a table.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/getColumn">https://coda.io/developers/apis/v1beta1#operation/getColumn</a></p>
 <dl class="field-list simple">
@@ -177,8 +278,8 @@ If you’re using a name, be sure to URI-encode it. Example: “c-tuVwxYz”</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get_control">
-<code class="sig-name descname">get_control</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">control_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.get_control" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get_control">
+<code class="sig-name descname">get_control</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">control_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.get_control" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns info on a control.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/getControl">https://coda.io/developers/apis/v1beta1#operation/getControl</a></p>
 <dl class="field-list simple">
@@ -198,8 +299,8 @@ If you’re using a name, be sure to URI-encode it. Example: “c-tuVwxYz”</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get_doc">
-<code class="sig-name descname">get_doc</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.get_doc" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get_doc">
+<code class="sig-name descname">get_doc</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.get_doc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns metadata for the specified doc.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/getDoc">https://coda.io/developers/apis/v1beta1#operation/getDoc</a></p>
 <dl class="field-list simple">
@@ -213,8 +314,8 @@ If you’re using a name, be sure to URI-encode it. Example: “c-tuVwxYz”</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get_folder">
-<code class="sig-name descname">get_folder</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">folder_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.get_folder" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get_folder">
+<code class="sig-name descname">get_folder</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">folder_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.get_folder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns details about a folder.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/getFolder">https://coda.io/developers/apis/v1beta1#operation/getFolder</a></p>
 <dl class="field-list simple">
@@ -232,8 +333,8 @@ changed by users. If you’re using a name, be sure to URI-encode it. Example: �
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get_formula">
-<code class="sig-name descname">get_formula</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">formula_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.get_formula" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get_formula">
+<code class="sig-name descname">get_formula</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">formula_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.get_formula" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns info on a formula.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/getFormula">https://coda.io/developers/apis/v1beta1#operation/getFormula</a></p>
 <dl class="field-list simple">
@@ -253,8 +354,8 @@ changed by users. If you’re using a name, be sure to URI-encode it. Example: �
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get_row">
-<code class="sig-name descname">get_row</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">row_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.get_row" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get_row">
+<code class="sig-name descname">get_row</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">row_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.get_row" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns details about a row in a table.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/getRow">https://coda.io/developers/apis/v1beta1#operation/getRow</a></p>
 <dl class="field-list simple">
@@ -275,8 +376,8 @@ an arbitrary one will be selected.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get_section">
-<code class="sig-name descname">get_section</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">section_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.get_section" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get_section">
+<code class="sig-name descname">get_section</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">section_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.get_section" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns details about a section.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/getSection">https://coda.io/developers/apis/v1beta1#operation/getSection</a></p>
 <dl class="field-list simple">
@@ -294,8 +395,8 @@ If you’re using a name, be sure to URI-encode it. Example: “canvas-IjkLmnO�
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get_table">
-<code class="sig-name descname">get_table</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.get_table" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get_table">
+<code class="sig-name descname">get_table</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.get_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns details about a specific table.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/getTable">https://coda.io/developers/apis/v1beta1#operation/getTable</a></p>
 <dl class="field-list simple">
@@ -313,8 +414,8 @@ If you’re using a name, be sure to URI-encode it. Example: “grid-pqRst-U”<
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.get_view">
-<code class="sig-name descname">get_view</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">view_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.get_view" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.get_view">
+<code class="sig-name descname">get_view</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">view_id_or_name: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.get_view" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns details about a specific view.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/getView">https://coda.io/developers/apis/v1beta1#operation/getView</a></p>
 <dl class="field-list simple">
@@ -332,8 +433,8 @@ If you’re using a name, be sure to URI-encode it. Example: “table-pqRst-U”
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.list_columns">
-<code class="sig-name descname">list_columns</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.list_columns" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.list_columns">
+<code class="sig-name descname">list_columns</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.list_columns" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of columns in a table.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -352,8 +453,8 @@ If you’re using a name, be sure to URI-encode it. Example: “grid-pqRst-U”<
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.list_controls">
-<code class="sig-name descname">list_controls</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.list_controls" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.list_controls">
+<code class="sig-name descname">list_controls</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.list_controls" title="Permalink to this definition">¶</a></dt>
 <dd><p>Controls provide a user-friendly way to input a value that can affect other parts of the doc. This API lets you list controls
 and get their current values.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#tag/Controls">https://coda.io/developers/apis/v1beta1#tag/Controls</a></p>
@@ -372,8 +473,8 @@ and get their current values.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.list_docs">
-<code class="sig-name descname">list_docs</code><span class="sig-paren">(</span><em class="sig-param">is_owner: bool = False</em>, <em class="sig-param">query: Optional[str] = None</em>, <em class="sig-param">source_doc_id: Optional[str] = None</em>, <em class="sig-param">limit: Optional[int] = None</em>, <em class="sig-param">offset: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.list_docs" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.list_docs">
+<code class="sig-name descname">list_docs</code><span class="sig-paren">(</span><em class="sig-param">is_owner: bool = False</em>, <em class="sig-param">query: Optional[str] = None</em>, <em class="sig-param">source_doc_id: Optional[str] = None</em>, <em class="sig-param">limit: Optional[int] = None</em>, <em class="sig-param">offset: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.list_docs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of Coda docs accessible by the user. These are returned in the same order as on the docs page: reverse
 chronological by the latest event relevant to the user (last viewed, edited, or shared).</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/listDocs">https://coda.io/developers/apis/v1beta1#operation/listDocs</a></p>
@@ -394,8 +495,8 @@ chronological by the latest event relevant to the user (last viewed, edited, or 
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.list_folders">
-<code class="sig-name descname">list_folders</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.list_folders" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.list_folders">
+<code class="sig-name descname">list_folders</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.list_folders" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of folders in a Coda doc.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/listFolders">https://coda.io/developers/apis/v1beta1#operation/listFolders</a></p>
 <dl class="field-list simple">
@@ -413,8 +514,8 @@ chronological by the latest event relevant to the user (last viewed, edited, or 
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.list_formulas">
-<code class="sig-name descname">list_formulas</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.list_formulas" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.list_formulas">
+<code class="sig-name descname">list_formulas</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.list_formulas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of named formulas in a Coda doc.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/listFormulas">https://coda.io/developers/apis/v1beta1#operation/listFormulas</a></p>
 <dl class="field-list simple">
@@ -432,8 +533,8 @@ chronological by the latest event relevant to the user (last viewed, edited, or 
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.list_rows">
-<code class="sig-name descname">list_rows</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">query: Optional[str] = None</em>, <em class="sig-param">use_column_names: bool = False</em>, <em class="sig-param">limit: Optional[int] = None</em>, <em class="sig-param">offset: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.list_rows" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.list_rows">
+<code class="sig-name descname">list_rows</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">query: Optional[str] = None</em>, <em class="sig-param">use_column_names: bool = False</em>, <em class="sig-param">limit: Optional[int] = None</em>, <em class="sig-param">offset: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.list_rows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of rows in a table.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#tag/Rows">https://coda.io/developers/apis/v1beta1#tag/Rows</a></p>
 <dl class="field-list simple">
@@ -457,8 +558,8 @@ If columns are renamed, code using original names may throw errors.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.list_sections">
-<code class="sig-name descname">list_sections</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.list_sections" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.list_sections">
+<code class="sig-name descname">list_sections</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.list_sections" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of sections in a Coda doc.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/listSections">https://coda.io/developers/apis/v1beta1#operation/listSections</a></p>
 <dl class="field-list simple">
@@ -476,8 +577,8 @@ If columns are renamed, code using original names may throw errors.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.list_tables">
-<code class="sig-name descname">list_tables</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.list_tables" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.list_tables">
+<code class="sig-name descname">list_tables</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.list_tables" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of tables in a Coda doc.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/listTables">https://coda.io/developers/apis/v1beta1#operation/listTables</a></p>
 <dl class="field-list simple">
@@ -495,8 +596,8 @@ If columns are renamed, code using original names may throw errors.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.list_views">
-<code class="sig-name descname">list_views</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.list_views" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.list_views">
+<code class="sig-name descname">list_views</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.list_views" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of views in a Coda doc.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/listViews">https://coda.io/developers/apis/v1beta1#operation/listViews</a></p>
 <dl class="field-list simple">
@@ -514,8 +615,8 @@ If columns are renamed, code using original names may throw errors.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.post">
-<code class="sig-name descname">post</code><span class="sig-paren">(</span><em class="sig-param">endpoint: str</em>, <em class="sig-param">data: Dict</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.coda.Coda.post" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.post">
+<code class="sig-name descname">post</code><span class="sig-paren">(</span><em class="sig-param">endpoint: str</em>, <em class="sig-param">data: Dict</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.Coda.post" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a POST request to the API endpoint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -531,8 +632,8 @@ If columns are renamed, code using original names may throw errors.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.put">
-<code class="sig-name descname">put</code><span class="sig-paren">(</span><em class="sig-param">endpoint: str</em>, <em class="sig-param">data: Dict</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.coda.Coda.put" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.put">
+<code class="sig-name descname">put</code><span class="sig-paren">(</span><em class="sig-param">endpoint: str</em>, <em class="sig-param">data: Dict</em><span class="sig-paren">)</span> &#x2192; requests.models.Response<a class="headerlink" href="#codaio.Coda.put" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a PUT request to the API endpoint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -548,8 +649,8 @@ If columns are renamed, code using original names may throw errors.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.resolve_browser_link">
-<code class="sig-name descname">resolve_browser_link</code><span class="sig-paren">(</span><em class="sig-param">url: str</em>, <em class="sig-param">degrade_gracefully: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.resolve_browser_link" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.resolve_browser_link">
+<code class="sig-name descname">resolve_browser_link</code><span class="sig-paren">(</span><em class="sig-param">url: str</em>, <em class="sig-param">degrade_gracefully: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.resolve_browser_link" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a browser link to a Coda object, attempts to find it and return metadata that can be used to get more info on it.
 Returns a 400 if the URL does not appear to be a Coda URL or a 404 if the resource cannot be located with the current credentials.</p>
 <p>Docs: <a class="reference external" href="https://coda.io/developers/apis/v1beta1#operation/resolveBrowserLink">https://coda.io/developers/apis/v1beta1#operation/resolveBrowserLink</a></p>
@@ -570,8 +671,8 @@ Returns a 400 if the URL does not appear to be a Coda URL or a 404 if the resour
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.update_row">
-<code class="sig-name descname">update_row</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">row_id_or_name: str</em>, <em class="sig-param">data: Dict</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.update_row" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.update_row">
+<code class="sig-name descname">update_row</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">row_id_or_name: str</em>, <em class="sig-param">data: Dict</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.update_row" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates the specified row in the table. This endpoint will always return a 202, so long as the row exists and is
 accessible (and the update is structurally valid). Row updates are generally processed within several seconds.
 When updating using a name as opposed to an ID, an arbitrary row will be affected.</p>
@@ -603,8 +704,8 @@ an arbitrary one will be selected.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Coda.upsert_row">
-<code class="sig-name descname">upsert_row</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">data: Dict</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Coda.upsert_row" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Coda.upsert_row">
+<code class="sig-name descname">upsert_row</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em>, <em class="sig-param">table_id_or_name: str</em>, <em class="sig-param">data: Dict</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Coda.upsert_row" title="Permalink to this definition">¶</a></dt>
 <dd><p>Inserts rows into a table, optionally updating existing rows if any upsert key columns are provided. This endpoint will always return a 202,
 so long as the doc and table exist and are accessible (and the update is structurally valid). Row inserts/upserts are generally
 processed within several seconds. When upserting, if multiple rows match the specified key column(s), they will all be updated with the specified value.</p>
@@ -631,12 +732,12 @@ processed within several seconds. When upserting, if multiple rows match the spe
 </dd></dl>
 
 <dl class="class">
-<dt id="codaio.coda.Document">
-<em class="property">class </em><code class="sig-prename descclassname">codaio.coda.</code><code class="sig-name descname">Document</code><span class="sig-paren">(</span><em class="sig-param">id: str</em>, <em class="sig-param">coda: Coda</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Document" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Document">
+<em class="property">class </em><code class="sig-prename descclassname">codaio.</code><code class="sig-name descname">Document</code><span class="sig-paren">(</span><em class="sig-param">id: str</em>, <em class="sig-param">coda: Coda</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Document" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main class for interacting with coda.io API using <cite>codaio</cite> objects.</p>
 <dl class="method">
-<dt id="codaio.coda.Document.from_environment">
-<em class="property">classmethod </em><code class="sig-name descname">from_environment</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.coda.Document.from_environment" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Document.from_environment">
+<em class="property">classmethod </em><code class="sig-name descname">from_environment</code><span class="sig-paren">(</span><em class="sig-param">doc_id: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Document.from_environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes a Document instance using API key stored in environment variables under <cite>CODA_API_KEY</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -649,8 +750,8 @@ processed within several seconds. When upserting, if multiple rows match the spe
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Document.get_table">
-<code class="sig-name descname">get_table</code><span class="sig-paren">(</span><em class="sig-param">table_id_or_name: str</em><span class="sig-paren">)</span> &#x2192; codaio.coda.Table<a class="headerlink" href="#codaio.coda.Document.get_table" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Document.get_table">
+<code class="sig-name descname">get_table</code><span class="sig-paren">(</span><em class="sig-param">table_id_or_name: str</em><span class="sig-paren">)</span> &#x2192; codaio.coda.Table<a class="headerlink" href="#codaio.Document.get_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a Table object from table name or ID.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -664,8 +765,8 @@ If you’re using a name, be sure to URI-encode it. Example: “grid-pqRst-U”<
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Document.list_sections">
-<code class="sig-name descname">list_sections</code><span class="sig-paren">(</span><em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; List[codaio.coda.Section]<a class="headerlink" href="#codaio.coda.Document.list_sections" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Document.list_sections">
+<code class="sig-name descname">list_sections</code><span class="sig-paren">(</span><em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; List[codaio.coda.Section]<a class="headerlink" href="#codaio.Document.list_sections" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of <cite>Section</cite> objects for each section in the document.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -681,8 +782,8 @@ If you’re using a name, be sure to URI-encode it. Example: “grid-pqRst-U”<
 </dd></dl>
 
 <dl class="method">
-<dt id="codaio.coda.Document.list_tables">
-<code class="sig-name descname">list_tables</code><span class="sig-paren">(</span><em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; List[codaio.coda.Table]<a class="headerlink" href="#codaio.coda.Document.list_tables" title="Permalink to this definition">¶</a></dt>
+<dt id="codaio.Document.list_tables">
+<code class="sig-name descname">list_tables</code><span class="sig-paren">(</span><em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; List[codaio.coda.Table]<a class="headerlink" href="#codaio.Document.list_tables" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of <cite>Table</cite> objects for each table in the document.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -699,6 +800,151 @@ If you’re using a name, be sure to URI-encode it. Example: “grid-pqRst-U”<
 
 </dd></dl>
 
+<dl class="class">
+<dt id="codaio.Table">
+<em class="property">class </em><code class="sig-prename descclassname">codaio.</code><code class="sig-name descname">Table</code><span class="sig-paren">(</span><em class="sig-param">id: str</em>, <em class="sig-param">type: str</em>, <em class="sig-param">href: str</em>, <em class="sig-param">name: str</em>, <em class="sig-param">document: Document</em>, <em class="sig-param">display_column: Dict = None</em>, <em class="sig-param">browser_link: str = None</em>, <em class="sig-param">row_count: int = None</em>, <em class="sig-param">sorts: List = []</em>, <em class="sig-param">layout: str = None</em>, <em class="sig-param">created_at=None</em>, <em class="sig-param">updated_at=None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Table" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="codaio.Table.columns">
+<code class="sig-name descname">columns</code><span class="sig-paren">(</span><em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; List[codaio.coda.Column]<a class="headerlink" href="#codaio.Table.columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of Table columns. Columns are stored in self.columns_storage for faster access as they tend to
+change less frequently than rows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>limit</strong> – Maximum number of results to return in this query.</p></li>
+<li><p><strong>offset</strong> – An opaque token used to fetch the next page of results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="codaio.Table.delete_row">
+<code class="sig-name descname">delete_row</code><span class="sig-paren">(</span><em class="sig-param">row: codaio.coda.Row</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Table.delete_row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete row.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>row</strong> – a <cite>Row</cite> object to delete.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="codaio.Table.delete_row_by_id">
+<code class="sig-name descname">delete_row_by_id</code><span class="sig-paren">(</span><em class="sig-param">row_id: str</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Table.delete_row_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes row by id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>row_id</strong> – ID of the row to delete.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="codaio.Table.find_row_by_column_id_and_value">
+<code class="sig-name descname">find_row_by_column_id_and_value</code><span class="sig-paren">(</span><em class="sig-param">column_id</em>, <em class="sig-param">value</em><span class="sig-paren">)</span> &#x2192; List[codaio.coda.Row]<a class="headerlink" href="#codaio.Table.find_row_by_column_id_and_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fins rows by a value in column specified by id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column_id</strong> – ID of the column.</p></li>
+<li><p><strong>value</strong> – Search value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="codaio.Table.find_row_by_column_name_and_value">
+<code class="sig-name descname">find_row_by_column_name_and_value</code><span class="sig-paren">(</span><em class="sig-param">column_name: str</em>, <em class="sig-param">value: Any</em><span class="sig-paren">)</span> &#x2192; List[codaio.coda.Row]<a class="headerlink" href="#codaio.Table.find_row_by_column_name_and_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds rows by a value in column specified by name (discouraged).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column_name</strong> – Name of the column.</p></li>
+<li><p><strong>value</strong> – Search value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="codaio.Table.get_column_by_id">
+<code class="sig-name descname">get_column_by_id</code><span class="sig-paren">(</span><em class="sig-param">column_id</em><span class="sig-paren">)</span> &#x2192; Optional[codaio.coda.Column]<a class="headerlink" href="#codaio.Table.get_column_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a Column by id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>column_id</strong> – ID of the column. Example: “c-tuVwxYz”</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="codaio.Table.rows">
+<code class="sig-name descname">rows</code><span class="sig-paren">(</span><em class="sig-param">offset: Optional[int] = None</em>, <em class="sig-param">limit: Optional[int] = None</em><span class="sig-paren">)</span> &#x2192; List[codaio.coda.Row]<a class="headerlink" href="#codaio.Table.rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of Table rows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>limit</strong> – Maximum number of results to return in this query.</p></li>
+<li><p><strong>offset</strong> – An opaque token used to fetch the next page of results.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="codaio.Table.upsert_row">
+<code class="sig-name descname">upsert_row</code><span class="sig-paren">(</span><em class="sig-param">cells: List[codaio.coda.Cell]</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Table.upsert_row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upserts a row using <cite>Cell</cite> objects in list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cells</strong> – list of <cite>Cell</cite> objects.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="codaio.Column">
+<em class="property">class </em><code class="sig-prename descclassname">codaio.</code><code class="sig-name descname">Column</code><span class="sig-paren">(</span><em class="sig-param">id: str</em>, <em class="sig-param">type: str</em>, <em class="sig-param">href: str</em>, <em class="sig-param">document: Document</em>, <em class="sig-param">name: str</em>, <em class="sig-param">table: Table</em>, <em class="sig-param">display: bool = None</em>, <em class="sig-param">calculated: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Column" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="codaio.Row">
+<em class="property">class </em><code class="sig-prename descclassname">codaio.</code><code class="sig-name descname">Row</code><span class="sig-paren">(</span><em class="sig-param">id: str</em>, <em class="sig-param">type: str</em>, <em class="sig-param">href: str</em>, <em class="sig-param">document: Document</em>, <em class="sig-param">name: str</em>, <em class="sig-param">created_at</em>, <em class="sig-param">index: int</em>, <em class="sig-param">updated_at</em>, <em class="sig-param">values</em>, <em class="sig-param">table: Table</em>, <em class="sig-param">browser_link: str = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Row" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="codaio.Cell">
+<em class="property">class </em><code class="sig-prename descclassname">codaio.</code><code class="sig-name descname">Cell</code><span class="sig-paren">(</span><em class="sig-param">column: Column</em>, <em class="sig-param">value: Any</em>, <em class="sig-param">row: Row = None</em><span class="sig-paren">)</span><a class="headerlink" href="#codaio.Cell" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
@@ -710,53 +956,43 @@ If you’re using a name, be sure to URI-encode it. Example: “grid-pqRst-U”<
 </div>
 
 
+           </div>
+           
           </div>
-          
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html#document-index">codaio</a></h1>
+          <footer>
+  
 
+  <hr/>
 
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Mikhail Beliansky
 
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-
-
-
-
-<h3>Navigation</h3>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html#document-index">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-
-
-
-
-
-
-
+</footer>
 
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2019, Mikhail Beliansky.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-    </div>
 
-    
+    </section>
 
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
     
-  </body>
+   
+
+</body>
 </html>
