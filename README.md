@@ -35,11 +35,14 @@ For full API reference for Coda class see [documentation](https://codaio.readthe
 `codaio` implements convenient classes to work with Coda documents: `Document`, `Table`, `Row`, `Column` and `Cell`.
 
 ```python
-from codaio import Document
+from codaio import Coda, Document, Table
 
-doc = Document.from_environment('YOUR_DOC_ID')
+coda = Coda('YOUR_API_KEY')
+
+doc = Document('YOUR_DOC_ID', coda=coda)
 doc.list_tables()
 
+table: Table = doc.get_table('TABLE_ID')
 ```
 
 For full API reference for Document class see [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Document)
