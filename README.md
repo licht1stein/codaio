@@ -55,9 +55,3 @@ For full API reference for Document class see [documentation](https://codaio.rea
 #### Documentation
 
 `codaio` documentation lives at [readthedocs.io](https://codaio.readthedocs.io/en/latest/index.html)
-
-#### Using raw API
-
-`codaio` implements all methods of raw api in a convenient python manner. So API's `listDocs` becomes in `codaio` `Coda.list_docs()`. Get requests return a dictionary. Put, delete and post return a requests Response object.
-
-All methods of Coda class are described in the [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Coda).
