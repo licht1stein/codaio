@@ -17,45 +17,32 @@ The following variables will be called from environment where applicable:
 * `CODA_API_ENDPOINT` (default value `https://coda.io/apis/v1beta1`)
 * `CODA_API_KEY` - your API key to use when initializing document from environment
 
-### Quickstart
-You can initialize a document by providing API_KEY and document_id directly, or by storing your API key in environment under `CODA_API_KEY`
+### Quickstart using raw API
+Coda class provides a wrapper for all API methods.
+
+```python
+from codaio import Coda
+
+coda = Coda('YOUR_API_KEY')
+
+coda.list_docs()
+coda.create_doc('My document')
+```
+For full API reference for Coda class see [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Coda)
+
+### Quickstart using codaio objects
+
+`codaio` implements convenient classes to work with Coda documents: `Document`, `Table`, `Row`, `Column` and `Cell`.
 
 ```python
 from codaio import Document
 
+doc = Document.from_environment('YOUR_DOC_ID')
+doc.list_tables()
 
-# Directly
-doc = Document('YOUR_DOC_ID', 'YOUR_API_KEY')
-
-# From environment
->>> doc = Document.from_environment('YOUR_DOC_ID')
->>> print(doc)
-Document(id='YOUR_DOC_ID', name='Document Name', owner='owner@example.com', browser_link='https://coda.io/d/URL')
-
->>> doc.all_tables()
-[Table(name='Table1'), Table(name='table2')]
-
->>> doc.get_table('Table1')
-Table(name='Table1')
-
->>> table.columns
-[Column(name='First Column', calculated=False)]
-
->>> table.rows
-[Row(name='Some row', index=1)]
-
-# Find row by column name and value:
->> table.find_row_by_column_name_and_value('COLUMN_NAME', 'VALUE')
-Row(name='Some row', index=1)
-
-# Find row by column id and value
->>> table.find_row_by_column_id_and_value('COLUMN_ID', 'VALUE')
-Row(name='Some row', index=1)
-
-# To get cell value for a column use getitem:
->>> row['Column 1']
-Cell(column=Column 1, row=Some row, value=Some Value)
 ```
+
+For full API reference for Document class see [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Document)
 
 #### Documentation
 
