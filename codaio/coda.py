@@ -146,7 +146,7 @@ class Coda:
         source_doc_id: str = None,
         limit: int = None,
         offset: int = None,
-    ):
+    ) -> Dict:
         """
         Returns a list of Coda docs accessible by the user. These are returned in the same order as on the docs page: reverse
         chronological by the latest event relevant to the user (last viewed, edited, or shared).
@@ -172,9 +172,7 @@ class Coda:
             offset=offset,
         )
 
-    def create_doc(
-        self, title: str, source_doc: str = None, tz: str = None
-    ) -> Response:
+    def create_doc(self, title: str, source_doc: str = None, tz: str = None) -> Dict:
         """
         Creates a new Coda doc, optionally copying an existing doc.
 
@@ -196,7 +194,7 @@ class Coda:
 
         return self.post("/docs", data)
 
-    def get_doc(self, doc_id: str):
+    def get_doc(self, doc_id: str) -> Dict:
         """
         Returns metadata for the specified doc.
 
@@ -208,7 +206,7 @@ class Coda:
         """
         return self.get("/docs/" + doc_id)
 
-    def delete_doc(self, doc_id: str) -> Response:
+    def delete_doc(self, doc_id: str) -> Dict:
         """
         Deletes a doc.
 
@@ -220,7 +218,7 @@ class Coda:
         """
         return self.delete("/docs/" + doc_id)
 
-    def list_sections(self, doc_id: str, offset: int = None, limit: int = None):
+    def list_sections(self, doc_id: str, offset: int = None, limit: int = None) -> Dict:
         """
         Returns a list of sections in a Coda doc.
 
@@ -236,7 +234,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/sections", offset=offset, limit=limit)
 
-    def get_section(self, doc_id: str, section_id_or_name: str):
+    def get_section(self, doc_id: str, section_id_or_name: str) -> Dict:
         """
         Returns details about a section.
 
@@ -251,7 +249,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/sections/{section_id_or_name}")
 
-    def list_folders(self, doc_id: str, offset: int = None, limit: int = None):
+    def list_folders(self, doc_id: str, offset: int = None, limit: int = None) -> Dict:
         """
         Returns a list of folders in a Coda doc.
 
@@ -267,7 +265,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/folders", offset=offset, limit=limit)
 
-    def get_folder(self, doc_id: str, folder_id_or_name: str):
+    def get_folder(self, doc_id: str, folder_id_or_name: str) -> Dict:
         """
         Returns details about a folder.
 
@@ -282,7 +280,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/folders/{folder_id_or_name}")
 
-    def list_tables(self, doc_id: str, offset: int = None, limit: int = None):
+    def list_tables(self, doc_id: str, offset: int = None, limit: int = None) -> Dict:
         """
         Returns a list of tables in a Coda doc.
 
@@ -298,7 +296,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/tables", offset=offset, limit=limit)
 
-    def get_table(self, doc_id: str, table_id_or_name: str):
+    def get_table(self, doc_id: str, table_id_or_name: str) -> Dict:
         """
         Returns details about a specific table.
 
@@ -313,7 +311,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/tables/{table_id_or_name}")
 
-    def list_views(self, doc_id: str, offset: int = None, limit: int = None):
+    def list_views(self, doc_id: str, offset: int = None, limit: int = None) -> Dict:
         """
         Returns a list of views in a Coda doc.
 
@@ -329,7 +327,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/views", offset=offset, limit=limit)
 
-    def get_view(self, doc_id: str, view_id_or_name: str):
+    def get_view(self, doc_id: str, view_id_or_name: str) -> Dict:
         """
         Returns details about a specific view.
 
@@ -346,7 +344,7 @@ class Coda:
 
     def list_columns(
         self, doc_id: str, table_id_or_name: str, offset: int = None, limit: int = None
-    ):
+    ) -> Dict:
         """
         Returns a list of columns in a table.
 
@@ -367,7 +365,9 @@ class Coda:
             limit=limit,
         )
 
-    def get_column(self, doc_id: str, table_id_or_name: str, column_id_or_name: str):
+    def get_column(
+        self, doc_id: str, table_id_or_name: str, column_id_or_name: str
+    ) -> Dict:
         """
         Returns details about a column in a table.
 
@@ -395,7 +395,7 @@ class Coda:
         use_column_names: bool = False,
         limit: int = None,
         offset: int = None,
-    ):
+    ) -> Dict:
         """
         Returns a list of rows in a table.
 
@@ -429,7 +429,7 @@ class Coda:
             offset=offset,
         )
 
-    def upsert_row(self, doc_id: str, table_id_or_name: str, data: Dict):
+    def upsert_row(self, doc_id: str, table_id_or_name: str, data: Dict) -> Dict:
         """
         Inserts rows into a table, optionally updating existing rows if any upsert key columns are provided. This endpoint will always return a 202,
         so long as the doc and table exist and are accessible (and the update is structurally valid). Row inserts/upserts are generally
@@ -448,7 +448,7 @@ class Coda:
         """
         return self.post(f"/docs/{doc_id}/tables/{table_id_or_name}/rows", data)
 
-    def get_row(self, doc_id: str, table_id_or_name: str, row_id_or_name: str):
+    def get_row(self, doc_id: str, table_id_or_name: str, row_id_or_name: str) -> Dict:
         """
         Returns details about a row in a table.
 
@@ -471,7 +471,7 @@ class Coda:
 
     def update_row(
         self, doc_id: str, table_id_or_name: str, row_id_or_name: str, data: Dict
-    ):
+    ) -> Dict:
         """
         Updates the specified row in the table. This endpoint will always return a 202, so long as the row exists and is
         accessible (and the update is structurally valid). Row updates are generally processed within several seconds.
@@ -489,14 +489,12 @@ class Coda:
         an arbitrary one will be selected.
 
         :param data: Example: {"row": {"cells": [{"column": "c-tuVwxYz", "value": "$12.34"}]}}
-
-        :return: Response
         """
         return self.put(
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows/{row_id_or_name}", data
         )
 
-    def delete_row(self, doc_id, table_id_or_name: str, row_id_or_name: str):
+    def delete_row(self, doc_id, table_id_or_name: str, row_id_or_name: str) -> Dict:
         """
         Deletes the specified row from the table. This endpoint will always return a 202, so long as the row exists and is accessible
         (and the update is structurally valid). Row deletions are generally processed within several seconds.
@@ -512,13 +510,12 @@ class Coda:
         :param row_id_or_name: ID or name of the row. Names are discouraged because they're easily prone to being changed by users.
         If you're using a name, be sure to URI-encode it. If there are multiple rows with the same value in the identifying column,
         an arbitrary one will be selected.
-        :return:
         """
         return self.delete(
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows/{row_id_or_name}"
         )
 
-    def list_formulas(self, doc_id: str, offset: int = None, limit: int = None):
+    def list_formulas(self, doc_id: str, offset: int = None, limit: int = None) -> Dict:
         """
         Returns a list of named formulas in a Coda doc.
 
@@ -533,7 +530,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/formulas", offset=offset, limit=limit)
 
-    def get_formula(self, doc_id: str, formula_id_or_name: str):
+    def get_formula(self, doc_id: str, formula_id_or_name: str) -> Dict:
         """
         Returns info on a formula.
 
@@ -548,7 +545,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/formulas/{formula_id_or_name}")
 
-    def list_controls(self, doc_id: str, offset: int = None, limit: int = None):
+    def list_controls(self, doc_id: str, offset: int = None, limit: int = None) -> Dict:
         """
         Controls provide a user-friendly way to input a value that can affect other parts of the doc. This API lets you list controls
         and get their current values.
@@ -565,7 +562,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/controls", offset=offset, limit=limit)
 
-    def get_control(self, doc_id: str, control_id_or_name: str):
+    def get_control(self, doc_id: str, control_id_or_name: str) -> Dict:
         """
         Returns info on a control.
 
@@ -579,7 +576,7 @@ class Coda:
         """
         return self.get(f"/docs/{doc_id}/controls/{control_id_or_name}")
 
-    def account(self):
+    def account(self) -> Dict:
         """
         At this time, the API exposes some limited information about your account. However, /whoami is a good endpoint to hit to verify
         that you're hitting the API correctly and that your token is working as expected.
@@ -590,7 +587,7 @@ class Coda:
         """
         return self.get("/whoami")
 
-    def resolve_browser_link(self, url: str, degrade_gracefully: bool = False):
+    def resolve_browser_link(self, url: str, degrade_gracefully: bool = False) -> Dict:
         """
         Given a browser link to a Coda object, attempts to find it and return metadata that can be used to get more info on it.
         Returns a 400 if the URL does not appear to be a Coda URL or a 404 if the resource cannot be located with the current credentials.
