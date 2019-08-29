@@ -45,3 +45,4 @@ urllib3==1.25.3
 wcwidth==0.1.7
 zipp==0.6.0
 sphinx_rtd_theme
+decorator
