@@ -10,14 +10,28 @@ from tests.fixtures import coda
 
 @pytest.mark.usefixtures(coda.__name__)
 class TestCoda:
-    def test_init(self):
-        coda = Coda("FAKE_API_KEY")
-        assert isinstance(coda, Coda)
+    @pytest.fixture()
+    def fake_coda(self):
+        return Coda("foo")
 
-    def test_init_fail_connect(self):
-        coda = Coda("FAKE_API_KEY")
+    def test_init(self, fake_coda):
+        assert isinstance(fake_coda, Coda)
+
+    def test_raise_GET(self, fake_coda):
         with pytest.raises(err.CodaError):
-            coda.account()
+            fake_coda.get("/")
+
+    def test_raise_POST(self, fake_coda):
+        with pytest.raises(err.CodaError):
+            fake_coda.post("/", {})
+
+    def test_raise_PUT(self, fake_coda):
+        with pytest.raises(err.CodaError):
+            fake_coda.put("/", {})
+
+    def test_raise_DELETE(self, fake_coda):
+        with pytest.raises(err.CodaError):
+            fake_coda.delete("/")
 
     def test_list_documents(self, coda):
         docs = coda.list_docs()
@@ -25,8 +39,7 @@ class TestCoda:
 
     def test_create_doc__delete_doc(self, coda):
         response = coda.create_doc(f"Test_Document_{dt.datetime.utcnow().timestamp()}")
-        assert response.status_code == 201
-        doc_id = response.json()["id"]
+        doc_id = response["id"]
         assert doc_id
         coda.delete_doc(doc_id)
         with pytest.raises(err.CodaError):
