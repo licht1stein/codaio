@@ -16,14 +16,14 @@ from codaio import err
 
 
 @decorator
-def handle_response(func, *args, **kwargs):
+def handle_response(func, *args, **kwargs) -> Dict:
     response = func(*args, **kwargs)
     if response.status_code > 299:
         raise err.CodaError(
             f'Status code: {response.status_code}. Message: {response.json()["message"]}'
         )
     if not response.json():
-        return response.status_code
+        return {"status": response.status_code}
 
     return response.json()
 
