@@ -37,9 +37,3 @@ Indices and tables
 
 * :ref:`genindex`
 * :ref:`search`
-
-Project Home
-============
-
-.. _Github: https://github.com/blasterai/codaio
-
