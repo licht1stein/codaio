@@ -3,8 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to codaio's documentation!
+`codaio` documentation
 ==================================
+Python wrapper for `coda.io <https://coda.io/developers/apis/v1beta1>`_ API
 
 .. toctree::
    :maxdepth: 2
@@ -33,5 +34,10 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
+
+Project Home
+============
+
+.. _Github: https://github.com/blasterai/codaio
+
