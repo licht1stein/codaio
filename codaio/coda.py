@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+from decorator import decorator
 from typing import Dict, Any, List, Union, Optional, Tuple
 
 import attr
@@ -12,6 +13,19 @@ from envparse import env
 from requests import Response
 
 from codaio import err
+
+
+@decorator
+def handle_response(func, *args, **kwargs) -> Dict:
+    response = func(*args, **kwargs)
+    if response.status_code > 299:
+        raise err.CodaError(
+            f'Status code: {response.status_code}. Message: {response.json()["message"]}'
+        )
+    if not response.json():
+        return {"status": response.status_code}
+
+    return response.json()
 
 
 @attr.s(hash=True)
@@ -63,6 +77,10 @@ class Coda:
         if offset:
             data["pageToken"] = offset
         r = requests.get(self.href + endpoint, params=data, headers=self.authorization)
+        if r.status_code > 299:
+            raise err.CodaError(
+                f'Status code: {r.status_code}. Message: {r.json()["message"]}'
+            )
         if not r.json().get("items"):
             return r.json()
         res = r.json()
@@ -77,6 +95,7 @@ class Coda:
                 res.pop("nextPageToken")
         return res
 
+    @handle_response
     def post(self, endpoint: str, data: Dict) -> Response:
         """
         Make a POST request to the API endpoint.
@@ -93,6 +112,7 @@ class Coda:
             headers={**self.authorization, "Content-Type": "application/json"},
         )
 
+    @handle_response
     def put(self, endpoint: str, data: Dict) -> Response:
         """
         Make a PUT request to the API endpoint.
@@ -105,6 +125,7 @@ class Coda:
         """
         return requests.put(self.href + endpoint, json=data, headers=self.authorization)
 
+    @handle_response
     def delete(self, endpoint: str) -> Response:
         """
         Make a DELETE request to the API endpoint.
