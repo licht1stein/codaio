@@ -602,6 +602,8 @@ class CodaObject:
 
 @attr.s(hash=True)
 class Document:
+    """Main class for interacting with coda.io API using `codaio` objects."""
+
     id: str = attr.ib(repr=False)
     type: str = attr.ib(init=False, repr=False)
     href: str = attr.ib(init=False, repr=False)
@@ -713,6 +715,16 @@ class Table(CodaObject):
     columns_storage: List[Column] = attr.ib(init=False, repr=False)
 
     def columns(self, offset: int = None, limit: int = None) -> List[Column]:
+        """
+        Returns a list of Table columns. Columns are stored in self.columns_storage for faster access as they tend to
+        change less frequently than rows.
+
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
+
+        :return:
+        """
         if not self.columns_storage:
             self.columns_storage = [
                 Column.from_json({**i, "table": self}, document=self.document)
@@ -723,6 +735,15 @@ class Table(CodaObject):
         return self.columns_storage
 
     def rows(self, offset: int = None, limit: int = None) -> List[Row]:
+        """
+        Returns list of Table rows.
+
+        :param limit: Maximum number of results to return in this query.
+
+        :param offset: An opaque token used to fetch the next page of results.
+
+        :return:
+        """
         return [
             Row.from_json({"table": self, **i}, document=self.document)
             for i in self.document.coda.list_rows(
@@ -730,7 +751,14 @@ class Table(CodaObject):
             )["items"]
         ]
 
-    def find_column_by_id(self, column_id) -> Union[Column, None]:
+    def get_column_by_id(self, column_id) -> Union[Column, None]:
+        """
+        Gets a Column by id.
+
+        :param column_id: ID of the column. Example: "c-tuVwxYz"
+
+        :return:
+        """
         try:
             return next(filter(lambda x: x.id == column_id, self.columns()))
         except StopIteration:
@@ -807,7 +835,7 @@ class Row(CodaObject):
 
     def cells(self) -> List[Cell]:
         return [
-            Cell(column=self.table.find_column_by_id(i[0]), value=i[1], row=self)
+            Cell(column=self.table.get_column_by_id(i[0]), value=i[1], row=self)
             for i in self.values
         ]
 

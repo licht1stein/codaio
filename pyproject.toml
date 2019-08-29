@@ -20,6 +20,7 @@ pytest = "^5.1"
 coverage = "^4.5"
 pytest-cov = "^2.7"
 pydoc-markdown = "^2.0"
+sphinx = "^2.2"
 
 [build-system]
 requires = ["poetry>=0.12"]
