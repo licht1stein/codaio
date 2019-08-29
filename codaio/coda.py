@@ -95,8 +95,9 @@ class Coda:
                 res.pop("nextPageToken")
         return res
 
+    # noinspection PyTypeChecker
     @handle_response
-    def post(self, endpoint: str, data: Dict) -> Response:
+    def post(self, endpoint: str, data: Dict) -> Dict:
         """
         Make a POST request to the API endpoint.
 
@@ -112,8 +113,9 @@ class Coda:
             headers={**self.authorization, "Content-Type": "application/json"},
         )
 
+    # noinspection PyTypeChecker
     @handle_response
-    def put(self, endpoint: str, data: Dict) -> Response:
+    def put(self, endpoint: str, data: Dict) -> Dict:
         """
         Make a PUT request to the API endpoint.
 
@@ -125,8 +127,9 @@ class Coda:
         """
         return requests.put(self.href + endpoint, json=data, headers=self.authorization)
 
+    # noinspection PyTypeChecker
     @handle_response
-    def delete(self, endpoint: str) -> Response:
+    def delete(self, endpoint: str) -> Dict:
         """
         Make a DELETE request to the API endpoint.
 
