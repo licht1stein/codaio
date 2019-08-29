@@ -2,15 +2,14 @@ from __future__ import annotations
 
 import datetime as dt
 import json
-from decorator import decorator
-from typing import Dict, Any, List, Union, Optional, Tuple
+from typing import Dict, Any, List, Union, Tuple
 
 import attr
 import inflection
 import requests
 from dateutil.parser import parse
+from decorator import decorator
 from envparse import env
-from requests import Response
 
 from codaio import err
 
