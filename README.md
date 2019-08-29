@@ -18,7 +18,8 @@ The following variables will be called from environment where applicable:
 * `CODA_API_KEY` - your API key to use when initializing document from environment
 
 ### Quickstart using raw API
-Coda class provides a wrapper for all API methods.
+Coda class provides a wrapper for all API methods. If API response included a JSON it will be returned as a dictionary from all methods. If it didn't a dictionary `{"status": response.status_code}` will be returned.
+If request wasn't successful a `CodaError` will be raised with details of the API error.
 
 ```python
 from codaio import Coda
