@@ -673,20 +673,6 @@ class Document:
         if table_data:
             return Table.from_json(table_data, document=self)
 
-    @staticmethod
-    def _parse_filter(filt: Dict) -> Dict:
-        if (
-            all(("column_id" not in filt, "column_name" not in filt))
-            or "value" not in filt
-        ):
-            raise err.InvalidFilter(
-                'Filter must be a dict of either {"column_id": "YOUR_COLUMN_ID", "value": "FILTER_VALUE"} or {"column_name": "YOUR_COLUMN_NAME", "value": "FILTER_VALUE"}'
-            )
-        if "column_id" in filt:
-            return {"query": f'{filt["column_id"]}:"{filt["value"]}"'}
-        else:
-            return {"query": f'"{filt["column_name"]}":"{filt["value"]}"'}
-
 
 @attr.s(auto_attribs=True, hash=True)
 class Folder(CodaObject):
