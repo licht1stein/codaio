@@ -5,7 +5,6 @@ Babel==2.7.0
 certifi==2019.6.16
 chardet==3.0.4
 Click==7.0
--e git+https://github.com/Blasterai/codaio.git@003690ee399d22482b05b52c1201dfea37b02376#egg=codaio
 colorama==0.4.1
 coverage==4.5.4
 docutils==0.15.2
