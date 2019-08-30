@@ -1,0 +1,33 @@
+version: 2.1
+executors:
+  main_executor:
+    docker:
+      - image: circleci/python:3.7.3
+
+commands:
+  checkout_and_install:
+    steps:
+      - checkout
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
+      - restore_cache:
+          key: deps9-{{ .Branch }}-{{ checksum "poetry.lock" }}
+      - run: poetry install
+      - save_cache:
+          key: deps9-{{ .Branch }}-{{ checksum "poetry.lock" }}
+          paths:
+            - ".venv"
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.7/site-package"
+jobs:
+  run_tests:
+    working_directory: ~/codaio
+    executor: main_executor
+    steps:
+      - checkout_and_install
+      - run: poetry run pytest
+workflows:
+  version: 2.1
+  test_all:
+    jobs:
+      - run_tests
