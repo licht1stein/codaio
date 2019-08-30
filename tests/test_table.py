@@ -39,3 +39,7 @@ class TestTable:
         assert isinstance(row, Row)
         assert row[cell_1.column.name].value == cell_1.value
         assert row[cell_2.column.name].value == cell_2.value
+
+    def test_getitem(self, main_table):
+        assert main_table[0] == main_table.columns()[0]
+        assert main_table[main_table.columns()[0].name] == main_table.columns()[0]
