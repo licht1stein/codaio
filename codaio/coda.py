@@ -738,6 +738,13 @@ class Table(CodaObject):
     )
     columns_storage: List[Column] = attr.ib(default=[], repr=False)
 
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            return self.columns()[item]
+        elif isinstance(item, str):
+            return self.get_column_by_name(item)
+        raise ValueError(f"item must be int or str, not {type(item)}")
+
     def columns(self, offset: int = None, limit: int = None) -> List[Column]:
         """
         Returns a list of Table columns. Columns are stored in self.columns_storage for faster access as they tend to
@@ -787,6 +794,19 @@ class Table(CodaObject):
             return next(filter(lambda x: x.id == column_id, self.columns()))
         except StopIteration:
             raise err.ColumnNotFound(f"No column with id {column_id}")
+
+    def get_column_by_name(self, column_name) -> Column:
+        """
+        Gets a Column by id.
+
+        :param column_name: Name of the column. Discouraged in case using column_id is possible. Example: "Column 1"
+
+        :return:
+        """
+        try:
+            return next(filter(lambda x: x.name == column_name, self.columns()))
+        except StopIteration:
+            raise err.ColumnNotFound(f"No column with name: {column_name}")
 
     def find_row_by_column_name_and_value(
         self, column_name: str, value: Any
