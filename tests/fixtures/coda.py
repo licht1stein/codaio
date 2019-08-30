@@ -1,4 +1,6 @@
 import datetime as dt
+import re
+import time
 
 import pytest
 from envparse import env
@@ -23,9 +25,15 @@ def doc_id(coda):
 @pytest.fixture(scope="function")
 def test_doc(coda):
     test_doc_id = env("TEST_DOC_ID")
+    existing_docs = coda.list_docs()
+    for doc in existing_docs["items"]:
+        if re.match(r"Test_Do\S+_\d+", doc["name"]):
+            coda.delete_doc(doc["id"])
+
     copy_id = coda.create_doc(
-        f"Test_Dod_{dt.datetime.utcnow().timestamp()}", source_doc=test_doc_id
+        f"Test_Doc_{dt.datetime.utcnow().timestamp()}", source_doc=test_doc_id
     )["id"]
+    time.sleep(2)
     yield Document(copy_id, coda=coda)
     coda.delete_doc(copy_id)
 
