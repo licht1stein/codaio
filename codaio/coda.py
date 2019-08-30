@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import datetime as dt
 import json
-from typing import Dict, Any, List, Union, Tuple, Iterable
+import time
+from typing import Dict, Any, List, Tuple
 
 import attr
 import inflection
@@ -12,7 +13,6 @@ from decorator import decorator
 from envparse import env
 
 from codaio import err
-
 
 MAX_GET_LIMIT = 200
 
@@ -621,6 +621,9 @@ class CodaObject:
     @classmethod
     def from_json(cls, js: Dict, *, document: Document):
         js = {inflection.underscore(k): v for k, v in js.items()}
+        for key in ["parent"]:
+            if key in js:
+                js.pop(key)
         return cls(**js, document=document)
 
 
@@ -739,11 +742,21 @@ class Table(CodaObject):
     columns_storage: List[Column] = attr.ib(default=[], repr=False)
 
     def __getitem__(self, item):
-        if isinstance(item, int):
-            return self.columns()[item]
-        elif isinstance(item, str):
-            return self.get_column_by_name(item)
-        raise ValueError(f"item must be int or str, not {type(item)}")
+        """
+        table[row_id] -> Row with this id
+        table[Row] -> Row with id == Row.id
+
+        table[row_id][column_id] -> Cell from this intersection
+        table[row_id][Column] -> Cell from this intersection
+
+        :param item:
+        :return:
+        """
+        if isinstance(item, str):
+            return self.get_row_by_id(item)
+        elif isinstance(item, Row):
+            return self.get_row_by_id(item.id)
+        raise ValueError(f"item type must be in [str, Row]")
 
     def columns(self, offset: int = None, limit: int = None) -> List[Column]:
         """
@@ -781,6 +794,11 @@ class Table(CodaObject):
                 self.document.id, self.id, offset=offset, limit=limit
             )["items"]
         ]
+
+    def get_row_by_id(self, row_id: str) -> Row:
+        row_js = self.document.coda.get_row(self.document.id, self.id, row_id)
+        row = Row.from_json({**row_js, "table": self}, document=self.document)
+        return row
 
     def get_column_by_id(self, column_id) -> Column:
         """
@@ -909,9 +927,16 @@ class Row(CodaObject):
     def columns(self):
         return self.table.columns
 
+    def refresh(self):
+        new_data = self.table.document.coda.get_row(
+            self.table.document.id, self.table.id, self.id
+        )
+        self.values = tuple([(k, v) for k, v in new_data["values"].items()])
+        return self
+
     def cells(self) -> List[Cell]:
         return [
-            Cell(column=self.table.get_column_by_id(i[0]), value=i[1], row=self)
+            Cell(column=self.table.get_column_by_id(i[0]), value_storage=i[1], row=self)
             for i in self.values
         ]
 
@@ -923,17 +948,25 @@ class Row(CodaObject):
         """
         return self.table.delete_row(self)
 
-    def __getitem__(self, item) -> Cell:
+    def get_cell_by_column_id(self, column_id: str) -> Cell:
         try:
-            return next(filter(lambda x: x.column.name == item, self.cells()))
+            return next(filter(lambda x: x.column.id == column_id, self.cells()))
         except StopIteration:
-            raise KeyError(f"No column named {item}")
+            raise KeyError(f"Column not found")
+
+    def __getitem__(self, item) -> Cell:
+        if isinstance(item, Column):
+            return self.get_cell_by_column_id(item.id)
+        elif isinstance(item, str):
+            return self.get_cell_by_column_id(item)
+
+        raise KeyError(f"Invalid column_id: {item}")
 
 
 @attr.s(auto_attribs=True, hash=True, repr=False)
 class Cell:
     column: Column
-    value: Any
+    value_storage: Any
     row: Row = attr.ib(default=None)
 
     @property
@@ -952,3 +985,21 @@ class Cell:
         return (
             f"Cell(column={self.column.name}, row={self.row.name}, value={self.value})"
         )
+
+    @property
+    def value(self):
+        return self.value_storage
+
+    @value.setter
+    def value(self, value):
+        data = {"row": {"cells": [{"column": self.column.id, "value": value}]}}
+        self.document.coda.update_row(
+            self.document.id, self.table.id, self.row.id, data=data
+        )
+        self.value_storage = value
+
+        new_value = None
+        while new_value != value:
+            self.row.refresh()
+            new_value = self.row.get_cell_by_column_id(self.column.id).value
+            time.sleep(0.3)

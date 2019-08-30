@@ -16,8 +16,20 @@ class TestTable:
         columns = main_table.columns()
         for col in columns:
             assert main_table.get_column_by_id(col.id) == col
-        with pytest.raises(err.ColumnNotFound):
+        with pytest.raises(err.CodaError):
             main_table.get_column_by_id("no_such_id")
+
+    def test_get_row_by_id(self, main_table):
+        rows = main_table.rows()
+        for row in rows:
+            fetched_row = main_table.get_row_by_id(row.id)
+            assert fetched_row == row
+        with pytest.raises(err.NotFound):
+            main_table.get_row_by_id("no_such_id")
+
+    def test_table_getitem(self, main_table):
+        assert main_table[main_table.rows()[0].id] == main_table.rows()[0]
+        assert main_table[main_table.rows()[0]] == main_table.rows()[0]
 
     def test_upsert_row(self, main_table):
         columns = main_table.columns()
@@ -39,7 +51,3 @@ class TestTable:
         assert isinstance(row, Row)
         assert row[cell_1.column.name].value == cell_1.value
         assert row[cell_2.column.name].value == cell_2.value
-
-    def test_getitem(self, main_table):
-        assert main_table[0] == main_table.columns()[0]
-        assert main_table[main_table.columns()[0].name] == main_table.columns()[0]
