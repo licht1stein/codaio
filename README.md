@@ -3,6 +3,7 @@
 [![CodaAPI](https://img.shields.io/badge/Coda_API_version-0.1.1--beta1-orange)](https://coda.io/developers/apis/v1beta1)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Documentation Status](https://readthedocs.org/projects/codaio/badge/?version=latest)](https://codaio.readthedocs.io/en/latest/?badge=latest)
+![CircleCI](https://img.shields.io/circleci/build/github/Blasterai/codaio?label=CircleCI&token=843d9ce4140f18c098f242094684c32384c7bcc5)
 [![PyPI](https://img.shields.io/pypi/v/codaio)](https://pypi.org/project/codaio/)
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/codaio)
 
