@@ -55,10 +55,14 @@ table = doc.get_table('TABLE_ID')
 row  = table['ROW_ID']
 
 # Or fetch a cell by ROW_ID and COLUMN_ID
-cell = table['ROW_ID']['COLUMN_ID'] 
+cell = table['ROW_ID']['COLUMN_ID']  
 
 # This is equivalent to getting item from a row
 cell = row['COLUMN_ID']
+
+# Get a column to find it's id
+column = table.get_column_by_name('COLUMN_NAME')
+cell = row[column.id]
 
 # To set a cell value 
 cell.value = 'foo'
@@ -66,6 +70,17 @@ cell.value = 'foo'
 # Please mind that this takes a while in the current API, so you'll need to manually check when the value returns correct
 # You can manually refresh row cells by calling:
 row.refresh()
+
+
+# Iterate over rows -> delete rows that match a condition
+for row in table.rows():
+    if row['COLUMN_ID'] == 'foo':
+        row.delete()
+
+# Iterate over rows -> edit cells in rows that match a condition
+for row in table.rows():
+    if row['COLUMN_ID'] == 'bar':
+        row['COLUMN_ID'] = 'spam'
 ```
 
 For full API reference for Document class see [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Document)
@@ -77,4 +92,6 @@ For full API reference for Document class see [documentation](https://codaio.rea
 
 #### Testing
 
-All tests are in 
+All tests are in the `/tests` folder. It's a little bit problematic to test against the live API since some responses may take a bit longer, so test results are not reliable enough to use a CI system.
+
+Check out the fixtures if you want to improve the testing process.
