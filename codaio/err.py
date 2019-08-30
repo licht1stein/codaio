@@ -14,5 +14,17 @@ class InvalidFilter(CodaError):
     pass
 
 
-class TableNotFound(CodaError):
+class NotFound(CodaError):
+    pass
+
+
+class TableNotFound(NotFound):
+    pass
+
+
+class RowNotFound(NotFound):
+    pass
+
+
+class ColumnNotFound(NotFound):
     pass
