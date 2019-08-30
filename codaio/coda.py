@@ -25,8 +25,8 @@ def handle_response(func, *args, **kwargs) -> Dict:
         res = {}
         for r in response:
             items = None
-            if r.json().get('items'):
-                items = r.json().pop('items')
+            if r.json().get("items"):
+                items = r.json().pop("items")
 
             res.update(r.json())
             if items:
@@ -41,11 +41,13 @@ def handle_response(func, *args, **kwargs) -> Dict:
     error_dict = {404: err.NotFound}
 
     if response.status_code in error_dict:
-        raise error_dict[response.status_code](f'Status code: {response.status_code}. Message: {response.json()["message"]}')
-
-    raise err.CodaError(
+        raise error_dict[response.status_code](
             f'Status code: {response.status_code}. Message: {response.json()["message"]}'
         )
+
+    raise err.CodaError(
+        f'Status code: {response.status_code}. Message: {response.json()["message"]}'
+    )
 
 
 @attr.s(hash=True)
@@ -101,7 +103,7 @@ class Coda:
         if offset:
             data["pageToken"] = offset
         r = requests.get(self.href + endpoint, params=data, headers=self.authorization)
-        if limit or not r.json().get('nextPageLink'):
+        if limit or not r.json().get("nextPageLink"):
             return r
 
         res = [r]
