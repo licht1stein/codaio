@@ -37,7 +37,7 @@ For full API reference for Coda class see [documentation](https://codaio.readthe
 `codaio` implements convenient classes to work with Coda documents: `Document`, `Table`, `Row`, `Column` and `Cell`.
 
 ```python
-from codaio import Coda, Document, Table
+from codaio import Coda, Document
 
 # Initialize by providing a coda object directly
 coda = Coda('YOUR_API_KEY')
@@ -49,7 +49,23 @@ doc = Document.from_environment('YOUR_DOC_ID')
 
 doc.list_tables()
 
-table: Table = doc.get_table('TABLE_ID')
+table = doc.get_table('TABLE_ID')
+
+# You can fetch a row by ID
+row  = table['ROW_ID']
+
+# Or fetch a cell by ROW_ID and COLUMN_ID
+cell = table['ROW_ID']['COLUMN_ID'] 
+
+# This is equivalent to getting item from a row
+cell = row['COLUMN_ID']
+
+# To set a cell value 
+cell.value = 'foo'
+
+# Please mind that this takes a while in the current API, so you'll need to manually check when the value returns correct
+# You can manually refresh row cells by calling:
+row.refresh()
 ```
 
 For full API reference for Document class see [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Document)
@@ -57,3 +73,8 @@ For full API reference for Document class see [documentation](https://codaio.rea
 #### Documentation
 
 `codaio` documentation lives at [readthedocs.io](https://codaio.readthedocs.io/en/latest/index.html)
+
+
+#### Testing
+
+All tests are in 
