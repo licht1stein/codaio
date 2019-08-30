@@ -45,9 +45,9 @@ class TestTable:
                 cell_1.column.id, cell_1.value
             )
             if count > 20:
-                pytest.fail("Row not added to table after 15 seconds")
+                pytest.fail("Row not added to table after 20 seconds")
             time.sleep(1)
         row = rows[0]
         assert isinstance(row, Row)
-        assert row[cell_1.column.name].value == cell_1.value
-        assert row[cell_2.column.name].value == cell_2.value
+        assert row[cell_1.column.id].value == cell_1.value
+        assert row[cell_2.column.id].value == cell_2.value
