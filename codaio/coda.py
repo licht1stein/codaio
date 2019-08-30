@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
-from typing import Dict, Any, List, Union, Tuple
+from typing import Dict, Any, List, Union, Tuple, Iterable
 
 import attr
 import inflection
@@ -14,17 +14,38 @@ from envparse import env
 from codaio import err
 
 
+MAX_GET_LIMIT = 200
+
+
 @decorator
 def handle_response(func, *args, **kwargs) -> Dict:
     response = func(*args, **kwargs)
-    if response.status_code > 299:
-        raise err.CodaError(
+
+    if isinstance(response, List):
+        res = {}
+        for r in response:
+            items = None
+            if r.json().get('items'):
+                items = r.json().pop('items')
+
+            res.update(r.json())
+            if items:
+                res["items"].extend(items)
+        return res
+
+    if 200 <= response.status_code <= 299:
+        if not response.json():
+            return {"status": response.status_code}
+        return response.json()
+
+    error_dict = {404: err.NotFound}
+
+    if response.status_code in error_dict:
+        raise error_dict[response.status_code](f'Status code: {response.status_code}. Message: {response.json()["message"]}')
+
+    raise err.CodaError(
             f'Status code: {response.status_code}. Message: {response.json()["message"]}'
         )
-    if not response.json():
-        return {"status": response.status_code}
-
-    return response.json()
 
 
 @attr.s(hash=True)
@@ -55,6 +76,7 @@ class Coda:
     def __attrs_post_init__(self):
         self.authorization = {"Authorization": f"Bearer {self.api_key}"}
 
+    @handle_response
     def get(self, endpoint: str, data: Dict = None, limit=None, offset=None) -> Dict:
         """
         Make a GET request to API endpoint.
@@ -72,26 +94,21 @@ class Coda:
         if not data:
             data = {}
         if limit:
+            if limit > MAX_GET_LIMIT:
+                limit = MAX_GET_LIMIT
             data["limit"] = limit
+
         if offset:
             data["pageToken"] = offset
         r = requests.get(self.href + endpoint, params=data, headers=self.authorization)
-        if r.status_code > 299:
-            raise err.CodaError(
-                f'Status code: {r.status_code}. Message: {r.json()["message"]}'
-            )
-        if not r.json().get("items"):
-            return r.json()
-        res = r.json()
-        if limit:
-            return res
+        if limit or not r.json().get('nextPageLink'):
+            return r
+
+        res = [r]
         while r.json().get("nextPageLink"):
             next_page = r.json()["nextPageLink"]
             r = requests.get(next_page, headers=self.authorization)
-            res["items"].extend(r.json()["items"])
-            if res.get("nextPageLink"):
-                res.pop("nextPageLink")
-                res.pop("nextPageToken")
+            res.append(r)
         return res
 
     # noinspection PyTypeChecker
