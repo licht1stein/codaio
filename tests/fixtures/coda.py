@@ -20,7 +20,7 @@ def doc_id(coda):
     coda.delete_doc(doc_id)
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def test_doc(coda):
     test_doc_id = env("TEST_DOC_ID")
     copy_id = coda.create_doc(
@@ -28,3 +28,10 @@ def test_doc(coda):
     )["id"]
     yield Document(copy_id, coda=coda)
     coda.delete_doc(copy_id)
+
+
+@pytest.fixture(scope="function")
+def main_table(test_doc):
+    tables = test_doc.list_tables()
+    assert tables
+    return [t for t in tables if t.name == "Main"][0]

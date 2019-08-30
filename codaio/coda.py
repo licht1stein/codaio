@@ -414,8 +414,6 @@ class Coda:
         :param limit: Maximum number of results to return in this query.
 
         :param offset: An opaque token used to fetch the next page of results.
-
-        :return:
         """
         data = {"useColumnNames": use_column_names}
         if query:
@@ -442,8 +440,6 @@ class Coda:
         If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
         :param data: {"rows": [{"cells": [{"column": "c-tuVwxYz", "value": "$12.34"}]}], "keyColumns": ["c-bCdeFgh"]}
-
-        :return:
         """
         return self.post(f"/docs/{doc_id}/tables/{table_id_or_name}/rows", data)
 
@@ -461,8 +457,6 @@ class Coda:
         :param row_id_or_name: ID or name of the row. Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. If there are multiple rows with the same value in the identifying column,
             an arbitrary one will be selected.
-
-        :return:
         """
         return self.get(
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows/{row_id_or_name}"
@@ -525,7 +519,6 @@ class Coda:
         :param limit: Maximum number of results to return in this query.
 
         :param offset: An opaque token used to fetch the next page of results.
-        :return:
         """
         return self.get(f"/docs/{doc_id}/formulas", offset=offset, limit=limit)
 
@@ -539,8 +532,6 @@ class Coda:
 
         :param formula_id_or_name: ID or name of the formula. Names are discouraged because they're easily prone to being changed by users.
         If you're using a name, be sure to URI-encode it. Example: "f-fgHijkLm"
-
-        :return:
         """
         return self.get(f"/docs/{doc_id}/formulas/{formula_id_or_name}")
 
@@ -570,8 +561,6 @@ class Coda:
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
         :param control_id_or_name: ID or name of the control. Names are discouraged because they're easily prone to being changed by users.
         If you're using a name, be sure to URI-encode it. Example: "ctrl-cDefGhij"
-
-        :return:
         """
         return self.get(f"/docs/{doc_id}/controls/{control_id_or_name}")
 
@@ -581,8 +570,6 @@ class Coda:
         that you're hitting the API correctly and that your token is working as expected.
 
         Docs: https://coda.io/developers/apis/v1beta1#tag/Account
-
-        :return:
         """
         return self.get("/whoami")
 
@@ -596,9 +583,7 @@ class Coda:
         :param url: The browser link to try to resolve. Example: "https://coda.io/d/_dAbCDeFGH/Launch-Status_sumnO"
 
         :param degrade_gracefully: By default, attempting to resolve the Coda URL of a deleted object will result in an error.
-        If this flag is set, the next-available object, all the way up to the doc itself, will be resolved.
-
-        :return:
+            If this flag is set, the next-available object, all the way up to the doc itself, will be resolved.
         """
         return self.get(
             "/resolveBrowserLink",
@@ -771,7 +756,7 @@ class Table(CodaObject):
             )["items"]
         ]
 
-    def get_column_by_id(self, column_id) -> Union[Column, None]:
+    def get_column_by_id(self, column_id) -> Column:
         """
         Gets a Column by id.
 
@@ -782,7 +767,7 @@ class Table(CodaObject):
         try:
             return next(filter(lambda x: x.id == column_id, self.columns()))
         except StopIteration:
-            return None
+            raise err.ColumnNotFound(f"No column with id {column_id}")
 
     def find_row_by_column_name_and_value(
         self, column_name: str, value: Any
@@ -824,12 +809,11 @@ class Table(CodaObject):
             for i in r["items"]
         ]
 
-    def upsert_row(self, cells: List[Cell]):
+    def upsert_row(self, cells: List[Cell]) -> Dict:
         """
         Upserts a row using `Cell` objects in list.
 
         :param cells: list of `Cell` objects.
-        :return:
         """
         data = {
             "rows": [
@@ -848,16 +832,14 @@ class Table(CodaObject):
         Deletes row by id.
 
         :param row_id: ID of the row to delete.
-        :return:
         """
         return self.document.coda.delete_row(self.document.id, self.id, row_id)
 
-    def delete_row(self, row: Row):
+    def delete_row(self, row: Row) -> Dict:
         """
         Delete row.
 
         :param row: a `Row` object to delete.
-        :return:
         """
 
         return self.delete_row_by_id(row.id)
@@ -895,6 +877,11 @@ class Row(CodaObject):
         ]
 
     def delete(self):
+        """
+        Delete row.
+
+        :return:
+        """
         return self.table.delete_row(self)
 
     def __getitem__(self, item) -> Cell:
