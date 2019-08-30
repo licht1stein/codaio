@@ -5,6 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/codaio)](https://pypi.org/project/codaio/)
 [![Documentation Status](https://readthedocs.org/projects/codaio/badge/?version=latest)](https://codaio.readthedocs.io/en/latest/?badge=latest)
 
+`codaio` is in active development stage. Issues and PRs very welcome!
 
 ### Installation
 ```shell script
