@@ -907,6 +907,27 @@ class Table(CodaObject):
         }
         return self.document.coda.upsert_row(self.document.id, self.id, data)
 
+    def update_row(self, row: Union[str, Row], cells: List[Cell]) -> Dict:
+        """
+        Updates row with values according to list in cells.
+
+        :param row: a str ROW_ID or an instance of class Row
+
+        :param cells:
+        """
+        if isinstance(row, Row):
+            row_id = row.id
+        elif isinstance(row, str):
+            row_id = row
+        else:
+            raise TypeError(f"row must be str ROW_ID or an instance of Row")
+
+        data = {
+            "row": {"cells": [{"column": c.column.id, "value": c.value} for c in cells]}
+        }
+
+        return self.document.coda.update_row(self.document.id, self.id, row_id, data)
+
     def delete_row_by_id(self, row_id: str):
         """
         Deletes row by id.
