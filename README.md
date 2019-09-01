@@ -77,15 +77,15 @@ cell.value = 'foo'
 row.refresh()
 
 
-# Iterate over rows -> delete rows that match a condition
+# Iterate over rows using IDs -> delete rows that match a condition
 for row in table.rows():
     if row['COLUMN_ID'] == 'foo':
         row.delete()
 
-# Iterate over rows -> edit cells in rows that match a condition
+# Iterate over rows using names -> edit cells in rows that match a condition
 for row in table.rows():
-    if row['COLUMN_ID'] == 'bar':
-        row['COLUMN_ID'] = 'spam'
+    if row['Name'] == 'bar':
+        row['Value'] = 'spam'
 ```
 
 For full API reference for Document class see [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Document)
