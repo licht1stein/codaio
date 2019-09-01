@@ -884,6 +884,25 @@ class Table(CodaObject):
         }
         return self.document.coda.upsert_row(self.document.id, self.id, data)
 
+    def upsert_rows(self, list_cells: List[List[Cell]]) -> Dict:
+        """
+        Works similar to Table.upsert_row() but uses 1 POST request for multiple rows. Input is a list of lists of Cells.
+
+        :param list_cells: list of lists of `Cell` objects, one list for each row.
+        """
+        data = {
+            "rows": [
+                {
+                    "cells": [
+                        {"column": cell.column.id, "value": cell.value}
+                        for cell in cells
+                    ]
+                }
+                for cells in list_cells
+            ]
+        }
+        return self.document.coda.upsert_row(self.document.id, self.id, data)
+
     def delete_row_by_id(self, row_id: str):
         """
         Deletes row by id.
