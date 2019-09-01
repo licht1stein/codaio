@@ -962,6 +962,11 @@ class Row(CodaObject):
 
         raise KeyError(f"Invalid column_id: {item}")
 
+    def __setitem__(self, item, value):
+        cell = self.__getitem__(item)
+        cell.value = value
+        return cell
+
 
 @attr.s(auto_attribs=True, hash=True, repr=False)
 class Cell:
