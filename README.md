@@ -61,6 +61,9 @@ cell = table['ROW_ID']['COLUMN_ID']
 
 # This is equivalent to getting item from a row
 cell = row['COLUMN_ID']
+# or 
+cell = row['COLUMN_NAME']  # This should work fine if COLUMN_NAME is unique, otherwise it will raise AmbigiousColumn error
+
 
 # Get a column to find it's id
 column = table.get_column_by_name('COLUMN_NAME')

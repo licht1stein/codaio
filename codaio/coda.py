@@ -969,7 +969,7 @@ class Row(CodaObject):
     browser_link: str = attr.ib(default=None, repr=False)
 
     def columns(self):
-        return self.table.columns
+        return self.table.columns()
 
     def refresh(self):
         new_data = self.table.document.coda.get_row(
