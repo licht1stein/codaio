@@ -23,14 +23,14 @@ def handle_response(func, *args, **kwargs) -> Dict:
 
     if isinstance(response, List):
         res = {}
+        items = []
         for r in response:
-            items = None
             if r.json().get("items"):
-                items = r.json().pop("items")
+                items.extend(r.json().pop("items"))
 
             res.update(r.json())
-            if items:
-                res["items"].extend(items)
+        if items:
+            res["items"] = items
         return res
 
     if 200 <= response.status_code <= 299:
