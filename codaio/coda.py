@@ -821,10 +821,14 @@ class Table(CodaObject):
 
         :return:
         """
-        try:
-            return next(filter(lambda x: x.name == column_name, self.columns()))
-        except StopIteration:
+        res = list(filter(lambda x: x.name == column_name, self.columns()))
+        if not res:
             raise err.ColumnNotFound(f"No column with name: {column_name}")
+        if len(res) > 1:
+            raise err.AmbiguousName(
+                f"More than 1 column found. Try using ID instead of Name"
+            )
+        return res[0]
 
     def find_row_by_column_name_and_value(
         self, column_name: str, value: Any
