@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import time
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Tuple, Union
 
 import attr
 import inflection
@@ -1002,7 +1002,14 @@ class Row(CodaObject):
         if isinstance(item, Column):
             return self.get_cell_by_column_id(item.id)
         elif isinstance(item, str):
-            return self.get_cell_by_column_id(item)
+            try:
+                return self.get_cell_by_column_id(item)
+            except KeyError:
+                pass
+            column = self.table.get_column_by_name(item)
+            found_by_name = self.get_cell_by_column_id(column.id)
+            if found_by_name:
+                return found_by_name
 
         raise KeyError(f"Invalid column_id: {item}")
 
