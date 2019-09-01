@@ -28,3 +28,7 @@ class RowNotFound(NotFound):
 
 class ColumnNotFound(NotFound):
     pass
+
+
+class AmbiguousName(CodaError):
+    pass
