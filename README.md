@@ -52,10 +52,15 @@ doc = Document.from_environment('YOUR_DOC_ID')
 doc.list_tables()
 
 table = doc.get_table('TABLE_ID')
-
+```
+#### Fetching a Row
+```python
 # You can fetch a row by ID
 row  = table['ROW_ID']
+```
 
+#### Fetching a Cell
+```python
 # Or fetch a cell by ROW_ID and COLUMN_ID
 cell = table['ROW_ID']['COLUMN_ID']  
 
@@ -63,20 +68,20 @@ cell = table['ROW_ID']['COLUMN_ID']
 cell = row['COLUMN_ID']
 # or 
 cell = row['COLUMN_NAME']  # This should work fine if COLUMN_NAME is unique, otherwise it will raise AmbigiousColumn error
+# or use a Column instance
+cell = row[column]
+```
 
+#### Changing Cell value
 
-# Get a column to find it's id
-column = table.get_column_by_name('COLUMN_NAME')
-cell = row[column.id]
+```python
+row['COLUMN_ID'] = 'foo'
+# or
+row['Column Name'] = 'foo'
+```
 
-# To set a cell value 
-cell.value = 'foo'
-
-# Please mind that this takes a while in the current API, so you'll need to manually check when the value returns correct
-# You can manually refresh row cells by calling:
-row.refresh()
-
-
+#### Iterating over rows
+```
 # Iterate over rows using IDs -> delete rows that match a condition
 for row in table.rows():
     if row['COLUMN_ID'] == 'foo':
@@ -88,7 +93,37 @@ for row in table.rows():
         row['Value'] = 'spam'
 ```
 
-For full API reference for Document class see [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Document)
+#### Upserting new row
+To upsert a new row you can pass a list of cells to `table.upsert_row()`
+```python
+name_cell = Cell(column='COLUMN_ID', value_storage='new_name')
+value_cell = Cell(column='COLUMN_ID', value_storage='new_value')
+
+table.upsert_row([name_cell, value_cell])
+```
+
+#### Upserting multiple new rows
+Works like upserting one row, except you pass a list of lists to `table.upsert_rows()` (rows, not row)
+```python
+name_cell_a = Cell(column='COLUMN_ID', value_storage='new_name')
+value_cell_a = Cell(column='COLUMN_ID', value_storage='new_value')
+
+name_cell_b = Cell(column='COLUMN_ID', value_storage='new_name')
+value_cell_b = Cell(column='COLUMN_ID', value_storage='new_value')
+
+table.upsert_rows([[name_cell_a, value_cell_a], [name_cell_b, value_cell_b]])
+```
+
+#### Updating a row
+To update a row use `table.update_row(row, cells)`
+```python
+row = table['ROW_ID']
+
+name_cell_a = Cell(column='COLUMN_ID', value_storage='new_name')
+value_cell_a = Cell(column='COLUMN_ID', value_storage='new_value')
+
+table.update_row(row, [name_cell_a, value_cell_a])
+```
 
 #### Documentation
 
