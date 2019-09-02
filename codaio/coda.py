@@ -1013,9 +1013,13 @@ class Row(CodaObject):
 
         raise KeyError(f"Invalid column_id: {item}")
 
-    def __setitem__(self, item, value):
+    def __setitem__(self, item, value) -> Cell:
         cell = self.__getitem__(item)
-        cell.value = value
+        data = {"row": {"cells": [{"column": cell.column.id, "value": value}]}}
+        self.document.coda.update_row(
+            self.document.id, self.table.id, self.id, data=data
+        )
+        cell.value_storage = value
         return cell
 
 

@@ -7,7 +7,7 @@
 [![PyPI](https://img.shields.io/pypi/v/codaio)](https://pypi.org/project/codaio/)
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/codaio)
 
-`codaio` is in active development stage. Issues and PRs very welcome!
+`codaio` is in active development stage. Issues and PRs very welcome! 
 
 ### Installation
 ```shell script
