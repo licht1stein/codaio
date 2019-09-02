@@ -67,7 +67,7 @@ cell = table['ROW_ID']['COLUMN_ID']
 # This is equivalent to getting item from a row
 cell = row['COLUMN_ID']
 # or 
-cell = row['COLUMN_NAME']  # This should work fine if COLUMN_NAME is unique, otherwise it will raise AmbigiousColumn error
+cell = row['COLUMN_NAME']  # This should work fine if COLUMN_NAME is unique, otherwise it will raise AmbiguousColumn error
 # or use a Column instance
 cell = row[column]
 ```
