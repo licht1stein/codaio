@@ -4,7 +4,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/codaio)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Documentation Status](https://readthedocs.org/projects/codaio/badge/?version=latest)](https://codaio.readthedocs.io/en/latest/?badge=latest)
-[![PyPI](https://img.shields.io/pypi/v/codaio)](https://pypi.org/project/codaio/)
+[![PyPI](https://img.shields.io/pypi/v/codaio)] (https://pypi.org/project/codaio/)
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/codaio)
 
 `codaio` is in active development stage. Issues and PRs very welcome! 
@@ -57,6 +57,14 @@ table = doc.get_table('TABLE_ID')
 ```python
 # You can fetch a row by ID
 row  = table['ROW_ID']
+```
+
+#### Using with Pandas
+If you want to load a codaio Table or Row into pandas, you can use the `Table.to_dict()` or `Row.to_dict()` methods:
+```python
+import pandas as pd
+
+df = pd.DataFrame(table.to_dict())
 ```
 
 #### Fetching a Cell
