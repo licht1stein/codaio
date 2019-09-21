@@ -945,6 +945,14 @@ class Table(CodaObject):
 
         return self.delete_row_by_id(row.id)
 
+    def to_dict(self) -> List[Dict]:
+        """
+        Returns entire table as list of dicts. Intended for use with pandas:
+
+        pd.DataFrame(table.to_dict())
+        """
+        return [row.to_dict() for row in self.rows()]
+
 
 @attr.s(auto_attribs=True, hash=True)
 class Column(CodaObject):
@@ -1021,6 +1029,14 @@ class Row(CodaObject):
         )
         cell.value_storage = value
         return cell
+
+    def to_dict(self) -> Dict:
+        """
+        Returns a row as a dictionary.
+
+        :return:
+        """
+        return {column.name: self[column].value for column in self.columns()}
 
 
 @attr.s(auto_attribs=True, hash=True, repr=False)
