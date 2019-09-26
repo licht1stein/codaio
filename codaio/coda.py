@@ -621,7 +621,7 @@ class CodaObject:
     @classmethod
     def from_json(cls, js: Dict, *, document: Document):
         js = {inflection.underscore(k): v for k, v in js.items()}
-        for key in ["parent"]:
+        for key in ["parent", "format"]:
             if key in js:
                 js.pop(key)
         return cls(**js, document=document)
