@@ -7,12 +7,22 @@ from typing import Dict, Any, List, Tuple, Union
 
 import attr
 import inflection
-import requests
+
 from dateutil.parser import parse
 from decorator import decorator
 from envparse import env
-
 from codaio import err
+
+# Trying to make it compatible with eventlet
+USE_HTTPX = env("USE_HTTPX", cast=bool, default=False)
+if not USE_HTTPX:
+    import requests
+else:
+    try:
+        import httpx as requests
+    except ImportError:
+        import requests
+
 
 MAX_GET_LIMIT = 200
 
