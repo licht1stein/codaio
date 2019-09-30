@@ -32,3 +32,7 @@ class ColumnNotFound(NotFound):
 
 class AmbiguousName(CodaError):
     pass
+
+
+class InvalidCell(CodaError):
+    pass

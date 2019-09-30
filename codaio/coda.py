@@ -876,12 +876,19 @@ class Table(CodaObject):
 
         :param cells: list of `Cell` objects.
         """
+        prepared_cells = []
+        for cell in cells:
+            if isinstance(cell.column, str):
+                prepared_cells.append((cell.column, cell.value))
+            elif isinstance(cell.column, Column):
+                prepared_cells.append((cell.column.id, cell.value))
+            else:
+                raise err.InvalidCell(f"{cell} is invalid")
         data = {
             "rows": [
                 {
                     "cells": [
-                        {"column": cell.column.id, "value": cell.value}
-                        for cell in cells
+                        {"column": cell[0], "value": cell[1]} for cell in prepared_cells
                     ]
                 }
             ]
