@@ -744,10 +744,10 @@ class Table(CodaObject):
     sorts: List = attr.ib(default=[], repr=False)
     layout: str = attr.ib(repr=False, default=None)
     created_at: dt.datetime = attr.ib(
-        repr=False, convert=lambda x: parse(x) if x else None, default=None
+        repr=False, converter=lambda x: parse(x) if x else None, default=None
     )
     updated_at: dt.datetime = attr.ib(
-        repr=False, convert=lambda x: parse(x) if x else None, default=None
+        repr=False, converter=lambda x: parse(x) if x else None, default=None
     )
     columns_storage: List[Column] = attr.ib(default=[], repr=False)
 
@@ -982,13 +982,13 @@ class Column(CodaObject):
 @attr.s(auto_attribs=True, hash=True)
 class Row(CodaObject):
     name: str
-    created_at: dt.datetime = attr.ib(convert=lambda x: parse(x), repr=False)
+    created_at: dt.datetime = attr.ib(converter=lambda x: parse(x), repr=False)
     index: int
     updated_at: dt.datetime = attr.ib(
-        convert=lambda x: parse(x) if x else None, repr=False
+        converter=lambda x: parse(x) if x else None, repr=False
     )
     values: Tuple[Tuple] = attr.ib(
-        convert=lambda x: tuple([(k, v) for k, v in x.items()]), repr=False
+        converter=lambda x: tuple([(k, v) for k, v in x.items()]), repr=False
     )
     table: Table = attr.ib(repr=False)
     browser_link: str = attr.ib(default=None, repr=False)
