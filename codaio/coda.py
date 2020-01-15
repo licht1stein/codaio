@@ -880,59 +880,48 @@ class Table(CodaObject):
             for i in r["items"]
         ]
 
-    def upsert_row(self, cells: List[Cell], key_columns: List[Column] = None) -> Dict:
+    def upsert_row(self, cells: List[Cell]) -> Dict:
         """
         Upserts a row using `Cell` objects in list.
 
         :param cells: list of `Cell` objects.
-
-        :param key_columns: list of `Column` objects, column IDs, URLs, or names
-        specifying columns to be used as upsert keys.
         """
+        prepared_cells = []
+        for cell in cells:
+            if isinstance(cell.column, str):
+                prepared_cells.append((cell.column, cell.value))
+            elif isinstance(cell.column, Column):
+                prepared_cells.append((cell.column.id, cell.value))
+            else:
+                raise err.InvalidCell(f"{cell} is invalid")
+        data = {
+            "rows": [
+                {
+                    "cells": [
+                        {"column": cell[0], "value": cell[1]} for cell in prepared_cells
+                    ]
+                }
+            ]
+        }
+        return self.document.coda.upsert_row(self.document.id, self.id, data)
 
-        return self.upsert_rows([cells], key_columns)
-
-    def upsert_rows(
-        self, rows: List[List[Cell]], key_columns: List[Column] = None
-    ) -> Dict:
+    def upsert_rows(self, list_cells: List[List[Cell]]) -> Dict:
         """
-        Works similar to Table.upsert_row() but uses 1 POST request for multiple rows.
-        Input is a list of lists of Cells.
+        Works similar to Table.upsert_row() but uses 1 POST request for multiple rows. Input is a list of lists of Cells.
 
         :param list_cells: list of lists of `Cell` objects, one list for each row.
-
-        :param key_columns: list of `Column` objects, column IDs, URLs, or names
-        specifying columns to be used as upsert keys.
         """
         data = {
             "rows": [
                 {
                     "cells": [
-                        {"column": cell.column.id, "value": cell.value} for cell in row
+                        {"column": cell.column.id, "value": cell.value}
+                        for cell in cells
                     ]
                 }
-                for row in rows
+                for cells in list_cells
             ]
         }
-
-        if key_columns:
-            if not isinstance(key_columns, list):
-                raise err.ColumnNotFound(
-                    f"key_columns parameter '{key_columns}' is not a list."
-                )
-
-            data["keyColumns"] = []
-
-            for key_column in key_columns:
-                if isinstance(key_column, Column):
-                    data["keyColumns"].append(key_column.id)
-                elif isinstance(key_column, str):
-                    data["keyColumns"].append(key_column)
-                else:
-                    raise err.ColumnNotFound(
-                        f"Invalid parameter: '{key_column}' in key_columns."
-                    )
-
         return self.document.coda.upsert_row(self.document.id, self.id, data)
 
     def update_row(self, row: Union[str, Row], cells: List[Cell]) -> Dict:
