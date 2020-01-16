@@ -1,9 +1,8 @@
 import time
 
 import pytest
-
-from codaio import Column, Cell, Row, err
-from tests.fixtures import coda, test_doc, main_table
+from codaio import Cell, Column, Row, err
+from tests.fixtures import coda, main_table, test_doc
 
 
 @pytest.mark.usefixtures(coda.__name__, test_doc.__name__, main_table.__name__)
@@ -52,20 +51,49 @@ class TestTable:
         assert row[cell_1.column.id].value == cell_1.value
         assert row[cell_2.column.id].value == cell_2.value
 
-    def test_upsert_rows(self, main_table):
-        columns = main_table.columns()
+    def test_upsert_rows_by_column_id(self, main_table):
+        existing_rows = main_table.rows()
+        old_row_count = len(existing_rows)
 
-        rows = []
-        for row in range(1, 11):
-            rows.append(
-                [Cell(column, f"value-{str(row)}-{column.name}") for column in columns]
-            )
+        for row in existing_rows:
+            main_table.delete_row(row)
 
-        result = main_table.upsert_rows(rows)
-
+        result = main_table.upsert_rows(
+            [
+                [
+                    Cell(column.id, f"value-{str(row)}-{column.name}")
+                    for column in main_table.columns()
+                ]
+                for row in range(1, 6)
+            ]
+        )
         assert result["status"] == 202
 
+        count = 0
+        saved_rows = main_table.rows()
+
+        while len(saved_rows) == old_row_count:
+            saved_rows = main_table.rows()
+            time.sleep(1)
+            count += 1
+            if count > 20:
+                pytest.fail("Rows not added to table after 20 seconds")
+
+        assert len(saved_rows) == 5
+        assert all([isinstance(row, Row) for row in saved_rows])
+
+    def test_upsert_existing_rows(self, main_table):
+        columns = main_table.columns()
         key_column = columns[0]
+
+        result = main_table.upsert_rows(
+            [
+                [Cell(column, f"value-{str(row)}-{column.name}") for column in columns]
+                for row in range(1, 11)
+            ]
+        )
+
+        assert result["status"] == 202
 
         cell_to_update_1 = Cell(key_column, f"value-5-{columns[0].name}")
         cell_to_update_2 = Cell(columns[1], "updated_value")
@@ -77,11 +105,16 @@ class TestTable:
         assert result["status"] == 202
 
         updated_rows = None
+        count = 0
+
         while not updated_rows:
             updated_rows = main_table.find_row_by_column_id_and_value(
                 cell_to_update_1.column.id, cell_to_update_1.value
             )
             time.sleep(1)
+            count += 1
+            if count > 20:
+                pytest.fail("Rows not updated in table after 20 seconds")
 
         assert len(updated_rows) == 1
 

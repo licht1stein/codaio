@@ -880,35 +880,32 @@ class Table(CodaObject):
             for i in r["items"]
         ]
 
-    def upsert_row(self, cells: List[Cell], key_columns: List[Column] = None) -> Dict:
+    def upsert_row(
+        self, cells: List[Cell], key_columns: List[Union[str, Column]] = None
+    ) -> Dict:
         """
         Upserts a row using `Cell` objects in list.
 
         :param cells: list of `Cell` objects.
-
-        :param key_columns: list of `Column` objects, column IDs, URLs, or names
-        specifying columns to be used as upsert keys.
+        :param key_columns: list of `Column` objects, column IDs, URLs, or names specifying columns to be used as upsert keys.
         """
 
         return self.upsert_rows([cells], key_columns)
 
     def upsert_rows(
-        self, rows: List[List[Cell]], key_columns: List[Column] = None
+        self, rows: List[List[Cell]], key_columns: List[Union[str, Column]] = None,
     ) -> Dict:
         """
-        Works similar to Table.upsert_row() but uses 1 POST request for multiple rows.
-        Input is a list of lists of Cells.
+        Works similar to Table.upsert_row() but uses 1 POST request for multiple rows. Input is a list of lists of Cells.
 
-        :param list_cells: list of lists of `Cell` objects, one list for each row.
-
-        :param key_columns: list of `Column` objects, column IDs, URLs, or names
-        specifying columns to be used as upsert keys.
+        :param rows: list of lists of `Cell` objects, one list for each row.
+        :param key_columns: list of `Column` objects, column IDs, URLs, or names specifying columns to be used as upsert keys.
         """
         data = {
             "rows": [
                 {
                     "cells": [
-                        {"column": cell.column.id, "value": cell.value} for cell in row
+                        {"column": cell.column_id_or_name, "value": cell.value} for cell in row
                     ]
                 }
                 for row in rows
@@ -940,8 +937,7 @@ class Table(CodaObject):
         Updates row with values according to list in cells.
 
         :param row: a str ROW_ID or an instance of class Row
-
-        :param cells:
+        :param cells: list of `Cell` objects.
         """
         if isinstance(row, Row):
             row_id = row.id
@@ -951,7 +947,11 @@ class Table(CodaObject):
             raise TypeError(f"row must be str ROW_ID or an instance of Row")
 
         data = {
-            "row": {"cells": [{"column": c.column.id, "value": c.value} for c in cells]}
+            "row": {
+                "cells": [
+                    {"column": cell.column_id_or_name, "value": cell.value} for cell in cells
+                ]
+            }
         }
 
         return self.document.coda.update_row(self.document.id, self.id, row_id, data)
@@ -1069,7 +1069,7 @@ class Row(CodaObject):
 
 @attr.s(auto_attribs=True, hash=True, repr=False)
 class Cell:
-    column: Column
+    column: Union[str, Column]
     value_storage: Any
     row: Row = attr.ib(default=None)
 
@@ -1093,6 +1093,13 @@ class Cell:
     @property
     def value(self):
         return self.value_storage
+
+    @property
+    def column_id_or_name(self):
+        if isinstance(self.column, Column):
+            return self.column.id
+        elif isinstance(self.column, str):
+            return self.column
 
     @value.setter
     def value(self, value):
