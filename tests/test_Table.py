@@ -85,8 +85,8 @@ class TestTable:
             ]
         )
         assert result["status"] == 200
-
         saved_rows = main_table.rows()
+
         assert len(saved_rows) == 5
         assert all([isinstance(row, Row) for row in saved_rows])
 
@@ -114,6 +114,7 @@ class TestTable:
         updated_rows = main_table.find_row_by_column_id_and_value(
             cell_to_update_1.column.id, cell_to_update_1.value
         )
+
         assert len(updated_rows) == 1
 
         updated_row = updated_rows[0]
