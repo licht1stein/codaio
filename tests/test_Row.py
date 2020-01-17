@@ -1,9 +1,9 @@
 import time
 
 import pytest
+from tests.fixtures import coda, main_table, test_doc
 
-from codaio import Column, Cell, Row, err
-from tests.fixtures import coda, test_doc, main_table
+from codaio import Cell, Column, Row, err
 
 
 @pytest.mark.usefixtures(coda.__name__, test_doc.__name__, main_table.__name__)

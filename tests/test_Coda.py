@@ -1,11 +1,9 @@
 import datetime as dt
 
 import pytest
-
-from codaio import Coda
-from codaio import err
-
 from tests.fixtures import coda, doc_id
+
+from codaio import Coda, err
 
 
 @pytest.mark.usefixtures(coda.__name__, doc_id.__name__)

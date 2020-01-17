@@ -1,7 +1,7 @@
 import pytest
+from tests.fixtures import coda, main_table, test_doc
 
 from codaio import Cell
-from tests.fixtures import coda, test_doc, main_table
 
 
 @pytest.mark.usefixtures(coda.__name__, test_doc.__name__, main_table.__name__)

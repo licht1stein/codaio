@@ -1,1 +1,1 @@
-from .coda import Coda, Document, Table, Row, Column, Cell
+from .coda import Cell, Coda, Column, Document, Row, Table  # noqa
