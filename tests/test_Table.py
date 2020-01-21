@@ -1,12 +1,37 @@
 import time
 
 import pytest
-from tests.fixtures import coda, main_table, test_doc
 
 from codaio import Cell, Column, Row, err
 
 
-@pytest.mark.usefixtures(coda.__name__, test_doc.__name__, main_table.__name__)
+@pytest.fixture
+def mock_table_responses(mock_json_responses):
+    base_table_url = "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/"
+    responses = [
+        ("rows?useColumnNames=False", "get_rows.json", {}),
+        ("columns", "get_columns.json", {}),
+        ("column/column_id", "get_column.json", {}),
+        ("rows/index_id", "get_row.json", {}),
+        ("rows", "empty.json", {"method": "POST"}),
+        ("rows?useColumnNames=False", "get_added_rows.json", {}),
+        ("rows/index_id", "empty.json", {"method": "DELETE"}),
+        (
+            "rows?useColumnNames=False&query=column_id%3A%22value-Alpha%22",
+            "get_row_by_query.json",
+            {},
+        ),
+        (
+            "rows?useColumnNames=False&query=column_id%3A%22value-5-Alpha%22",
+            "get_updated_row_by_query.json",
+            {},
+        ),
+        ("rows/no_such_id", "row_not_found.json", {"status": 404}),
+    ]
+    mock_json_responses(responses, base_url=base_table_url)
+
+
+@pytest.mark.usefixtures("mock_table_responses")
 class TestTable:
     def test_columns(self, main_table):
         assert main_table.columns()
@@ -33,20 +58,13 @@ class TestTable:
 
     def test_upsert_row(self, main_table):
         columns = main_table.columns()
-        cell_1 = Cell(columns[0], "unique_value_1")
-        cell_2 = Cell(columns[1], "unique_value_2")
+        cell_1 = Cell(columns[0], f"value-{columns[0].name}")
+        cell_2 = Cell(columns[1], f"value-{columns[1].name}")
         result = main_table.upsert_row([cell_1, cell_2])
         assert result["status"] == 202
-        rows = None
-        count = 0
-        while not rows:
-            count += 1
-            rows = main_table.find_row_by_column_id_and_value(
-                cell_1.column.id, cell_1.value
-            )
-            if count > 20:
-                pytest.fail("Row not added to table after 20 seconds")
-            time.sleep(1)
+        rows = main_table.find_row_by_column_id_and_value(
+            cell_1.column.id, cell_1.value
+        )
         row = rows[0]
         assert isinstance(row, Row)
         assert row[cell_1.column.id].value == cell_1.value
@@ -54,7 +72,6 @@ class TestTable:
 
     def test_upsert_rows_by_column_id(self, main_table):
         existing_rows = main_table.rows()
-        old_row_count = len(existing_rows)
 
         for row in existing_rows:
             main_table.delete_row(row)
@@ -70,16 +87,7 @@ class TestTable:
         )
         assert result["status"] == 202
 
-        count = 0
         saved_rows = main_table.rows()
-
-        while len(saved_rows) == old_row_count:
-            saved_rows = main_table.rows()
-            time.sleep(1)
-            count += 1
-            if count > 20:
-                pytest.fail("Rows not added to table after 20 seconds")
-
         assert len(saved_rows) == 5
         assert all([isinstance(row, Row) for row in saved_rows])
 
@@ -104,19 +112,9 @@ class TestTable:
         result = main_table.upsert_rows([row_to_update], key_columns=[key_column])
 
         assert result["status"] == 202
-
-        updated_rows = None
-        count = 0
-
-        while not updated_rows:
-            updated_rows = main_table.find_row_by_column_id_and_value(
-                cell_to_update_1.column.id, cell_to_update_1.value
-            )
-            time.sleep(1)
-            count += 1
-            if count > 20:
-                pytest.fail("Rows not updated in table after 20 seconds")
-
+        updated_rows = main_table.find_row_by_column_id_and_value(
+            cell_to_update_1.column.id, cell_to_update_1.value
+        )
         assert len(updated_rows) == 1
 
         updated_row = updated_rows[0]

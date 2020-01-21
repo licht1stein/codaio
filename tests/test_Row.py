@@ -1,21 +1,31 @@
-import time
-
 import pytest
-from tests.fixtures import coda, main_table, test_doc
 
-from codaio import Cell, Column, Row, err
+from codaio import Cell, Column, Row
 
 
-@pytest.mark.usefixtures(coda.__name__, test_doc.__name__, main_table.__name__)
+@pytest.fixture
+def mock_row_responses(mock_json_responses):
+    base_table_url = "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/"
+    responses = [
+        ("rows?useColumnNames=False", "get_rows.json", {}),
+        ("columns", "get_columns.json", {}),
+        ("rows/index_id", "get_row.json", {}),
+    ]
+    mock_json_responses(responses, base_url=base_table_url)
+
+
+@pytest.mark.usefixtures("mock_row_responses")
 class TestRow:
-    def test_get_cell_by_column_id(self, main_table):
+    def test_get_cell_by_column_id(self, main_table, mock_json_responses):
         row_a: Row = main_table.rows()[0]
         cell_a: Cell = row_a.cells()[0]
         assert isinstance(cell_a, Cell)
+
         fetched_cell = row_a.get_cell_by_column_id(cell_a.column.id)
         assert isinstance(fetched_cell, Cell)
 
-    def test_row_getitem(self, main_table):
+    def test_row_getitem(self, main_table, mock_json_responses):
+
         row_a: Row = main_table.rows()[0]
         column_a: Column = main_table.columns()[0]
         assert isinstance(row_a, Row)
@@ -26,6 +36,6 @@ class TestRow:
         assert res_cell.column == column_a
         assert res_cell.row == row_a
 
-    def test_refresh(self, main_table):
+    def test_refresh(self, main_table, mock_json_responses):
         row_a: Row = main_table.rows()[0]
         assert row_a.refresh()
