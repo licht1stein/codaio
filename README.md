@@ -152,3 +152,32 @@ You can still invoke `pytest` directly with:
 ```shell script
 poetry run pytest --cov
 ```
+
+Check out the fixtures if you want to improve the testing process.
+
+
+#### Contributing
+
+If you are willing to contribute please go ahead, we can use some help!
+
+##### Using CI to deploy to PyPi
+
+When a PR is merged to master the CI will try to deploy to pypi.org using poetry. It will succeed only if the 
+version number changed in pyproject.toml. 
+
+To do so use poetry's [version command](https://python-poetry.org/docs/cli/#version). For example:
+
+Bump 0.4.11 to 0.4.12:
+```bash
+poetry version patch
+```
+
+Bump 0.4.11 to 0.5.0:
+```bash
+poetry version minor
+```
+
+Bump 0.4.11 to 1.0.0:
+```bash
+poetry version major
+```
