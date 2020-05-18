@@ -9,8 +9,6 @@
 
 `codaio` is in active development stage. Issues and PRs very welcome! 
 
-<a href="https://www.buymeacoffee.com/licht1stein" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 130px !important;" ></a>
-
 
 ### Installation
 ```shell script
@@ -140,6 +138,7 @@ table.update_row(row, [name_cell_a, value_cell_a])
 
 `codaio` documentation lives at [readthedocs.io](https://codaio.readthedocs.io/en/latest/index.html)
 
+<a href="https://www.buymeacoffee.com/licht1stein" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 130px !important;" ></a>
 
 #### Testing
 
