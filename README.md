@@ -6,6 +6,7 @@
 [![Documentation Status](https://readthedocs.org/projects/codaio/badge/?version=latest)](https://codaio.readthedocs.io/en/latest/?badge=latest)
 [![PyPI](https://img.shields.io/pypi/v/codaio)](https://pypi.org/project/codaio/)
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/codaio)
+[![](https://img.shields.io/badge/Support-Buy_coffee!-Orange)](https://www.buymeacoffee.com/licht1stein)
 
 `codaio` is in active development stage. Issues and PRs very welcome! 
 
@@ -137,6 +138,8 @@ table.update_row(row, [name_cell_a, value_cell_a])
 #### Documentation
 
 `codaio` documentation lives at [readthedocs.io](https://codaio.readthedocs.io/en/latest/index.html)
+
+#### Support
 
 <a href="https://www.buymeacoffee.com/licht1stein" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 130px !important;" ></a>
 
