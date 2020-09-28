@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "id": "index_id",
+      "type": "row",
+      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows/index_id",
+      "name": "value-1-Alpha",
+      "index": 0,
+      "createdAt": "2020-01-01T00:00:00.000Z",
+      "updatedAt": "2020-01-01T00:00:00.000Z",
+      "browserLink": "https://coda.io/d/_ddoc_id#_tutable_id/_ruindex_id",
+      "values": {
+        "column_id": "value-1-Alpha",
+        "column_id-1": "value-1-Beta",
+        "column_id-2": "value-1-Omega",
+        "column_id-3": "value-1-Gamma"
+      }
+    }
+  ],
+  "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows?limit=200&useColumnNames=false"
+}

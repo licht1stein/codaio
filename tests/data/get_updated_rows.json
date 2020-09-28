@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "id": "index_id",
+      "type": "row",
+      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows/index_id",
+      "name": "completely_new_value",
+      "index": 0,
+      "createdAt": "2020-01-01T00:00:00.000Z",
+      "updatedAt": "2020-01-01T01:00:00.000Z",
+      "browserLink": "https://coda.io/d/_ddoc_id#_tutable_id/_ruindex_id",
+      "values": {
+        "column_id": "completely_new_value",
+        "column_id-1": "",
+        "column_id-2": "",
+        "column_id-3": ""
+      }
+    }
+  ],
+  "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows?limit=200&useColumnNames=false"
+}

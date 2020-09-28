@@ -3,14 +3,14 @@ from __future__ import annotations
 import datetime as dt
 import json
 import time
-from typing import Dict, Any, List, Tuple, Union
+from typing import Any, Dict, List, Tuple, Union
 
 import attr
 import inflection
-
 from dateutil.parser import parse
 from decorator import decorator
 from envparse import env
+
 from codaio import err
 
 # Trying to make it compatible with eventlet
@@ -63,7 +63,10 @@ def handle_response(func, *args, **kwargs) -> Dict:
 @attr.s(hash=True)
 class Coda:
     """
-    Raw API client. It is used in `codaio` objects like Document to access the raw API endpoints. Can also be used by itself to access Raw API.
+    Raw API client.
+
+    It is used in `codaio` objects like Document to access the raw API endpoints.
+    Can also be used by itself to access Raw API.
     """
 
     api_key: str = attr.ib(repr=False)
@@ -78,7 +81,7 @@ class Coda:
     @classmethod
     def from_environment(cls) -> Coda:
         """
-        Initializes a Coda instance using API key store in environment variables under `CODA_API_KEY`
+        Instantiates Coda using the API key stored in the `CODA_API_KEY` environment variable.
 
         :return:
         """
@@ -91,7 +94,7 @@ class Coda:
     @handle_response
     def get(self, endpoint: str, data: Dict = None, limit=None, offset=None) -> Dict:
         """
-        Make a GET request to API endpoint.
+        Makes a GET request to API endpoint.
 
         :param endpoint: API endpoint to request
 
@@ -127,7 +130,7 @@ class Coda:
     @handle_response
     def post(self, endpoint: str, data: Dict) -> Dict:
         """
-        Make a POST request to the API endpoint.
+        Makes a POST request to the API endpoint.
 
         :param endpoint: API endpoint to request
 
@@ -145,7 +148,7 @@ class Coda:
     @handle_response
     def put(self, endpoint: str, data: Dict) -> Dict:
         """
-        Make a PUT request to the API endpoint.
+        Makes a PUT request to the API endpoint.
 
         :param endpoint: API endpoint to request
 
@@ -159,7 +162,7 @@ class Coda:
     @handle_response
     def delete(self, endpoint: str) -> Dict:
         """
-        Make a DELETE request to the API endpoint.
+        Makes a DELETE request to the API endpoint.
 
         :param endpoint: API endpoint to request
 
@@ -176,7 +179,9 @@ class Coda:
         offset: int = None,
     ) -> Dict:
         """
-        Returns a list of Coda docs accessible by the user. These are returned in the same order as on the docs page: reverse
+        Returns a list of Coda documents accessible by the user.
+
+        These are returned in the same order as on the docs page: reverse
         chronological by the latest event relevant to the user (last viewed, edited, or shared).
 
         Docs: https://coda.io/developers/apis/v1beta1#operation/listDocs
@@ -270,7 +275,8 @@ class Coda:
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
-        :param section_id_or_name: ID or name of the section. Names are discouraged because they're easily prone to being changed by users.
+        :param section_id_or_name: ID or name of the section.
+            Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. Example: "canvas-IjkLmnO"
 
         :return:
@@ -301,8 +307,10 @@ class Coda:
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
-        :param folder_id_or_name: ID or name of the folder. Names are discouraged because they're easily prone to being
-            changed by users. If you're using a name, be sure to URI-encode it. Example: "section-IjkLmnO"
+        :param folder_id_or_name: ID or name of the folder.
+            Names are discouraged because they're easily prone to being
+            changed by users. If you're using a name, be sure to URI-encode it.
+            Example: "section-IjkLmnO"
 
         :return:
         """
@@ -332,7 +340,8 @@ class Coda:
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
-        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
         :return:
@@ -363,7 +372,8 @@ class Coda:
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
-        :param view_id_or_name: ID or name of the view. Names are discouraged because they're easily prone to being changed by users.
+        :param view_id_or_name: ID or name of the view.
+            Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. Example: "table-pqRst-U"
 
         :return:
@@ -378,7 +388,8 @@ class Coda:
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
-        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
         :param limit: Maximum number of results to return in this query.
@@ -403,10 +414,12 @@ class Coda:
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
-        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
-        :param column_id_or_name: ID or name of the column. Names are discouraged because they're easily prone to being changed by users.
+        :param column_id_or_name: ID or name of the column.
+            Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. Example: "c-tuVwxYz"
 
         :return:
@@ -431,13 +444,18 @@ class Coda:
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
-        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users. If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
-        :param query: Query used to filter returned rows, specified as `<column_id_or_name>:<value>`. If you'd like to use a column name
-            instead of an ID, you must quote it (e.g., `"My Column":123`). Also note that `value` is a JSON value; if you'd like to use a string,
+        :param query: filter returned rows, specified as `<column_id_or_name>:<value>`.
+            If you'd like to use a column name instead of an ID,
+            you must quote it (e.g., `"My Column":123`).
+            Also note that `value` is a JSON value; if you'd like to use a string,
             you must surround it in quotes (e.g., `"groceries"`).
 
-        :param use_column_names: Use column names instead of column IDs in the returned output. This is generally discouraged as it is fragile.
+        :param use_column_names: Use column names instead of column IDs in the returned output.
+            This is generally discouraged as it is fragile.
             If columns are renamed, code using original names may throw errors.
 
         :param limit: Maximum number of results to return in this query.
@@ -457,18 +475,27 @@ class Coda:
 
     def upsert_row(self, doc_id: str, table_id_or_name: str, data: Dict) -> Dict:
         """
-        Inserts rows into a table, optionally updating existing rows if any upsert key columns are provided. This endpoint will always return a 202,
-        so long as the doc and table exist and are accessible (and the update is structurally valid). Row inserts/upserts are generally
-        processed within several seconds. When upserting, if multiple rows match the specified key column(s), they will all be updated with the specified value.
+        Inserts rows into a table, optionally updating existing rows if key columns are provided.
+
+        This endpoint will always return a 202, so long as the doc and table exist and
+        are accessible (and the update is structurally valid). Row inserts/upserts are generally
+        processed within several seconds.
+        When upserting, if multiple rows match the specified key column(s),
+        they will all be updated with the specified value.
 
         Docs: https://coda.io/developers/apis/v1beta1#operation/upsertRows
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
-        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
-        If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
-        :param data: {"rows": [{"cells": [{"column": "c-tuVwxYz", "value": "$12.34"}]}], "keyColumns": ["c-bCdeFgh"]}
+        :param data:
+            {
+                "rows": [{"cells": [{"column": "c-tuVwxYz", "value": "$12.34"}]}],
+                "keyColumns": ["c-bCdeFgh"]
+            }
         """
         return self.post(f"/docs/{doc_id}/tables/{table_id_or_name}/rows", data)
 
@@ -480,11 +507,14 @@ class Coda:
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
-        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
-        :param row_id_or_name: ID or name of the row. Names are discouraged because they're easily prone to being changed by users.
-            If you're using a name, be sure to URI-encode it. If there are multiple rows with the same value in the identifying column,
+        :param row_id_or_name: ID or name of the row.
+            Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it.
+            If there are multiple rows with the same value in the identifying column,
             an arbitrary one will be selected.
         """
         return self.get(
@@ -495,20 +525,26 @@ class Coda:
         self, doc_id: str, table_id_or_name: str, row_id_or_name: str, data: Dict
     ) -> Dict:
         """
-        Updates the specified row in the table. This endpoint will always return a 202, so long as the row exists and is
-        accessible (and the update is structurally valid). Row updates are generally processed within several seconds.
+        Updates the specified row in the table.
+
+        This endpoint will always return a 202, so long as the doc and table exist and
+        are accessible (and the update is structurally valid). Row updates are generally
+        processed within several seconds.
         When updating using a name as opposed to an ID, an arbitrary row will be affected.
 
         Docs: https://coda.io/developers/apis/v1beta1#operation/updateRow
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
-        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
-        If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
-        :param row_id_or_name: ID or name of the row. Names are discouraged because they're easily prone to being changed by users.
-        If you're using a name, be sure to URI-encode it. If there are multiple rows with the same value in the identifying column,
-        an arbitrary one will be selected.
+        :param row_id_or_name: ID or name of the row.
+            Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it.
+            If there are multiple rows with the same value in the identifying column,
+            an arbitrary one will be selected.
 
         :param data: Example: {"row": {"cells": [{"column": "c-tuVwxYz", "value": "$12.34"}]}}
         """
@@ -518,20 +554,26 @@ class Coda:
 
     def delete_row(self, doc_id, table_id_or_name: str, row_id_or_name: str) -> Dict:
         """
-        Deletes the specified row from the table. This endpoint will always return a 202, so long as the row exists and is accessible
-        (and the update is structurally valid). Row deletions are generally processed within several seconds.
+        Deletes the specified row from the table.
+
+        This endpoint will always return a 202, so long as the row exists and
+        is accessible (and the update is structurally valid).
+        Row deletions are generally processed within several seconds.
         When deleting using a name as opposed to an ID, an arbitrary row will be removed.
 
         Docs: https://coda.io/developers/apis/v1beta1#operation/deleteRow
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
-        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
         If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
-        :param row_id_or_name: ID or name of the row. Names are discouraged because they're easily prone to being changed by users.
-        If you're using a name, be sure to URI-encode it. If there are multiple rows with the same value in the identifying column,
-        an arbitrary one will be selected.
+        :param row_id_or_name: ID or name of the row.
+            Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it.
+            If there are multiple rows with the same value in the identifying column,
+            an arbitrary one will be selected.
         """
         return self.delete(
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows/{row_id_or_name}"
@@ -559,15 +601,18 @@ class Coda:
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
-        :param formula_id_or_name: ID or name of the formula. Names are discouraged because they're easily prone to being changed by users.
-        If you're using a name, be sure to URI-encode it. Example: "f-fgHijkLm"
+        :param formula_id_or_name: ID or name of the formula.
+            Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it. Example: "f-fgHijkLm".
         """
         return self.get(f"/docs/{doc_id}/formulas/{formula_id_or_name}")
 
     def list_controls(self, doc_id: str, offset: int = None, limit: int = None) -> Dict:
         """
-        Controls provide a user-friendly way to input a value that can affect other parts of the doc. This API lets you list controls
-        and get their current values.
+        Lists controls and get their current values.
+
+        Controls provide a user-friendly way to input a value
+        that can affect other parts of the doc.
 
         Docs: https://coda.io/developers/apis/v1beta1#tag/Controls
 
@@ -588,15 +633,19 @@ class Coda:
         Docs: https://coda.io/developers/apis/v1beta1#operation/getControl
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
-        :param control_id_or_name: ID or name of the control. Names are discouraged because they're easily prone to being changed by users.
-        If you're using a name, be sure to URI-encode it. Example: "ctrl-cDefGhij"
+        :param control_id_or_name: ID or name of the control.
+            Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it. Example: "ctrl-cDefGhij".
         """
         return self.get(f"/docs/{doc_id}/controls/{control_id_or_name}")
 
     def account(self) -> Dict:
         """
-        At this time, the API exposes some limited information about your account. However, /whoami is a good endpoint to hit to verify
-        that you're hitting the API correctly and that your token is working as expected.
+        Retrieves logged-in account information.
+
+        At this time, the API exposes some limited information about your account.
+        However, /whoami is a good endpoint to hit to verify that
+        you're hitting the API correctly and that your token is working as expected.
 
         Docs: https://coda.io/developers/apis/v1beta1#tag/Account
         """
@@ -604,15 +653,21 @@ class Coda:
 
     def resolve_browser_link(self, url: str, degrade_gracefully: bool = False) -> Dict:
         """
-        Given a browser link to a Coda object, attempts to find it and return metadata that can be used to get more info on it.
-        Returns a 400 if the URL does not appear to be a Coda URL or a 404 if the resource cannot be located with the current credentials.
+        Retrieves the metadata of a Coda object for an URL.
+
+        Given a browser link to a Coda object, attempts to find it and
+        return metadata that can be used to get more info on it.
+        Returns a 400 if the URL does not appear to be a Coda URL or a
+        404 if the resource cannot be located with the current credentials.
 
         Docs: https://coda.io/developers/apis/v1beta1#operation/resolveBrowserLink
 
-        :param url: The browser link to try to resolve. Example: "https://coda.io/d/_dAbCDeFGH/Launch-Status_sumnO"
+        :param url: The browser link to try to resolve.
+            Example: "https://coda.io/d/_dAbCDeFGH/Launch-Status_sumnO"
 
-        :param degrade_gracefully: By default, attempting to resolve the Coda URL of a deleted object will result in an error.
-            If this flag is set, the next-available object, all the way up to the doc itself, will be resolved.
+        :param degrade_gracefully: By default, attempting to resolve the Coda URL
+            of a deleted object will result in an error. If this flag is set,
+            the next-available object, all the way up to the doc itself, will be resolved.
         """
         return self.get(
             "/resolveBrowserLink",
@@ -654,7 +709,7 @@ class Document:
     @classmethod
     def from_environment(cls, doc_id: str):
         """
-        Initializes a Document instance using API key stored in environment variables under `CODA_API_KEY`
+        Instantiates a `Document` with the API key in the `CODA_API_KEY` environment variable.
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -711,7 +766,8 @@ class Document:
         """
         Gets a Table object from table name or ID.
 
-        :param table_id_or_name: ID or name of the table. Names are discouraged because they're easily prone to being changed by users.
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
             If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
 
         :return:
@@ -761,6 +817,7 @@ class Table(CodaObject):
         table[row_id][Column] -> Cell from this intersection
 
         :param item:
+
         :return:
         """
         if isinstance(item, str):
@@ -771,8 +828,10 @@ class Table(CodaObject):
 
     def columns(self, offset: int = None, limit: int = None) -> List[Column]:
         """
-        Returns a list of Table columns. Columns are stored in self.columns_storage for faster access as they tend to
-        change less frequently than rows.
+        Lists Table columns.
+
+        Columns are stored in self.columns_storage for faster access
+        as they tend to change less frequently than rows.
 
         :param limit: Maximum number of results to return in this query.
 
@@ -828,7 +887,8 @@ class Table(CodaObject):
         """
         Gets a Column by id.
 
-        :param column_name: Name of the column. Discouraged in case using column_id is possible. Example: "Column 1"
+        :param column_name: Name of the column. Discouraged in case using column_id is possible.
+            Example: "Column 1"
 
         :return:
         """
@@ -865,10 +925,12 @@ class Table(CodaObject):
 
     def find_row_by_column_id_and_value(self, column_id, value) -> List[Row]:
         """
-        Fins rows by a value in column specified by id.
+        Finds rows by a value in column specified by id.
 
         :param column_id: ID of the column.
+
         :param value: Search value.
+
         :return:
         """
         r = self.document.coda.list_rows(
@@ -881,35 +943,39 @@ class Table(CodaObject):
             for i in r["items"]
         ]
 
-    def upsert_row(self, cells: List[Cell], key_columns: List[Column] = None) -> Dict:
+    def upsert_row(
+        self, cells: List[Cell], key_columns: List[Union[str, Column]] = None
+    ) -> Dict:
         """
-        Upserts a row using `Cell` objects in list.
+        Upsert a Table row using a list of `Cell` objects optionally updating existing rows.
 
         :param cells: list of `Cell` objects.
 
         :param key_columns: list of `Column` objects, column IDs, URLs, or names
-        specifying columns to be used as upsert keys.
+            specifying columns to be used as upsert keys.
         """
 
         return self.upsert_rows([cells], key_columns)
 
     def upsert_rows(
-        self, rows: List[List[Cell]], key_columns: List[Column] = None
+        self, rows: List[List[Cell]], key_columns: List[Union[str, Column]] = None,
     ) -> Dict:
         """
+        Upsert multiple Table rows optionally updating existing rows.
+
         Works similar to Table.upsert_row() but uses 1 POST request for multiple rows.
         Input is a list of lists of Cells.
 
-        :param list_cells: list of lists of `Cell` objects, one list for each row.
+        :param rows: list of lists of `Cell` objects, one list for each row.
 
         :param key_columns: list of `Column` objects, column IDs, URLs, or names
-        specifying columns to be used as upsert keys.
+            specifying columns to be used as upsert keys.
         """
         data = {
             "rows": [
                 {
                     "cells": [
-                        {"column": cell.column.id, "value": cell.value} for cell in row
+                        {"column": cell.column_id_or_name, "value": cell.value} for cell in row
                     ]
                 }
                 for row in rows
@@ -941,8 +1007,7 @@ class Table(CodaObject):
         Updates row with values according to list in cells.
 
         :param row: a str ROW_ID or an instance of class Row
-
-        :param cells:
+        :param cells: list of `Cell` objects.
         """
         if isinstance(row, Row):
             row_id = row.id
@@ -952,7 +1017,11 @@ class Table(CodaObject):
             raise TypeError(f"row must be str ROW_ID or an instance of Row")
 
         data = {
-            "row": {"cells": [{"column": c.column.id, "value": c.value} for c in cells]}
+            "row": {
+                "cells": [
+                    {"column": cell.column_id_or_name, "value": cell.value} for cell in cells
+                ]
+            }
         }
 
         return self.document.coda.update_row(self.document.id, self.id, row_id, data)
@@ -1070,7 +1139,7 @@ class Row(CodaObject):
 
 @attr.s(auto_attribs=True, hash=True, repr=False)
 class Cell:
-    column: Column
+    column: Union[str, Column]
     value_storage: Any
     row: Row = attr.ib(default=None)
 
@@ -1094,6 +1163,13 @@ class Cell:
     @property
     def value(self):
         return self.value_storage
+
+    @property
+    def column_id_or_name(self):
+        if isinstance(self.column, Column):
+            return self.column.id
+        elif isinstance(self.column, str):
+            return self.column
 
     @value.setter
     def value(self, value):

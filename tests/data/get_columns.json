@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "column_id",
+      "type": "column",
+      "name": "Alpha",
+      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/columns/column_id",
+      "display": true,
+      "format": {
+        "type": "text",
+        "isArray": false
+      }
+    },
+    {
+      "id": "column_id-1",
+      "type": "column",
+      "name": "Beta",
+      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/columns/column_id-1",
+      "format": {
+        "type": "text",
+        "isArray": false
+      }
+    },
+    {
+      "id": "column_id-2",
+      "type": "column",
+      "name": "Omega",
+      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/columns/column_id-2",
+      "format": {
+        "type": "text",
+        "isArray": false
+      }
+    },
+    {
+      "id": "column_id-3",
+      "type": "column",
+      "name": "Gamma",
+      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/columns/column_id-3",
+      "format": {
+        "type": "text",
+        "isArray": false
+      }
+    }
+  ],
+  "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/columns?limit=100"
+}

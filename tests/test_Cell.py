@@ -1,13 +1,21 @@
 import pytest
 
 from codaio import Cell
-from tests.fixtures import coda, test_doc, main_table
 
 
-@pytest.mark.usefixtures(coda.__name__, test_doc.__name__, main_table.__name__)
 class TestCell:
     @pytest.mark.parametrize("new_value", ["completely_new_value"])
-    def test_set_value(self, main_table, new_value):
+    def test_set_value(self, mock_json_responses, main_table, new_value):
+        base_table_url = "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/"
+        responses = [
+            ("rows?useColumnNames=False", "get_rows.json", {}),
+            ("rows?useColumnNames=False", "get_updated_rows.json", {}),
+            ("columns", "get_columns.json", {}),
+            ("rows/index_id", "put_row.json", {"method": "PUT"}),
+            ("rows/index_id", "get_updated_row.json", {}),
+        ]
+        mock_json_responses(responses, base_table_url)
+
         cell_a = main_table.rows()[0].cells()[0]
         assert isinstance(cell_a, Cell)
         cell_a.value = new_value

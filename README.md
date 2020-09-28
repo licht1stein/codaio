@@ -135,17 +135,25 @@ value_cell_a = Cell(column='COLUMN_ID', value_storage='new_value')
 table.update_row(row, [name_cell_a, value_cell_a])
 ```
 
-#### Documentation
+### Documentation
 
 `codaio` documentation lives at [readthedocs.io](https://codaio.readthedocs.io/en/latest/index.html)
 
-#### Support
+### Running the tests
 
-<a href="https://www.buymeacoffee.com/licht1stein" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 130px !important;" ></a>
+The recommended way of running the test suite is to use [nox](https://nox.thea.codes/en/stable/tutorial.html).
 
-#### Testing
+Once `nox`: is installed, just run the following command:
+```shell script
+nox
+```
 
-All tests are in the `/tests` folder. It's a little bit problematic to test against the live API since some responses may take a bit longer, so test results are not reliable enough to use a CI system.
+The nox session will run the test suite against python 3.8 and 3.7. It will also look for linting errors with `flake8`.
+
+You can still invoke `pytest` directly with:
+```shell script
+poetry run pytest --cov
+```
 
 Check out the fixtures if you want to improve the testing process.
 
