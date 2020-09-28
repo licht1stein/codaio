@@ -743,6 +743,7 @@ class Table(CodaObject):
     row_count: int = attr.ib(default=None, repr=False)
     sorts: List = attr.ib(default=[], repr=False)
     layout: str = attr.ib(repr=False, default=None)
+    # table_type: str = attr.ib(default=None, repr=False)
     created_at: dt.datetime = attr.ib(
         repr=False, converter=lambda x: parse(x) if x else None, default=None
     )
