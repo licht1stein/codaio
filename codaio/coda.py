@@ -74,7 +74,7 @@ class Coda:
     href: str = attr.ib(
         repr=False,
         default=env(
-            "CODA_API_ENDPOINT", cast=str, default="https://coda.io/apis/v1beta1"
+            "CODA_API_ENDPOINT", cast=str, default="https://coda.io/apis/v1"
         ),
     )
 
@@ -265,7 +265,7 @@ class Coda:
 
         :return:
         """
-        return self.get(f"/docs/{doc_id}/sections", offset=offset, limit=limit)
+        return self.get(f"/docs/{doc_id}/pages", offset=offset, limit=limit)
 
     def get_section(self, doc_id: str, section_id_or_name: str) -> Dict:
         """
@@ -281,7 +281,7 @@ class Coda:
 
         :return:
         """
-        return self.get(f"/docs/{doc_id}/sections/{section_id_or_name}")
+        return self.get(f"/docs/{doc_id}/pages/{section_id_or_name}")
 
     def list_folders(self, doc_id: str, offset: int = None, limit: int = None) -> Dict:
         """
@@ -362,7 +362,7 @@ class Coda:
 
         :return:
         """
-        return self.get(f"/docs/{doc_id}/views", offset=offset, limit=limit)
+        return self.get(f"/docs/{doc_id}/tables?tableTypes=view", offset=offset, limit=limit)
 
     def get_view(self, doc_id: str, view_id_or_name: str) -> Dict:
         """
@@ -378,7 +378,7 @@ class Coda:
 
         :return:
         """
-        return self.get(f"/docs/{doc_id}/views/{view_id_or_name}")
+        return self.get(f"/docs/{doc_id}/tables/{view_id_or_name}")
 
     def list_columns(
         self, doc_id: str, table_id_or_name: str, offset: int = None, limit: int = None

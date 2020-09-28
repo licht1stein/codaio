@@ -1,13 +1,15 @@
 ## Python wrapper for [Coda.io](https://coda.io) API
 
-[![CodaAPI](https://img.shields.io/badge/Coda_API_version-0.1.1--beta1-orange)](https://coda.io/developers/apis/v1beta1)
+[![CodaAPI](https://img.shields.io/badge/Coda_API_-V1-green)](https://coda.io/developers/apis/v1beta1)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/codaio)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Documentation Status](https://readthedocs.org/projects/codaio/badge/?version=latest)](https://codaio.readthedocs.io/en/latest/?badge=latest)
 [![PyPI](https://img.shields.io/pypi/v/codaio)](https://pypi.org/project/codaio/)
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/codaio)
+[![](https://img.shields.io/badge/Support-Buy_coffee!-Orange)](https://www.buymeacoffee.com/licht1stein)
 
 `codaio` is in active development stage. Issues and PRs very welcome! 
+
 
 ### Installation
 ```shell script
