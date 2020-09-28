@@ -19,7 +19,7 @@ pip install codaio
 ### Config via environment variables
 The following variables will be called from environment where applicable:
 
-* `CODA_API_ENDPOINT` (default value `https://coda.io/apis/v1beta1`)
+* `CODA_API_ENDPOINT` (default value `https://coda.io/apis/v1`)
 * `CODA_API_KEY` - your API key to use when initializing document from environment
 
 ### Quickstart using raw API
