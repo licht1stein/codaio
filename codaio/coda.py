@@ -73,9 +73,7 @@ class Coda:
     authorization: Dict = attr.ib(init=False, repr=False)
     href: str = attr.ib(
         repr=False,
-        default=env(
-            "CODA_API_ENDPOINT", cast=str, default="https://coda.io/apis/v1"
-        ),
+        default=env("CODA_API_ENDPOINT", cast=str, default="https://coda.io/apis/v1"),
     )
 
     @classmethod
@@ -362,7 +360,9 @@ class Coda:
 
         :return:
         """
-        return self.get(f"/docs/{doc_id}/tables?tableTypes=view", offset=offset, limit=limit)
+        return self.get(
+            f"/docs/{doc_id}/tables?tableTypes=view", offset=offset, limit=limit
+        )
 
     def get_view(self, doc_id: str, view_id_or_name: str) -> Dict:
         """
@@ -824,7 +824,7 @@ class Table(CodaObject):
             return self.get_row_by_id(item)
         elif isinstance(item, Row):
             return self.get_row_by_id(item.id)
-        raise ValueError(f"item type must be in [str, Row]")
+        raise ValueError("item type must be in [str, Row]")
 
     def columns(self, offset: int = None, limit: int = None) -> List[Column]:
         """
@@ -897,7 +897,7 @@ class Table(CodaObject):
             raise err.ColumnNotFound(f"No column with name: {column_name}")
         if len(res) > 1:
             raise err.AmbiguousName(
-                f"More than 1 column found. Try using ID instead of Name"
+                "More than 1 column found. Try using ID instead of Name"
             )
         return res[0]
 
@@ -958,7 +958,9 @@ class Table(CodaObject):
         return self.upsert_rows([cells], key_columns)
 
     def upsert_rows(
-        self, rows: List[List[Cell]], key_columns: List[Union[str, Column]] = None,
+        self,
+        rows: List[List[Cell]],
+        key_columns: List[Union[str, Column]] = None,
     ) -> Dict:
         """
         Upsert multiple Table rows optionally updating existing rows.
@@ -975,7 +977,8 @@ class Table(CodaObject):
             "rows": [
                 {
                     "cells": [
-                        {"column": cell.column_id_or_name, "value": cell.value} for cell in row
+                        {"column": cell.column_id_or_name, "value": cell.value}
+                        for cell in row
                     ]
                 }
                 for row in rows
@@ -1014,12 +1017,13 @@ class Table(CodaObject):
         elif isinstance(row, str):
             row_id = row
         else:
-            raise TypeError(f"row must be str ROW_ID or an instance of Row")
+            raise TypeError("row must be str ROW_ID or an instance of Row")
 
         data = {
             "row": {
                 "cells": [
-                    {"column": cell.column_id_or_name, "value": cell.value} for cell in cells
+                    {"column": cell.column_id_or_name, "value": cell.value}
+                    for cell in cells
                 ]
             }
         }
@@ -1102,7 +1106,7 @@ class Row(CodaObject):
         try:
             return next(filter(lambda x: x.column.id == column_id, self.cells()))
         except StopIteration:
-            raise KeyError(f"Column not found")
+            raise KeyError("Column not found")
 
     def __getitem__(self, item) -> Cell:
         if isinstance(item, Column):
