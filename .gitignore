@@ -7,3 +7,6 @@ __pycache__/
 build/
 codaio.egg-info/
 dist/
+.editorconfig
+.env
+*.env
