@@ -182,7 +182,7 @@ class Coda:
         These are returned in the same order as on the docs page: reverse
         chronological by the latest event relevant to the user (last viewed, edited, or shared).
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/listDocs
+        Docs: https://coda.io/developers/apis/v1/#operation/listDocs
 
         :param is_owner: Show only docs owned by the user.
 
@@ -207,7 +207,7 @@ class Coda:
         """
         Creates a new Coda doc, optionally copying an existing doc.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/createDoc
+        Docs: https://coda.io/developers/apis/v1/#operation/createDoc
 
         :param title: Title of the new doc.
 
@@ -229,7 +229,7 @@ class Coda:
         """
         Returns metadata for the specified doc.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/getDoc
+        Docs: https://coda.io/developers/apis/v1/#operation/getDoc
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -241,7 +241,7 @@ class Coda:
         """
         Deletes a doc.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/deleteDoc
+        Docs: https://coda.io/developers/apis/v1/#operation/deleteDoc
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -253,7 +253,7 @@ class Coda:
         """
         Returns a list of sections in a Coda doc.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/listSections
+        Docs: https://coda.io/developers/apis/v1/#operation/listSections
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -269,7 +269,7 @@ class Coda:
         """
         Returns details about a section.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/getSection
+        Docs: https://coda.io/developers/apis/v1/#operation/getSection
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -285,7 +285,7 @@ class Coda:
         """
         Returns a list of folders in a Coda doc.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/listFolders
+        Docs: https://coda.io/developers/apis/v1/#operation/listFolders
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -301,7 +301,7 @@ class Coda:
         """
         Returns details about a folder.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/getFolder
+        Docs: https://coda.io/developers/apis/v1/#operation/getFolder
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -318,7 +318,7 @@ class Coda:
         """
         Returns a list of tables in a Coda doc.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/listTables
+        Docs: https://coda.io/developers/apis/v1/#operation/listTables
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -334,7 +334,7 @@ class Coda:
         """
         Returns details about a specific table.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/getTable
+        Docs: https://coda.io/developers/apis/v1/#operation/getTable
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -350,7 +350,7 @@ class Coda:
         """
         Returns a list of views in a Coda doc.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/listViews
+        Docs: https://coda.io/developers/apis/v1/#operation/listViews
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -368,7 +368,7 @@ class Coda:
         """
         Returns details about a specific view.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/getView
+        Docs: https://coda.io/developers/apis/v1/#operation/getView
 
         :param doc_id: ID of the doc. Example: "AbCDeFGH"
 
@@ -410,7 +410,7 @@ class Coda:
         """
         Returns details about a column in a table.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/getColumn
+        Docs: https://coda.io/developers/apis/v1/#operation/getColumn
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
@@ -440,7 +440,7 @@ class Coda:
         """
         Returns a list of rows in a table.
 
-        Docs: https://coda.io/developers/apis/v1beta1#tag/Rows
+        Docs: https://coda.io/developers/apis/v1/#tag/Rows
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
@@ -483,7 +483,7 @@ class Coda:
         When upserting, if multiple rows match the specified key column(s),
         they will all be updated with the specified value.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/upsertRows
+        Docs: https://coda.io/developers/apis/v1/#operation/upsertRows
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
@@ -503,7 +503,7 @@ class Coda:
         """
         Returns details about a row in a table.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/getRow
+        Docs: https://coda.io/developers/apis/v1/#operation/getRow
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
@@ -532,7 +532,7 @@ class Coda:
         processed within several seconds.
         When updating using a name as opposed to an ID, an arbitrary row will be affected.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/updateRow
+        Docs: https://coda.io/developers/apis/v1/#operation/updateRow
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
@@ -561,7 +561,7 @@ class Coda:
         Row deletions are generally processed within several seconds.
         When deleting using a name as opposed to an ID, an arbitrary row will be removed.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/deleteRow
+        Docs: https://coda.io/developers/apis/v1/#operation/deleteRow
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
@@ -583,7 +583,7 @@ class Coda:
         """
         Returns a list of named formulas in a Coda doc.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/listFormulas
+        Docs: https://coda.io/developers/apis/v1/#operation/listFormulas
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
@@ -597,7 +597,7 @@ class Coda:
         """
         Returns info on a formula.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/getFormula
+        Docs: https://coda.io/developers/apis/v1/#operation/getFormula
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
@@ -614,7 +614,7 @@ class Coda:
         Controls provide a user-friendly way to input a value
         that can affect other parts of the doc.
 
-        Docs: https://coda.io/developers/apis/v1beta1#tag/Controls
+        Docs: https://coda.io/developers/apis/v1/#tag/Controls
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
 
@@ -630,7 +630,7 @@ class Coda:
         """
         Returns info on a control.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/getControl
+        Docs: https://coda.io/developers/apis/v1/#operation/getControl
 
         :param doc_id:  ID of the doc. Example: "AbCDeFGH"
         :param control_id_or_name: ID or name of the control.
@@ -647,7 +647,7 @@ class Coda:
         However, /whoami is a good endpoint to hit to verify that
         you're hitting the API correctly and that your token is working as expected.
 
-        Docs: https://coda.io/developers/apis/v1beta1#tag/Account
+        Docs: https://coda.io/developers/apis/v1/#tag/Account
         """
         return self.get("/whoami")
 
@@ -660,7 +660,7 @@ class Coda:
         Returns a 400 if the URL does not appear to be a Coda URL or a
         404 if the resource cannot be located with the current credentials.
 
-        Docs: https://coda.io/developers/apis/v1beta1#operation/resolveBrowserLink
+        Docs: https://coda.io/developers/apis/v1/#operation/resolveBrowserLink
 
         :param url: The browser link to try to resolve.
             Example: "https://coda.io/d/_dAbCDeFGH/Launch-Status_sumnO"
