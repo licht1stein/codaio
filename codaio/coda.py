@@ -71,7 +71,7 @@ class Coda:
     href: str = attr.ib(
         repr=False,
         default=env(
-            "CODA_API_ENDPOINT", cast=str, default="https://coda.io/apis/v1beta1"
+            "CODA_API_ENDPOINT", cast=str, default="https://coda.io/apis/v1"
         ),
     )
 
