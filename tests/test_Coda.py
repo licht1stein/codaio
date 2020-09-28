@@ -1,6 +1,9 @@
 import pytest
 
 from codaio import Coda, err
+from tests.conftest import BASE_URL
+
+BASE_DOC_URL = BASE_URL + "/docs"
 
 
 class TestCoda:
@@ -28,7 +31,7 @@ class TestCoda:
             coda.delete("/")
 
     def test_list_documents(self, coda, mock_json_response):
-        url = "https://coda.io/apis/v1beta1/docs"
+        url = BASE_DOC_URL
         json_file = "get_docs.json"
 
         mock_json_response(url, json_file)
@@ -37,7 +40,7 @@ class TestCoda:
         assert docs
 
     def test_create_doc(self, coda, mock_json_response):
-        url = "https://coda.io/apis/v1beta1/docs"
+        url = BASE_DOC_URL
         json_file = "get_doc.json"
         mock_json_response(url, json_file, method="POST")
 
@@ -47,7 +50,7 @@ class TestCoda:
 
     def test_get_doc(self, coda, mock_json_response):
         doc_id = "doc_id"
-        url = "https://coda.io/apis/v1beta1/docs/doc_id"
+        url = BASE_DOC_URL + "/doc_id"
         json_file = "get_doc.json"
         mock_json_response(url, json_file)
 
@@ -56,13 +59,13 @@ class TestCoda:
 
     def test_delete_doc(self, coda, mock_json_response):
         doc_id = "doc_id"
-        delete_url = "https://coda.io/apis/v1beta1/docs/doc_id"
+        delete_url = BASE_DOC_URL + "/doc_id"
         json_file = "empty.json"
         mock_json_response(delete_url, json_file, method="DELETE")
 
         coda.delete_doc(doc_id)
 
-        get_url = "https://coda.io/apis/v1beta1/docs/doc_id"
+        get_url = BASE_DOC_URL + "/doc_id"
         file_not_found_json = "doc_deleted.json"
         mock_json_response(get_url, file_not_found_json, status=404)
 
