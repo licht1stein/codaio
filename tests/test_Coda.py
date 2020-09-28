@@ -61,7 +61,7 @@ class TestCoda:
         doc_id = "doc_id"
         delete_url = BASE_DOC_URL + "/doc_id"
         json_file = "empty.json"
-        mock_json_response(delete_url, json_file, method="DELETE")
+        mock_json_response(delete_url, json_file, method="DELETE", status=202)
 
         coda.delete_doc(doc_id)
 

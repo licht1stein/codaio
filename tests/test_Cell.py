@@ -14,7 +14,7 @@ class TestCell:
             ("rows?useColumnNames=False", "get_rows.json", {}),
             ("rows?useColumnNames=False", "get_updated_rows.json", {}),
             ("columns", "get_columns.json", {}),
-            ("rows/index_id", "put_row.json", {"method": "PUT"}),
+            ("rows/index_id", "put_row.json", {"method": "PUT", "status": 202}),
             ("rows/index_id", "get_updated_row.json", {}),
         ]
         mock_json_responses(responses, BASE_TABLE_URL)
