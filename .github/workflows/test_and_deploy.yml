@@ -14,17 +14,18 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.7, 3.8 ]
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7
-    - name: Install dependencies
+        python-version: ${{ matrix.python-version }}
+    - name: Install nox and poetry
       run: |
-        python -m pip install --upgrade pip
-        pip install poetry
-        poetry install
+        pip install nox poetry
     - name: Lint with flake8
       run: |
         pip install flake8
@@ -32,12 +33,12 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+    - name: Test with nox
       env:
         CODA_API_KEY: ${{ secrets.CODA_API_KEY }}
         TEST_DOC_ID: ${{ secrets.TEST_DOC_ID }}
       run: |
-        poetry run pytest
+        nox
 
   deploy:
     runs-on: ubuntu-latest

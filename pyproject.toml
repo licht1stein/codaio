@@ -27,6 +27,7 @@ pytest-coverage = "^0.0"
 coverage = {version = "^5.0.3", extras = ["toml"]}
 black = {version = "^19.10b0", allow-prereleases = true}
 responses = "^0.10.9"
+nox = "^2020.8.22"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
