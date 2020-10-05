@@ -2,7 +2,7 @@
   "id": "column_id",
   "type": "column",
   "name": "Beta",
-  "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/columns/column_id",
+  "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/columns/column_id",
   "format": {
     "type": "text",
     "isArray": false
@@ -10,7 +10,8 @@
   "parent": {
     "id": "table_id",
     "type": "table",
-    "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id",
+    "tableType": "table",
+    "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id",
     "browserLink": "https://coda.io/d/_ddoc_id#_tutable_id",
     "name": "Main"
   }

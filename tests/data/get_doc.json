@@ -1,11 +1,17 @@
 {
   "id": "doc_id",
   "type": "doc",
-  "href": "https://coda.io/apis/v1beta1/docs/doc_id",
-  "browserLink": "https://coda.io/d/_doc_id",
   "name": "Test_Document",
   "owner": "foobar@example.com",
   "ownerName": "Foo Bar",
   "createdAt": "2020-01-01T00:00:00.000Z",
-  "updatedAt": "2020-01-01T00:00:00.000Z"
+  "updatedAt": "2020-01-01T00:00:00.000Z",
+  "href": "https://coda.io/apis/v1/docs/doc_id",
+  "browserLink": "https://coda.io/d/_ddoc_id",
+  "docSize": {
+    "totalRowCount": 1,
+    "tableAndViewCount": 1,
+    "pageCount": 1,
+    "overApiSizeLimit": false
+  }
 }

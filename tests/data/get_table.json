@@ -1,13 +1,21 @@
 {
   "id": "table_id",
   "type": "table",
-  "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id",
+  "tableType": "table",
+  "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id",
   "browserLink": "https://coda.io/d/_ddoc_id#_tutable_id",
+  "parent": {
+    "id": "canvas_id",
+    "type": "page",
+    "href": "https://coda.io/apis/v1/docs/doc_id/pages/canvas_id",
+    "browserLink": "https://coda.io/d/_ddoc_id/_link",
+    "name": "Test Document"
+  },
   "name": "Main",
   "displayColumn": {
     "id": "column_id",
     "type": "column",
-    "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/columns/column_id"
+    "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/columns/column_id"
   },
   "rowCount": 1,
   "createdAt": "2020-01-01T00:00:00.000Z",

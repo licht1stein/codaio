@@ -1,0 +1,11 @@
+{
+  "id": "doc_id",
+  "type": "doc",
+  "href": "https://coda.io/apis/v1/docs/doc_id",
+  "browserLink": "https://coda.io/d/_ddoc_id",
+  "name": "New Document",
+  "owner": "foo@bar.com",
+  "ownerName": "Foo Bar",
+  "createdAt": "2020-01-01T00:00:00.000Z",
+  "updatedAt": "2020-01-01T00:00:00.000Z"
+}

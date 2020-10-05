@@ -3,8 +3,8 @@
     {
       "id": "row_id",
       "type": "row",
-      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows/row_id",
       "name": "value-Alpha",
+      "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/rows/row_id",
       "index": 0,
       "createdAt": "2020-01-21T10:36:12.557Z",
       "updatedAt": "2020-01-21T10:36:12.557Z",
@@ -17,5 +17,5 @@
       }
     }
   ],
-  "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows?limit=200&query=c-bvI2yfUtlH%3A%22value-1-Alpha%22&useColumnNames=false"
+  "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/rows?pageToken=token"
 }

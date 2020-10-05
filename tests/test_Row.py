@@ -1,11 +1,12 @@
 import pytest
 
 from codaio import Cell, Column, Row
+from tests.conftest import BASE_URL
 
 
 @pytest.fixture
 def mock_row_responses(mock_json_responses):
-    base_table_url = "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/"
+    base_table_url = BASE_URL + "/docs/doc_id/tables/table_id/"
     responses = [
         ("rows?useColumnNames=False", "get_rows.json", {}),
         ("columns", "get_columns.json", {}),
