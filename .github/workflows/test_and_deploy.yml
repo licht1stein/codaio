@@ -35,7 +35,7 @@ jobs:
         CODA_API_KEY: ${{ secrets.CODA_API_KEY }}
         TEST_DOC_ID: ${{ secrets.TEST_DOC_ID }}
       run: |
-        nox
+        nox -p 3.7 3.8
 
   deploy:
     runs-on: ubuntu-latest
