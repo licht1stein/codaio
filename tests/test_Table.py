@@ -85,6 +85,7 @@ class TestTable:
             ]
         )
         assert result["status"] == 200
+
         saved_rows = main_table.rows()
 
         assert len(saved_rows) == 5
