@@ -31,8 +31,8 @@ from codaio import Coda
 
 coda = Coda('YOUR_API_KEY')
 
->>> coda.create_doc('My document')
-{'id': 'NEW_DOC_ID', 'type': 'doc', 'href': 'https://coda.io/apis/v1beta1/docs/LINK', 'browserLink': 'https://coda.io/d/LINK', 'name': 'My Document', 'owner': 'your@email', 'createdAt': '2019-08-29T11:36:45.120Z', 'updatedAt': '2019-08-29T11:36:45.272Z'}
+>>> coda.create_doc('My Document')
+{'id': 'NEW_DOC_ID', 'type': 'doc', 'href': 'https://coda.io/apis/v1/docs/NEW_DOC_ID', 'browserLink': 'https://coda.io/d/_dNEW_DOC_ID', 'name': 'My Document', 'owner': 'your@email', 'ownerName': 'Your Name', 'createdAt': '2020-09-28T19:32:20.866Z', 'updatedAt': '2020-09-28T19:32:20.924Z'}
 ```
 For full API reference for Coda class see [documentation](https://codaio.readthedocs.io/en/latest/index.html#codaio.Coda)
 

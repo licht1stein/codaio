@@ -1,11 +1,12 @@
 import pytest
 
 from codaio import Cell, Column, Row, err
+from tests.conftest import BASE_URL
 
 
 @pytest.fixture
 def mock_table_responses(mock_json_responses):
-    base_table_url = "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/"
+    base_table_url = BASE_URL + "/docs/doc_id/tables/table_id/"
     responses = [
         ("rows?useColumnNames=False", "get_rows.json", {}),
         ("columns", "get_columns.json", {}),
@@ -59,7 +60,7 @@ class TestTable:
         cell_1 = Cell(columns[0], f"value-{columns[0].name}")
         cell_2 = Cell(columns[1], f"value-{columns[1].name}")
         result = main_table.upsert_row([cell_1, cell_2])
-        assert result["status"] == 202
+        assert result["status"] == 200
         rows = main_table.find_row_by_column_id_and_value(
             cell_1.column.id, cell_1.value
         )
@@ -83,7 +84,7 @@ class TestTable:
                 for row in range(1, 6)
             ]
         )
-        assert result["status"] == 202
+        assert result["status"] == 200
 
         saved_rows = main_table.rows()
         assert len(saved_rows) == 5
@@ -100,7 +101,7 @@ class TestTable:
             ]
         )
 
-        assert result["status"] == 202
+        assert result["status"] == 200
 
         cell_to_update_1 = Cell(key_column, f"value-5-{columns[0].name}")
         cell_to_update_2 = Cell(columns[1], "updated_value")
@@ -109,7 +110,7 @@ class TestTable:
 
         result = main_table.upsert_rows([row_to_update], key_columns=[key_column])
 
-        assert result["status"] == 202
+        assert result["status"] == 200
         updated_rows = main_table.find_row_by_column_id_and_value(
             cell_to_update_1.column.id, cell_to_update_1.value
         )
