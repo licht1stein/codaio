@@ -3,7 +3,7 @@
     {
       "id": "index_id",
       "type": "row",
-      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows/index_id",
+      "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/rows/index_id",
       "name": "value-1-Alpha",
       "index": 0,
       "createdAt": "2020-01-01T00:00:00.000Z",
@@ -19,7 +19,7 @@
     {
       "id": "index_id-1",
       "type": "row",
-      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows/index_id",
+      "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/rows/index_id",
       "name": "value-2-Alpha",
       "index": 1,
       "createdAt": "2020-01-01T00:00:00.000Z",
@@ -35,7 +35,7 @@
     {
       "id": "index_id-2",
       "type": "row",
-      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows/index_id",
+      "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/rows/index_id",
       "name": "value-3-Alpha",
       "index": 2,
       "createdAt": "2020-01-01T00:00:00.000Z",
@@ -51,7 +51,7 @@
     {
       "id": "index_id-3",
       "type": "row",
-      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows/index_id",
+      "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/rows/index_id",
       "name": "value-4-Alpha",
       "index": 3,
       "createdAt": "2020-01-01T00:00:00.000Z",
@@ -67,7 +67,7 @@
     {
       "id": "index_id-4",
       "type": "row",
-      "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows/index_id",
+      "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/rows/index_id",
       "name": "value-5-Alpha",
       "index": 4,
       "createdAt": "2020-01-01T00:00:00.000Z",
@@ -81,5 +81,5 @@
       }
     }
   ],
-  "href": "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id/rows?limit=200&useColumnNames=false"
+  "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/rows?pageToken=token"
 }

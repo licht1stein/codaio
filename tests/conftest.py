@@ -4,6 +4,8 @@ import responses
 import json
 from codaio import Coda, Document
 
+BASE_URL = "https://coda.io/apis/v1"
+
 
 @pytest.fixture(scope="session")
 def coda():
@@ -20,7 +22,7 @@ def mocked_responses():
 @pytest.fixture
 def mock_unauthorized_response(mock_json_response):
     def _mock_unauthorized_response(method):
-        url = "https://coda.io/apis/v1beta1/"
+        url = BASE_URL + "/"
         json_file = "unauthorized.json"
         mock_json_response(url, json_file, status=401, method=method)
 
@@ -32,15 +34,15 @@ def mock_json_response(mocked_responses):
     """
     register mocked json responses.
 
-    For a url, return the content of a json file in the /test/data/ folder.
+    For a url, return the content of a json file found in the /test/data/ folder.
     """
 
     def _mock_json_response_from_file(
-        url, filename, method="GET", status=202, **kwargs
+        url, filename, method="GET", status=200, **kwargs
     ):
-        test_directory = Path(__file__).parent
-        relative_data_directory = "data/"
-        json_path = Path(test_directory / relative_data_directory / filename).resolve()
+        test_directory = Path(__file__).parent.resolve()
+        relative_data_directory = "data"
+        json_path = Path(test_directory / relative_data_directory / filename)
         with open(json_path) as json_file:
             json_content = json.load(json_file)
 
@@ -64,13 +66,13 @@ def mock_json_response(mocked_responses):
 @pytest.fixture
 def mock_json_responses(mock_json_response):
     """
-    register multiple json repsonses.
+    register multiple json responses.
 
     Responses should be passed as a list of (url, filename, kwargs) tupples.
     """
 
-    def _mock_json_responses(responses, base_url=None):
-        for url, filename, kwargs in responses:
+    def _mock_json_responses(json_responses, base_url=None):
+        for url, filename, kwargs in json_responses:
             mock_json_response(base_url + url, filename, **kwargs)
 
     return _mock_json_responses
@@ -78,13 +80,11 @@ def mock_json_responses(mock_json_response):
 
 @pytest.fixture
 def main_document(coda, mock_json_response):
-    mock_json_response("https://coda.io/apis/v1beta1/docs/doc_id/", "get_doc.json")
+    mock_json_response(BASE_URL + "/docs/doc_id/", "get_doc.json")
     return Document("doc_id", coda=coda)
 
 
 @pytest.fixture
 def main_table(main_document, mock_json_response):
-    mock_json_response(
-        "https://coda.io/apis/v1beta1/docs/doc_id/tables/table_id", "get_table.json"
-    )
+    mock_json_response(BASE_URL + "/docs/doc_id/tables/table_id", "get_table.json")
     return main_document.get_table("table_id")
