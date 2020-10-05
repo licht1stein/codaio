@@ -13,10 +13,7 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -46,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
 
     if: github.event_name == 'push'
-#    needs: test
+    needs: test
 
     steps:
     - uses: actions/checkout@v2
