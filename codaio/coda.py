@@ -950,7 +950,6 @@ class Table(CodaObject):
         Upsert a Table row using a list of `Cell` objects optionally updating existing rows.
 
         :param cells: list of `Cell` objects.
-
         :param key_columns: list of `Column` objects, column IDs, URLs, or names
             specifying columns to be used as upsert keys.
         """
@@ -969,7 +968,6 @@ class Table(CodaObject):
         Input is a list of lists of Cells.
 
         :param rows: list of lists of `Cell` objects, one list for each row.
-
         :param key_columns: list of `Column` objects, column IDs, URLs, or names
             specifying columns to be used as upsert keys.
         """
