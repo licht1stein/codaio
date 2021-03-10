@@ -168,9 +168,11 @@ class Coda:
 
         :return:
         """
-        if data:
-            return requests.delete(self.href + endpoint, json=data, headers=self.authorization)
-        
+        if data is not None:
+            return requests.delete(
+                self.href + endpoint, json=data, headers=self.authorization
+            )
+
         return requests.delete(self.href + endpoint, headers=self.authorization)
 
     def list_docs(
