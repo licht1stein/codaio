@@ -158,14 +158,21 @@ class Coda:
 
     # noinspection PyTypeChecker
     @handle_response
-    def delete(self, endpoint: str) -> Dict:
+    def delete(self, endpoint: str, data: Dict = None) -> Dict:
         """
         Makes a DELETE request to the API endpoint.
 
         :param endpoint: API endpoint to request
 
+        :param data: data dict to be sent as body json
+
         :return:
         """
+        if data is not None:
+            return requests.delete(
+                self.href + endpoint, json=data, headers=self.authorization
+            )
+
         return requests.delete(self.href + endpoint, headers=self.authorization)
 
     def list_docs(
