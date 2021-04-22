@@ -91,7 +91,7 @@ row['Column Name'] = 'foo'
 ```
 
 #### Iterating over rows
-```
+```python
 # Iterate over rows using IDs -> delete rows that match a condition
 for row in table.rows():
     if row['COLUMN_ID'] == 'foo':
