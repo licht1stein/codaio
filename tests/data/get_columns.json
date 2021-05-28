@@ -40,6 +40,18 @@
         "type": "text",
         "isArray": false
       }
+    },
+    {
+      "id": "column_id-4",
+      "type": "column",
+      "name": "Delta",
+      "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/columns/column_id-4",
+      "format": {
+        "type": "text",
+        "isArray": false
+      },
+      "calculated": true,
+      "formula": "1=1"
     }
   ],
   "href": "https://coda.io/apis/v1/docs/doc_id/tables/table_id/columns?pageToken=token"
