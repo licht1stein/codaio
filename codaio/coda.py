@@ -1068,6 +1068,7 @@ class Column(CodaObject):
     display: bool = attr.ib(default=None, repr=False)
     calculated: bool = attr.ib(default=False)
     formula: str = attr.ib(default=None, repr=False)
+    default_value: str = attr.ib(default=None, repr=False)
 
 
 @attr.s(auto_attribs=True, hash=True)
