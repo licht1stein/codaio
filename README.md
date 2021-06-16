@@ -12,6 +12,14 @@
 
 
 ### Installation
+Install with [poetry](https://python-poetry.org/) (always recommended):
+
+```shell script
+poetry add codaio
+```
+
+or with `pip`
+
 ```shell script
 pip install codaio
 ```
@@ -20,7 +28,7 @@ pip install codaio
 The following variables will be called from environment where applicable:
 
 * `CODA_API_ENDPOINT` (default value `https://coda.io/apis/v1`)
-* `CODA_API_KEY` - your API key to use when initializing document from environment
+* `CODA_API_KEY` - your API key to use when initializing client from environment
 
 ### Quickstart using raw API
 Coda class provides a wrapper for all API methods. If API response included a JSON it will be returned as a dictionary from all methods. If it didn't a dictionary `{"status": response.status_code}` will be returned.
