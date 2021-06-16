@@ -9,9 +9,14 @@ import attr
 import inflection
 from dateutil.parser import parse
 from decorator import decorator
+import warnings
 from envparse import env
 
 from codaio import err
+
+with warnings.catch_warnings(record=False):
+    warnings.simplefilter("ignore")
+    env.read_envfile()
 
 # Trying to make it compatible with eventlet
 USE_HTTPX = env("USE_HTTPX", cast=bool, default=False)
