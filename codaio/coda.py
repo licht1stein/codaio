@@ -480,7 +480,7 @@ class Coda:
         if query:
             data["query"] = query
 
-        return self.getk
+        return self.get(
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows",
             data=data,
             limit=limit,
