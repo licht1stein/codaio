@@ -17,7 +17,7 @@ Jinja2==2.11.3
 livereload==2.6.1
 Markdown==3.1.1
 MarkupSafe==1.1.1
-mkdocs==1.0.4
+mkdocs==1.2.3
 more-itertools==7.2.0
 packaging==19.1
 pluggy==0.12.0
