@@ -8,7 +8,7 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/codaio)
 [![](https://img.shields.io/badge/Support-Buy_coffee!-Orange)](https://www.buymeacoffee.com/licht1stein)
 
-`codaio` is in active development stage. Issues and PRs very welcome! 
+Don't hesitate to contribute, issues and PRs very welcome! 
 
 
 ### Installation
