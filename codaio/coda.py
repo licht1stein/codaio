@@ -474,6 +474,10 @@ class Coda:
         :param limit: Maximum number of results to return in this query.
 
         :param offset: An opaque token used to fetch the next page of results.
+
+        :param sync_token: An opaque token returned from a previous call that
+            can be used to return results that are relevant to the query since
+            the call where the syncToken was generated..
         """
         data = {"useColumnNames": use_column_names}
         if query:
