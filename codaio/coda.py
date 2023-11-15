@@ -448,6 +448,7 @@ class Coda:
         use_column_names: bool = False,
         limit: int = None,
         offset: int = None,
+        sync_token = None,
     ) -> Dict:
         """
         Returns a list of rows in a table.
@@ -477,6 +478,9 @@ class Coda:
         data = {"useColumnNames": use_column_names}
         if query:
             data["query"] = query
+
+        if sync_token:
+            data['syncToken'] = sync_token
 
         return self.get(
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows",
