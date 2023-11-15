@@ -448,7 +448,7 @@ class Coda:
         use_column_names: bool = False,
         limit: int = None,
         offset: int = None,
-        sync_token = None,
+        sync_token: str = None,
     ) -> Dict:
         """
         Returns a list of rows in a table.
