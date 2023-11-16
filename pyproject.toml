@@ -10,15 +10,15 @@ documentation='https://codaio.readthedocs.io/en/latest/index.html'
 
 [tool.poetry.dependencies]
 python = "^3.7"
-requests = "^2.22"
-attrs = "^19.1"
-python-dateutil = "^2.8"
-inflection = "^0.3.1"
+requests = "^2.31.0"
+attrs = "^23.1.0"
+python-dateutil = "^2.8.2"
+inflection = "^0.5.1"
 envparse = "^0.2.0"
-decorator = "^4.4"
+decorator = "^5.1.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.1"
+pytest = "^7.4.3"
 pydoc-markdown = "^2.0"
 sphinx = "^2.2"
 sphinx_rtd_theme = "^0.4.3"
@@ -26,8 +26,8 @@ pylint = "^2.4.4"
 pytest-coverage = "^0.0"
 coverage = {version = "^5.0.3", extras = ["toml"]}
 black = {version = "^19.10b0", allow-prereleases = true}
-responses = "^0.10.9"
-nox = "^2020.8.22"
+responses = "^0.10.11"
+nox = "^2023.4.22"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
