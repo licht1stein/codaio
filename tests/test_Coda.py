@@ -71,3 +71,21 @@ class TestCoda:
 
         with pytest.raises(err.CodaError):
             coda.get_doc(doc_id)
+
+    def test_get_rows(self, coda, mock_json_response):
+        doc_id = 'doc_id'
+        table_id_or_name = 'table_id'
+        sync_token = 'test_token'
+
+        url = BASE_DOC_URL + (
+            f'/doc_id/tables/table_id/rows'
+            f'?useColumnNames=False&syncToken={sync_token}'
+        )
+        json_file = 'get_row_by_query.json'
+
+        mock_json_response(url, json_file)
+        coda.list_rows(
+            doc_id=doc_id,
+            table_id_or_name=table_id_or_name,
+            sync_token=sync_token,
+        )
