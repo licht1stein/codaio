@@ -449,6 +449,7 @@ class Coda:
         visible_only: bool = False,
         limit: int = None,
         offset: int = None,
+        sync_token: str = None,
     ) -> Dict:
         """
         Returns a list of rows in a table.
@@ -475,10 +476,17 @@ class Coda:
         :param limit: Maximum number of results to return in this query.
 
         :param offset: An opaque token used to fetch the next page of results.
+
+        :param sync_token: An opaque token returned from a previous call that
+            can be used to return results that are relevant to the query since
+            the call where the syncToken was generated..
         """
         data = {"useColumnNames": use_column_names, "visibleOnly": visible_only}
         if query:
             data["query"] = query
+
+        if sync_token:
+            data['syncToken'] = sync_token
 
         return self.get(
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows",
@@ -821,6 +829,8 @@ class Table(CodaObject):
         repr=False, converter=lambda x: parse(x) if x else None, default=None
     )
     columns_storage: List[Column] = attr.ib(default=[], repr=False)
+    filter: Dict = attr.ib(default=None, repr=False)
+    parent_table: Table = attr.ib(default=None, repr=False)
 
     def __getitem__(self, item):
         """

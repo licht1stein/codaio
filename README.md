@@ -1,3 +1,5 @@
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)
+
 ## Python wrapper for [Coda.io](https://coda.io) API
 
 [![CodaAPI](https://img.shields.io/badge/Coda_API_-V1-green)](https://coda.io/developers/apis/v1beta1)
@@ -8,7 +10,7 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dw/codaio)
 [![](https://img.shields.io/badge/Support-Buy_coffee!-Orange)](https://www.buymeacoffee.com/licht1stein)
 
-`codaio` is in active development stage. Issues and PRs very welcome! 
+Don't hesitate to contribute, issues and PRs very welcome! 
 
 
 ### Installation
