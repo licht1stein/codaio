@@ -1,7 +1,7 @@
 import nox
 
 
-@nox.session(python=["3.10", "3.9"])
+@nox.session
 def tests(session):
     args = session.posargs or ["--cov"]
     session.run("poetry", "install", external=True)
