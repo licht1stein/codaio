@@ -25,7 +25,7 @@ sphinx_rtd_theme = "^0.4.3"
 pylint = "^2.4.4"
 pytest-coverage = "^0.0"
 coverage = {version = "^5.0.3", extras = ["toml"]}
-black = {version = "^19.10b0", allow-prereleases = true}
+black = {version = "^24.3", allow-prereleases = true}
 responses = "^0.10.11"
 nox = "^2023.4.22"
 
