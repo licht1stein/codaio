@@ -829,6 +829,7 @@ class Table(CodaObject):
     columns_storage: List[Column] = attr.ib(default=[], repr=False)
     filter: Dict = attr.ib(default=None, repr=False)
     parent_table: Table = attr.ib(default=None, repr=False)
+    view_id: str = attr.ib(default=None, repr=False)
 
     def __getitem__(self, item):
         """
