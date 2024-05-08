@@ -446,6 +446,7 @@ class Coda:
         table_id_or_name: str,
         query: str = None,
         use_column_names: bool = False,
+        visible_only: bool = False,
         limit: int = None,
         offset: int = None,
         sync_token: str = None,
@@ -471,6 +472,7 @@ class Coda:
             This is generally discouraged as it is fragile.
             If columns are renamed, code using original names may throw errors.
 
+        :param visible_only: If true, returns only visible rows and columns for the table.
         :param limit: Maximum number of results to return in this query.
 
         :param offset: An opaque token used to fetch the next page of results.
@@ -479,7 +481,7 @@ class Coda:
             can be used to return results that are relevant to the query since
             the call where the syncToken was generated..
         """
-        data = {"useColumnNames": use_column_names}
+        data = {"useColumnNames": use_column_names, "visibleOnly": visible_only}
         if query:
             data["query"] = query
 
@@ -871,7 +873,7 @@ class Table(CodaObject):
             ]
         return self.columns_storage
 
-    def rows(self, offset: int = None, limit: int = None) -> List[Row]:
+    def rows(self, offset: int = None, limit: int = None, **kwargs) -> List[Row]:
         """
         Returns list of Table rows.
 
@@ -879,12 +881,14 @@ class Table(CodaObject):
 
         :param offset: An opaque token used to fetch the next page of results.
 
+        :param kwargs: Pass through API parameters to the list_rows method.
+
         :return:
         """
         return [
             Row.from_json({"table": self, **i}, document=self.document)
             for i in self.document.coda.list_rows(
-                self.document.id, self.id, offset=offset, limit=limit
+                self.document.id, self.id, offset=offset, limit=limit, **kwargs
             )["items"]
         ]
 
