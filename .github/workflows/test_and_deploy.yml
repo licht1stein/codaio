@@ -39,7 +39,7 @@ jobs:
         TEST_DOC_ID: ${{ secrets.TEST_DOC_ID }}
       run: |
         nox
-
+        
   deploy:
     runs-on: ubuntu-latest
 
@@ -48,12 +48,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v1
+
+    - name: Build and publish to pypi
+      uses: JRubics/poetry-publish@v2.0
       with:
-        python-version: 3.7
-    - name: Install poetry
-      run: pip install poetry
-    - name: Upload to pypi.org
-      run: |
-        poetry publish --build -u ${{ secrets.PYPI_USER }} -p ${{ secrets.PYPI_PASSWORD }}
+        pypi_token: ${{ secrets.PYPI_TOKEN }}
