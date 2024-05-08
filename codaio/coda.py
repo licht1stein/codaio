@@ -599,6 +599,34 @@ class Coda:
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows/{row_id_or_name}"
         )
 
+    def delete_rows(self, doc_id, table_id_or_name: str, row_id_or_name_list: list) -> Dict:
+        """
+        Deletes the specified rows from the table.
+
+        This endpoint will always return a 202, so long as the row exists and
+        is accessible (and the update is structurally valid).
+        Row deletions are generally processed within several seconds.
+        When deleting using a name as opposed to an ID, an arbitrary row will be removed.
+
+        Docs: https://coda.io/developers/apis/v1/#operation/deleteRows
+
+        :param doc_id:  ID of the doc. Example: "AbCDeFGH"
+
+        :param table_id_or_name: ID or name of the table.
+            Names are discouraged because they're easily prone to being changed by users.
+        If you're using a name, be sure to URI-encode it. Example: "grid-pqRst-U"
+
+        :param row_id_or_name_list: list of IDs or names of the rows.
+            Names are discouraged because they're easily prone to being changed by users.
+            If you're using a name, be sure to URI-encode it.
+            If there are multiple rows with the same value in the identifying column,
+            an arbitrary one will be selected.
+        """
+        return self.delete(
+            f"/docs/{doc_id}/tables/{table_id_or_name}/rows",
+            data={'rowIds': row_id_or_name_list },
+        )
+
     def list_formulas(self, doc_id: str, offset: int = None, limit: int = None) -> Dict:
         """
         Returns a list of named formulas in a Coda doc.
