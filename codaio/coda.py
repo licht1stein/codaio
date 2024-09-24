@@ -95,7 +95,8 @@ class Coda:
         self.authorization = {"Authorization": f"Bearer {self.api_key}"}
 
     @handle_response
-    def get(self, endpoint: str, data: Dict = None, limit=None, offset=None) -> Dict:
+    def get(self, endpoint: str, data: Dict = None, limit=None, offset=None,
+            get_rich_text=False) -> Dict:
         """
         Makes a GET request to API endpoint.
 
@@ -107,10 +108,16 @@ class Coda:
 
         :param offset: An opaque token used to fetch the next page of results.
 
+        :param get_rich_text: fetch rich text
+
         :return:
         """
         if not data:
             data = {}
+
+        if get_rich_text:
+            data["valueFormat"] = "rich"
+
         if limit:
             if limit > MAX_GET_LIMIT:
                 limit = MAX_GET_LIMIT
@@ -449,6 +456,7 @@ class Coda:
         limit: int = None,
         offset: int = None,
         sync_token: str = None,
+        get_rich_text: bool = False,
     ) -> Dict:
         """
         Returns a list of rows in a table.
@@ -478,6 +486,9 @@ class Coda:
         :param sync_token: An opaque token returned from a previous call that
             can be used to return results that are relevant to the query since
             the call where the syncToken was generated..
+
+        :param get_rich_text: If True, enables rich text formatting for returned values.
+
         """
         data = {"useColumnNames": use_column_names}
         if query:
@@ -486,12 +497,18 @@ class Coda:
         if sync_token:
             data['syncToken'] = sync_token
 
-        return self.get(
+        response = self.get(
             f"/docs/{doc_id}/tables/{table_id_or_name}/rows",
             data=data,
             limit=limit,
             offset=offset,
+            get_rich_text=get_rich_text,
         )
+
+        if get_rich_text:
+            self._process_rich_text(response)
+
+        return response
 
     def upsert_row(self, doc_id: str, table_id_or_name: str, data: Dict) -> Dict:
         """
@@ -519,7 +536,8 @@ class Coda:
         """
         return self.post(f"/docs/{doc_id}/tables/{table_id_or_name}/rows", data)
 
-    def get_row(self, doc_id: str, table_id_or_name: str, row_id_or_name: str) -> Dict:
+    def get_row(self, doc_id: str, table_id_or_name: str, row_id_or_name: str,
+                get_rich_text: bool = False) -> Dict:
         """
         Returns details about a row in a table.
 
@@ -536,10 +554,41 @@ class Coda:
             If you're using a name, be sure to URI-encode it.
             If there are multiple rows with the same value in the identifying column,
             an arbitrary one will be selected.
+
+        :param get_rich_text: If True, enables rich text formatting for returned values.
+
         """
-        return self.get(
-            f"/docs/{doc_id}/tables/{table_id_or_name}/rows/{row_id_or_name}"
+        response = self.get(
+            f"/docs/{doc_id}/tables/{table_id_or_name}/rows/{row_id_or_name}",
+            get_rich_text=get_rich_text,
         )
+
+        if get_rich_text:
+            self._process_rich_text(response)
+
+        return response
+
+    def _process_rich_text(self, response: Dict) -> None:
+        """
+        Process rich text formatting in the API response to remove leading and trailing ``` marks
+
+        :param response: API response dictionary
+        """
+        if "items" in response:
+            for item in response["items"]:
+                if "values" in item:
+                    for key, value in item["values"].items():
+                        item["values"][key] = self._remove_rich_text(value)
+        elif "values" in response:
+            for key, value in response["values"].items():
+                response["values"][key] = self._remove_rich_text(value)
+
+    def _remove_rich_text(self, value):
+        if isinstance(value, str):
+            return value[3:-3] if value.startswith("```") and value.endswith("```") else value
+        elif isinstance(value, list):
+            return [self._remove_rich_text(item) for item in value]
+        return value
 
     def update_row(
         self, doc_id: str, table_id_or_name: str, row_id_or_name: str, data: Dict
@@ -871,7 +920,8 @@ class Table(CodaObject):
             ]
         return self.columns_storage
 
-    def rows(self, offset: int = None, limit: int = None) -> List[Row]:
+    def rows(self, offset: int = None, limit: int = None,
+             get_rich_text: bool = False) -> List[Row]:
         """
         Returns list of Table rows.
 
@@ -879,17 +929,28 @@ class Table(CodaObject):
 
         :param offset: An opaque token used to fetch the next page of results.
 
+        :param get_rich_text: If True, enables rich text formatting for returned values.
+
         :return:
         """
+
         return [
             Row.from_json({"table": self, **i}, document=self.document)
             for i in self.document.coda.list_rows(
-                self.document.id, self.id, offset=offset, limit=limit
+                self.document.id, self.id, offset=offset, limit=limit, get_rich_text=get_rich_text
             )["items"]
         ]
 
-    def get_row_by_id(self, row_id: str) -> Row:
-        row_js = self.document.coda.get_row(self.document.id, self.id, row_id)
+    def get_row_by_id(self, row_id: str, get_rich_text: bool = False) -> Row:
+        """
+        Gets a Row by id.
+
+        :param row_id: ID of the row to retrieve.
+        :param get_rich_text: If True, enables rich text formatting for returned values.
+        :return: Row object
+        """
+        row_js = self.document.coda.get_row(
+            self.document.id, self.id, row_id, get_rich_text=get_rich_text)
         row = Row.from_json({**row_js, "table": self}, document=self.document)
         return row
 
@@ -925,7 +986,7 @@ class Table(CodaObject):
         return res[0]
 
     def find_row_by_column_name_and_value(
-        self, column_name: str, value: Any
+        self, column_name: str, value: Any, get_rich_text: bool = False
     ) -> List[Row]:
         """
         Finds rows by a value in column specified by name (discouraged).
@@ -934,10 +995,13 @@ class Table(CodaObject):
 
         :param value: Search value.
 
+        :param get_rich_text: If True, enables rich text formatting for returned values.
+
         :return:
         """
         r = self.document.coda.list_rows(
-            self.document.id, self.id, query=f'"{column_name}":{json.dumps(value)}'
+            self.document.id, self.id, query=f'"{column_name}":{json.dumps(value)}',
+            get_rich_text=get_rich_text
         )
         if not r.get("items"):
             return []
@@ -946,7 +1010,8 @@ class Table(CodaObject):
             for i in r["items"]
         ]
 
-    def find_row_by_column_id_and_value(self, column_id, value) -> List[Row]:
+    def find_row_by_column_id_and_value(self, column_id, value,
+                                        get_rich_text: bool = False) -> List[Row]:
         """
         Finds rows by a value in column specified by id.
 
@@ -954,10 +1019,14 @@ class Table(CodaObject):
 
         :param value: Search value.
 
+        :param get_rich_text: If True, enables rich text formatting for returned values.
+
         :return:
         """
         r = self.document.coda.list_rows(
-            self.document.id, self.id, query=f"{column_id}:{json.dumps(value)}"
+            self.document.id, self.id, query=f"{column_id}:{json.dumps(value)}",
+            get_rich_text=get_rich_text
+
         )
         if not r.get("items"):
             return []
@@ -1104,9 +1173,15 @@ class Row(CodaObject):
     def columns(self):
         return self.table.columns()
 
-    def refresh(self):
+    def refresh(self, get_rich_text: bool = False):
+        """
+        Refreshes the row data from the API.
+
+        :param get_rich_text: If True, enables rich text formatting for returned values.
+        :return: self
+        """
         new_data = self.table.document.coda.get_row(
-            self.table.document.id, self.table.id, self.id
+            self.table.document.id, self.table.id, self.id, get_rich_text=get_rich_text
         )
         self.values = tuple([(k, v) for k, v in new_data["values"].items()])
         return self
